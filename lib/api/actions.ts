@@ -1,0 +1,333 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { FEATURES } from "@/config/features";
+import { generateGoals, generateMeetingSummary, type GeneratedGoal, type MeetingSummary } from "@/lib/ai/openai";
+import * as repo from "@/lib/database/repository";
+import { canJoinAudience, parseAudience } from "@/lib/domain/audience";
+import { selectModerator } from "@/lib/domain/moderation";
+import { deriveGoalStatus } from "@/lib/domain/progress";
+import { nextWeeklyOccurrence } from "@/lib/domain/time";
+import { createZoomMeeting, endMeeting } from "@/lib/zoom/zoom";
+import { parseProfileForm } from "./profile";
+import { clearSession, requireUser, setSessionUser } from "./session";
+import type { Chord, Goal, GoalAssignment, GoalStatus, Point, User } from "@/types";
+
+/**
+ * Server actions: every mutation in the app goes through this file.
+ * Each action re-checks the session and the permission it needs (membership, moderator, audience).
+ * Invalid input throws an Error with a user-readable message.
+ */
+
+const AVATAR_COLORS = ["#22a58a", "#f08a4b", "#4f7cf0", "#e2578a", "#8b5cf6", "#0ea5b7", "#84a31a"];
+const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+const newId = (prefix: string) => `${prefix}-${crypto.randomUUID().slice(0, 8)}`;
+const text = (form: FormData, key: string, max: number) => String(form.get(key) ?? "").trim().slice(0, max);
+
+async function requirePoint(pointId: string): Promise<Point> {
+  const point = await repo.getPoint(pointId);
+  if (!point) throw new Error("This point no longer exists.");
+  return point;
+}
+
+const isModerator = (point: Point, userId: string) => point.moderatorId === userId;
+const isMember = (point: Point, userId: string) => isModerator(point, userId) || point.memberIds.includes(userId);
+
+function revalidatePoint(point: Point) {
+  revalidatePath(`/points/${point.id}`);
+  revalidatePath(`/chords/${point.chordId}`);
+  revalidatePath("/dashboard");
+  revalidatePath("/moderator");
+}
+
+/** Adds a user to a chord (and to their interests). Enforces the audience rule. */
+async function joinChordFor(user: User, chord: Chord): Promise<void> {
+  const check = canJoinAudience(user, chord.audience);
+  if (!check.ok) throw new Error(check.reason);
+  if (!chord.memberIds.includes(user.id)) {
+    await repo.updateChord(chord.id, { memberIds: [...chord.memberIds, user.id] });
+  }
+  if (!user.subjects.includes(chord.id)) {
+    await repo.updateUser(user.id, { subjects: [...user.subjects, chord.id] });
+  }
+}
+
+// ---------- Accounts ----------
+
+export async function signIn(formData: FormData) {
+  const user = await repo.getUser(String(formData.get("userId") ?? ""));
+  if (!user) throw new Error("Unknown account.");
+  await setSessionUser(user.id);
+  redirect("/dashboard");
+}
+
+export async function signUp(formData: FormData) {
+  const profile = parseProfileForm(formData);
+  const user: User = {
+    id: newId("user"),
+    ...profile,
+    avatarColor: AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)],
+    reputation: 50,
+    groupSuccessRate: 0,
+    isCreator: false,
+  };
+  await repo.insertUser(user);
+  await setSessionUser(user.id);
+  redirect("/dashboard");
+}
+
+export async function signOut() {
+  await clearSession();
+  redirect("/");
+}
+
+export async function updateProfile(formData: FormData) {
+  const user = await requireUser();
+  await repo.updateUser(user.id, parseProfileForm(formData));
+  revalidatePath("/profile");
+  revalidatePath("/dashboard");
+}
+
+// ---------- Chords and points ----------
+
+export async function joinChord(chordId: string) {
+  const user = await requireUser();
+  const chord = await repo.getChord(chordId);
+  if (!chord) throw new Error("Chord not found.");
+  await joinChordFor(user, chord);
+  revalidatePath(`/chords/${chordId}`);
+  revalidatePath("/dashboard");
+}
+
+export async function joinPoint(pointId: string) {
+  const user = await requireUser();
+  const point = await requirePoint(pointId);
+  const check = canJoinAudience(user, point.audience);
+  if (!check.ok) throw new Error(check.reason);
+
+  const chord = await repo.getChord(point.chordId);
+  if (chord) await joinChordFor(user, chord);
+
+  if (!point.memberIds.includes(user.id)) {
+    await repo.updatePoint(point.id, { memberIds: [...point.memberIds, user.id] });
+  }
+  revalidatePoint(point);
+}
+
+export async function createPoint(chordId: string, formData: FormData) {
+  const user = await requireUser();
+  const chord = await repo.getChord(chordId);
+  if (!chord) throw new Error("Chord not found.");
+
+  const title = text(formData, "title", 80);
+  if (!title) throw new Error("Give the point a title.");
+  const description = text(formData, "description", 400);
+  const weekday = Number(formData.get("weekday"));
+  if (!Number.isInteger(weekday) || weekday < 0 || weekday > 6) throw new Error("Choose a meeting day.");
+  const time = String(formData.get("time") ?? "");
+  if (!TIME_PATTERN.test(time)) throw new Error("Choose a meeting time.");
+
+  // Points inherit the chord's audience restriction so a chord cannot contain conflicting groups.
+  const audience = chord.audience !== "all" ? chord.audience : parseAudience(String(formData.get("audience")));
+  const users = await repo.listUsers();
+  const moderator = selectModerator(users, chordId) ?? users.find((u) => u.isCreator);
+  if (!moderator) throw new Error("No eligible moderator is available.");
+
+  const schedule = { weekday, time, timezone: user.timezone };
+  const pointId = newId("point");
+  const zoom = await createZoomMeeting({
+    topic: title,
+    startTime: nextWeeklyOccurrence(schedule).toISOString(),
+  });
+
+  const point: Point = {
+    id: pointId,
+    chordId,
+    title,
+    description,
+    audience,
+    moderatorId: moderator.id,
+    memberIds: [user.id],
+    schedule,
+    status: "Recruiting",
+    meeting: {
+      provider: FEATURES.ENABLE_ZOOM_API ? "zoom" : "demo",
+      meetingId: zoom.meetingId,
+      meetingUrl: FEATURES.ENABLE_ZOOM_API ? zoom.meetingUrl : `/points/${pointId}/meeting`,
+      meetingPassword: zoom.meetingPassword,
+    },
+    createdAt: new Date().toISOString(),
+  };
+  await repo.insertPoint(point);
+  await joinChordFor(user, chord);
+  revalidatePath(`/chords/${chordId}`);
+  revalidatePath("/dashboard");
+  redirect(`/points/${pointId}`);
+}
+
+export async function joinPointForm(formData: FormData) {
+  await joinPoint(String(formData.get("pointId") ?? ""));
+}
+
+// ---------- Point chat, SOS, and private messages ----------
+
+export async function sendMessage(pointId: string, formData: FormData) {
+  const user = await requireUser();
+  const point = await requirePoint(pointId);
+  if (!isMember(point, user.id)) throw new Error("Join this point to chat.");
+  const content = text(formData, "content", 1000);
+  if (!content) return;
+  const kind = String(formData.get("kind") ?? "message");
+  await repo.insertMessage({
+    id: newId("msg"),
+    pointId,
+    senderId: user.id,
+    content,
+    kind: kind === "question" || kind === "resource" ? kind : "message",
+    timestamp: new Date().toISOString(),
+  });
+  revalidatePath(`/points/${pointId}`);
+}
+
+export async function raiseSos(pointId: string, formData: FormData) {
+  const user = await requireUser();
+  const point = await requirePoint(pointId);
+  if (!isMember(point, user.id)) throw new Error("Join this point to ask for support.");
+  await repo.insertHelpRequest({
+    id: newId("help"),
+    pointId,
+    userId: user.id,
+    reason: text(formData, "reason", 200) || "Need support",
+    status: "open",
+    createdAt: new Date().toISOString(),
+  });
+  revalidatePoint(point);
+}
+
+export async function resolveHelpRequest(requestId: string) {
+  const user = await requireUser();
+  const request = await repo.getHelpRequest(requestId);
+  if (!request) throw new Error("Help request not found.");
+  const point = await requirePoint(request.pointId);
+  if (!isModerator(point, user.id)) throw new Error("Only the point moderator can resolve requests.");
+  await repo.updateHelpRequest(requestId, { status: "resolved" });
+  revalidatePoint(point);
+}
+
+export async function sendPrivateMessage(pointId: string, formData: FormData) {
+  const user = await requireUser();
+  const point = await requirePoint(pointId);
+  const recipientId = String(formData.get("recipientId") ?? "");
+  const content = text(formData, "content", 1000);
+  if (!content) return;
+
+  // Moderators message their members. Members may only reply to the moderator.
+  const moderatorSends = isModerator(point, user.id) && point.memberIds.includes(recipientId);
+  const memberReplies = point.memberIds.includes(user.id) && recipientId === point.moderatorId;
+  if (!moderatorSends && !memberReplies) throw new Error("Private messages go between the moderator and members of this point.");
+
+  await repo.insertPrivateMessage({
+    id: newId("pm"),
+    pointId,
+    senderId: user.id,
+    recipientId,
+    content,
+    timestamp: new Date().toISOString(),
+  });
+  revalidatePath("/moderator");
+  revalidatePath(`/points/${pointId}`);
+  revalidatePath("/dashboard");
+}
+
+// ---------- Goals ----------
+
+export async function createGoal(pointId: string, formData: FormData) {
+  const user = await requireUser();
+  const point = await requirePoint(pointId);
+  if (!isModerator(point, user.id)) throw new Error("Only the point moderator can record goals.");
+
+  const title = text(formData, "title", 120);
+  if (!title) throw new Error("Goal title is required.");
+  const deadlineInput = String(formData.get("deadline") ?? "");
+  const deadline = new Date(`${deadlineInput}T23:59:59Z`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(deadlineInput) || Number.isNaN(deadline.getTime())) throw new Error("Choose a deadline.");
+
+  const requested = formData.getAll("assignees").map(String).filter((id) => point.memberIds.includes(id));
+  const assignees = requested.length > 0 ? requested : point.memberIds;
+  const assignments: GoalAssignment[] = assignees.map((userId) => ({ userId, progress: 0, status: "On track" }));
+
+  const goal: Goal = {
+    id: newId("goal"),
+    pointId,
+    title,
+    description: text(formData, "description", 500),
+    deadline: deadline.toISOString(),
+    status: deriveGoalStatus(assignments),
+    resources: String(formData.get("resources") ?? "")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .slice(0, 10),
+    assignments,
+    createdAt: new Date().toISOString(),
+  };
+  await repo.insertGoal(goal);
+  revalidatePoint(point);
+}
+
+export async function updateGoalProgress(goalId: string, formData: FormData) {
+  const user = await requireUser();
+  const goal = await repo.getGoal(goalId);
+  if (!goal) throw new Error("Goal not found.");
+  const point = await requirePoint(goal.pointId);
+
+  const targetId = String(formData.get("userId") || user.id);
+  if (targetId !== user.id && !isModerator(point, user.id)) {
+    throw new Error("You can only update your own progress.");
+  }
+  if (!goal.assignments.some((a) => a.userId === targetId)) throw new Error("That member is not assigned to this goal.");
+
+  const progress = Math.min(100, Math.max(0, Math.round(Number(formData.get("progress")))));
+  if (Number.isNaN(progress)) throw new Error("Progress must be a number from 0 to 100.");
+  const requested = String(formData.get("status") ?? "On track");
+  const status: GoalStatus = progress === 100 ? "Completed" : requested === "Needs assistance" ? "Needs assistance" : "On track";
+
+  const assignments = goal.assignments.map((a) => (a.userId === targetId ? { ...a, progress, status } : a));
+  await repo.updateGoal(goalId, { assignments, status: deriveGoalStatus(assignments) });
+  revalidatePoint(point);
+}
+
+/** Ends a point's meeting. Moderator only. A no-op mock when Zoom is disabled. */
+export async function endPointMeeting(pointId: string) {
+  const user = await requireUser();
+  const point = await requirePoint(pointId);
+  if (!isModerator(point, user.id)) throw new Error("Only the point moderator can end the meeting.");
+  await endMeeting(point.meeting.meetingId);
+  revalidatePath(`/points/${pointId}/meeting`);
+}
+
+// ---------- AI moderator assistant (only when ENABLE_AI_MODERATOR is true) ----------
+export interface AssistantState {
+  error?: string;
+  summary?: MeetingSummary;
+  goals?: GeneratedGoal[];
+}
+
+export async function runMeetingAssistant(pointId: string, _prev: AssistantState, formData: FormData): Promise<AssistantState> {
+  const user = await requireUser();
+  const point = await requirePoint(pointId);
+  if (!isModerator(point, user.id)) return { error: "Only the point moderator can use the assistant." };
+  if (!FEATURES.ENABLE_AI_MODERATOR) return { error: "The AI moderator is turned off. See README.md to enable it." };
+
+  const transcript = text(formData, "transcript", 20_000);
+  if (!transcript) return { error: "Paste a meeting transcript or notes first." };
+  try {
+    const summary = await generateMeetingSummary(transcript);
+    const goals = await generateGoals(JSON.stringify({ summary, transcript }));
+    return { summary, goals };
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "The AI request failed." };
+  }
+}
