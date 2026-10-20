@@ -34,6 +34,11 @@ export function createSupabaseStore(url: string, serviceRoleKey: string): DataSt
       fail(error);
       return row;
     },
+    async upsert<T extends RowWithId>(table: TableName, row: T) {
+      const { error } = await client.from(table).upsert({ id: row.id, data: withoutId(row) });
+      fail(error);
+      return row;
+    },
     async update<T extends RowWithId>(table: TableName, id: string, patch: Partial<T>) {
       const current = await this.get<T>(table, id);
       if (!current) return null;
