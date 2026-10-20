@@ -28,7 +28,7 @@
 ### Status
 
 - Branch: `Auth`
-- Latest commit: `89b4a24` (pushed — redirect-loop fix; before it: `5bf9491`/`75078dd`/`0d1219d` report syncs, `b783e77` main merge, `371bb6b` auth code). The trivial report-sync commit that records this line follows each push (a file cannot contain its own commit sha).
+- Latest commit: `ec3446e` (pushed — report update; before it: `89b4a24` redirect-loop fix, `5bf9491`/`75078dd`/`0d1219d` report syncs, `b783e77` main merge, `371bb6b` auth code). The trivial report-sync commit that records this line follows each push (a file cannot contain its own commit sha).
 - Draft PR: `none` (no GitHub MCP or `gh` in this session; link above)
 - Blocked on: **nothing of mine** — your two Now items gate the Supabase live round-trip.
 - Verification: `pnpm lint` ✅ · `pnpm build` (incl. TypeScript) ✅ on `89b4a24`. Click-through, both flags off, memory backend, port 3100: `/login` sign-in demo → `/dashboard` → `/chords/biology` → `/points/ap-bio-genetics` → **Demo Meeting Room** ✅. Redirect-loop repro matrix ✅ — ghost/stale `sc_user` cookie: `/login` renders (200, was an infinite 307 loop = the reported `ERR_TOO_MANY_REDIRECTS`), `/dashboard` 307s once to `/login` and stops; valid `sc_user=maya`: `/login` 307 → `/dashboard` 200; anon `/dashboard` 307 ✅.
