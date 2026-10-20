@@ -22,9 +22,12 @@ See AGENT_REPORTING.md. Branch: `AI`.
 ## Status
 
 - Branch: `AI`
-- Latest commit: `7f4d78a` (pushed to `origin/AI`)
-- Draft PR: none
-- Blocked on: nothing
+- Latest commit: `979c434` (pushed to `origin/AI`) — contains `7f4d78a` (feature) + `979c434` (report)
+- Synced: `origin/main` is still `09d3e78`; `AI` contains it (no rebase needed).
+- Draft PR: not opened — **no `gh` CLI and no GitHub MCP available in this environment**.
+  Open one manually from `origin/AI` → `main`, or re-run with a GitHub tool.
+- Blocked on: nothing (PR creation needs a human or a GitHub tool)
+- PR readiness: **Ready** — scope, lint/build, flag-off click-through, and safety all verified.
 
 ## What landed
 
@@ -44,8 +47,20 @@ See AGENT_REPORTING.md. Branch: `AI`.
 
 ## Verified
 
-- `pnpm typecheck`, `pnpm lint`, `pnpm build` — all green.
-- Flag-off click-through on dev (`:3000`): `/` renders, `/moderator` as `maya` shows the assistant
-  and risk panels (mock badge), `/dashboard` shows the motivation card. No `__next_error__`.
+- `pnpm typecheck`, `pnpm lint`, `pnpm build` — all green (ran again on `979c434`).
+- Flag-off click-through on dev (`:3000`) as `maya`: `/` → `/chords/biology` →
+  `/points/ap-bio-genetics` → `/points/ap-bio-genetics/meeting` all 200 with expected content
+  and no `__next_error__`. `/moderator` shows the assistant + risk panels (mock badge);
+  `/dashboard` shows the motivation card.
+- MCP: **none available** (no GitHub/Playwright/Context7/Supabase MCP, no `gh`). Verified with
+  `git`, `Invoke-WebRequest` against the dev server, and repo files.
+- Safety: `config/features.ts` committed with both flags `false`; `.env.local` untracked; the
+  only `sk-...`/`your-key` strings in the diff are doc placeholders, no real secrets.
+- Hotspot touched: `lib/api/actions.ts` (allowed for AI). No other branch's files edited.
 - Repeatedly re-checked the branch before each commit; the shared tree was on `DB` twice, so the
   switch back to `AI` is part of the routine.
+
+## Not verified
+
+- Live model path (flag `true` + real key) was **not** exercised end-to-end; it would spend a
+  request. Code-reviewed only. Human can run it per the optional step above.
