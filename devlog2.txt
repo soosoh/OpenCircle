@@ -3592,3 +3592,558 @@ Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
   21 |   const viewer = await requireUser();
   22 |
   23 |   const [chords, points, goals, users, helpRequests] = await Promise.all([
+ GET / 200 in 819ms (next.js: 94ms, application-code: 725ms)
+ GET /?audience=college 200 in 139ms (next.js: 2.0ms, application-code: 137ms)
+ GET /chords 200 in 151ms (next.js: 11ms, application-code: 139ms)
+ GET /chords/biology 200 in 399ms (next.js: 140ms, generate-params: 24ms, application-code: 234ms)
+Error: Route "/chords/[chordId]": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at <unknown> (app\chords\[chordId]\page.tsx:49:57)
+    at Array.map (<anonymous>)
+    at ChordPage (app\chords\[chordId]\page.tsx:49:6)
+    at ChordPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+Error: Route "/chords": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ChordsPage (app\chords\page.tsx:11:18)
+   9 |
+  10 | export default async function ChordsPage({ searchParams }: PageProps<"/chords">) {
+> 11 |   const params = await searchParams;
+     |                  ^
+  12 |   const raw = typeof params.audience === "string" ? params.audience : null;
+  13 |   const audience = raw === "high-school" || raw === "college" ? raw : "all";
+  14 |
+ GET /points/ap-bio-genetics 200 in 302ms (next.js: 118ms, generate-params: 10ms, application-code: 174ms)
+Error: Route "/points/[pointId]": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at PointPage (app\points\[pointId]\page.tsx:63:36)
+    at PointPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ GET /points/ap-bio-genetics/meeting 200 in 184ms (next.js: 85ms, generate-params: 8ms, application-code: 91ms)
+ GET /dashboard 307 in 90ms (next.js: 1.4ms, application-code: 88ms)
+ GET /login 200 in 212ms (next.js: 127ms, application-code: 85ms)
+Error: Route "/points/[pointId]/meeting": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at MeetingPage (C:%5CUsers%5Changy%5COneDrive%5CDesktop%5CProjects%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__15mrwbedwekp0._.js:52:25)
+ GET /moderator 307 in 196ms (next.js: 113ms, application-code: 84ms)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ignore-listed frames
+ GET /login 200 in 72ms (next.js: 1.0ms, application-code: 70ms)
+ GET /profile 307 in 186ms (next.js: 108ms, application-code: 78ms)
+ GET /login 200 in 59ms (next.js: 1.0ms, application-code: 58ms)
+ GET /login 200 in 73ms (next.js: 1.1ms, application-code: 72ms)
+Error: Route "/moderator": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\database\memory-store.ts:7:56)
+      at ModeratorPage (app\moderator\page.tsx:31:18)
+     5 |   const tables = new Map<TableName, Map<string, RowWithId>>();
+     6 |   for (const [table, rows] of Object.entries(seed) as [TableName, RowWithId[]][]) {
+  >  7 |     tables.set(table, new Map(rows.map((row) => [row.id, structuredClone(row)])));
+       |                                                        ^
+     8 |   }
+     9 |   const tableOf = (table: TableName) => {
+    10 |     let map = tables.get(table); {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 200 in 183ms (next.js: 1.2ms, application-code: 181ms)
+ GET /moderator 200 in 236ms (next.js: 1.1ms, application-code: 234ms)
+Error: Route "/profile": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\database\memory-store.ts:7:56)
+      at ProfilePage (app\profile\page.tsx:16:16)
+     5 |   const tables = new Map<TableName, Map<string, RowWithId>>();
+     6 |   for (const [table, rows] of Object.entries(seed) as [TableName, RowWithId[]][]) {
+  >  7 |     tables.set(table, new Map(rows.map((row) => [row.id, structuredClone(row)])));
+       |                                                        ^
+     8 |   }
+     9 |   const tableOf = (table: TableName) => {
+    10 |     let map = tables.get(table); {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /profile 200 in 104ms (next.js: 0.9ms, application-code: 103ms)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at DashboardPage (app\dashboard\page.tsx:20:19)
+  18 |
+  19 | export default async function DashboardPage() {
+> 20 |   await connection();
+     |                   ^
+  21 |   const viewer = await requireUser();
+  22 |
+  23 |   const [chords, points, goals, users, helpRequests] = await Promise.all([
+Error: Route "/moderator": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ModeratorPage (app\moderator\page.tsx:32:18)
+  30 | export default async function ModeratorPage({ searchParams }: PageProps<"/moderator">) {
+  31 |   const viewer = await requireUser();
+> 32 |   const params = await searchParams;
+     |                  ^
+  33 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  34 |
+  35 |   const [chords, points, goals, users, helpRequests, privateMessages] = await Promise.all([
+✓ Compiled in 84ms
+ GET /dashboard 200 in 72ms (next.js: 1.6ms, application-code: 70ms)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at DashboardPage (app\dashboard\page.tsx:20:19)
+  18 |
+  19 | export default async function DashboardPage() {
+> 20 |   await connection();
+     |                   ^
+  21 |   const viewer = await requireUser();
+  22 |
+  23 |   const [chords, points, goals, users, helpRequests] = await Promise.all([
+✓ Compiled in 62ms
+ GET /dashboard 200 in 96ms (next.js: 2ms, application-code: 94ms)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at DashboardPage (app\dashboard\page.tsx:20:19)
+  18 |
+  19 | export default async function DashboardPage() {
+> 20 |   await connection();
+     |                   ^
+  21 |   const viewer = await requireUser();
+  22 |
+  23 |   const [chords, points, goals, users, helpRequests] = await Promise.all([
+✓ Compiled in 73ms
+ GET /dashboard 200 in 91ms (next.js: 5ms, application-code: 86ms)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at DashboardPage (app\dashboard\page.tsx:20:19)
+  18 |
+  19 | export default async function DashboardPage() {
+> 20 |   await connection();
+     |                   ^
+  21 |   const viewer = await requireUser();
+  22 |
+  23 |   const [chords, points, goals, users, helpRequests] = await Promise.all([
+✓ Compiled in 77ms
+ GET /dashboard 200 in 96ms (next.js: 2.0ms, application-code: 94ms)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at DashboardPage (app\dashboard\page.tsx:20:19)
+  18 |
+  19 | export default async function DashboardPage() {
+> 20 |   await connection();
+     |                   ^
+  21 |   const viewer = await requireUser();
+  22 |
+  23 |   const [chords, points, goals, users, helpRequests] = await Promise.all([
+ GET / 200 in 106ms (next.js: 1.6ms, application-code: 105ms)
+ GET /?audience=college 200 in 100ms (next.js: 0.9ms, application-code: 99ms)
+ GET /chords 200 in 89ms (next.js: 1.2ms, application-code: 87ms)
+ GET /chords/biology 200 in 284ms (next.js: 10ms, generate-params: 14ms, application-code: 260ms)
+Error: Route "/chords": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ChordsPage (app\chords\page.tsx:11:18)
+   9 |
+  10 | export default async function ChordsPage({ searchParams }: PageProps<"/chords">) {
+> 11 |   const params = await searchParams;
+     |                  ^
+  12 |   const raw = typeof params.audience === "string" ? params.audience : null;
+  13 |   const audience = raw === "high-school" || raw === "college" ? raw : "all";
+  14 |
+ GET /points/ap-bio-genetics 200 in 232ms (next.js: 10ms, generate-params: 10ms, application-code: 211ms)
+ GET /points/ap-bio-genetics/meeting 200 in 102ms (next.js: 1.4ms, generate-params: 11ms, application-code: 89ms)
+ GET /dashboard 307 in 89ms (next.js: 1.1ms, application-code: 88ms)
+ GET /login 200 in 79ms (next.js: 1.1ms, application-code: 78ms)
+ GET /moderator 307 in 75ms (next.js: 1.1ms, application-code: 73ms)
+ GET /login 200 in 78ms (next.js: 1.1ms, application-code: 77ms)
+Error: Route "/chords/[chordId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordPage (app\chords\[chordId]\page.tsx:27:19)
+  25 |
+  26 | export default async function ChordPage({ params, searchParams }: PageProps<"/chords/[chordId]">) {
+> 27 |   await connection();
+     |                   ^
+  28 |   const { chordId } = await params;
+  29 |   const query = await searchParams;
+  30 |   const audience = parseAudience(typeof query.audience === "string" ? query.audience : null);
+ GET /profile 307 in 75ms (next.js: 1.5ms, application-code: 74ms)
+ GET /login 200 in 82ms (next.js: 1.0ms, application-code: 81ms)
+ GET /login 200 in 77ms (next.js: 0.9ms, application-code: 77ms)
+ GET /dashboard 200 in 156ms (next.js: 0.9ms, application-code: 155ms)
+ GET /moderator 200 in 194ms (next.js: 1.1ms, application-code: 193ms)
+Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (app\points\[pointId]\page.tsx:32:19)
+  30 |
+  31 | export default async function PointPage({ params }: PageProps<"/points/[pointId]">) {
+> 32 |   await connection();
+     |                   ^
+  33 |   const { pointId } = await params;
+  34 |   const point = await getPoint(pointId);
+  35 |   if (!point) notFound();
+ GET /profile 200 in 95ms (next.js: 1.1ms, application-code: 93ms)
+ GET /chords/biology 200 in 177ms (next.js: 1.4ms, generate-params: 9ms, application-code: 167ms)
+Error: Route "/points/[pointId]/meeting": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at MeetingPage (C:%5CUsers%5Changy%5COneDrive%5CDesktop%5CProjects%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__15mrwbedwekp0._.js:52:25)
+ GET /points/ap-bio-genetics 200 in 221ms (next.js: 1.1ms, generate-params: 8ms, application-code: 212ms)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ignore-listed frames
+ GET /points/ap-bio-genetics/meeting 200 in 95ms (next.js: 1.2ms, generate-params: 10ms, application-code: 84ms)
+Error: Route "/moderator": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\database\memory-store.ts:7:56)
+      at ModeratorPage (app\moderator\page.tsx:31:18)
+     5 |   const tables = new Map<TableName, Map<string, RowWithId>>();
+     6 |   for (const [table, rows] of Object.entries(seed) as [TableName, RowWithId[]][]) {
+  >  7 |     tables.set(table, new Map(rows.map((row) => [row.id, structuredClone(row)])));
+       |                                                        ^
+     8 |   }
+     9 |   const tableOf = (table: TableName) => {
+    10 |     let map = tables.get(table); {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/profile": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\database\memory-store.ts:7:56)
+      at ProfilePage (app\profile\page.tsx:16:16)
+     5 |   const tables = new Map<TableName, Map<string, RowWithId>>();
+     6 |   for (const [table, rows] of Object.entries(seed) as [TableName, RowWithId[]][]) {
+  >  7 |     tables.set(table, new Map(rows.map((row) => [row.id, structuredClone(row)])));
+       |                                                        ^
+     8 |   }
+     9 |   const tableOf = (table: TableName) => {
+    10 |     let map = tables.get(table); {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at DashboardPage (app\dashboard\page.tsx:20:19)
+  18 |
+  19 | export default async function DashboardPage() {
+> 20 |   await connection();
+     |                   ^
+  21 |   const viewer = await requireUser();
+  22 |
+  23 |   const [chords, points, goals, users, helpRequests] = await Promise.all([
+Error: Route "/moderator": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ModeratorPage (app\moderator\page.tsx:32:18)
+  30 | export default async function ModeratorPage({ searchParams }: PageProps<"/moderator">) {
+  31 |   const viewer = await requireUser();
+> 32 |   const params = await searchParams;
+     |                  ^
+  33 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  34 |
+  35 |   const [chords, points, goals, users, helpRequests, privateMessages] = await Promise.all([
+Error: Route "/chords/[chordId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordPage (app\chords\[chordId]\page.tsx:27:19)
+  25 |
+  26 | export default async function ChordPage({ params, searchParams }: PageProps<"/chords/[chordId]">) {
+> 27 |   await connection();
+     |                   ^
+  28 |   const { chordId } = await params;
+  29 |   const query = await searchParams;
+  30 |   const audience = parseAudience(typeof query.audience === "string" ? query.audience : null);
+Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (app\points\[pointId]\page.tsx:32:19)
+  30 |
+  31 | export default async function PointPage({ params }: PageProps<"/points/[pointId]">) {
+> 32 |   await connection();
+     |                   ^
+  33 |   const { pointId } = await params;
+  34 |   const point = await getPoint(pointId);
+  35 |   if (!point) notFound();
+Error: Route "/points/[pointId]/meeting": Could not validate `instant` because an error prevented the target segment from rendering.
+    at div (<anonymous>)
+    at MeetingPage (C:%25255CUsers%25255Changy%25255COneDrive%25255CDesktop%25255CProjects%25255COpenCircle%25255C.next%25255Cdev%25255Cserver%25255Cchunks%25255Cssr%25255C%25255Broot-of-the-server%25255D__15mrwbedwekp0._.js:232:397) {
+  [cause]: Error: Module [project]/components/point/MeetingTranscriptPanel.tsx [app-rsc] (client reference proxy) was instantiated because it was required from module [project]/node_modules/.pnpm/next@16.4.2_@babel+core@7.2_b86c0e59fc89644f4a10974877313a8d/node_modules/next/dist/esm/build/templates/app-page.js?page=/points/[pointId]/meeting/page { METADATA_0 => "[project]/app/favicon.ico.mjs { IMAGE => \"[project]/app/favicon.ico (static in ecmascript, tag client)\" } [app-rsc] (structured image object, ecmascript)", MODULE_1 => "[project]/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/.pnpm/next@16.4.2_@babel+core@7.2_b86c0e59fc89644f4a10974877313a8d/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/.pnpm/next@16.4.2_@babel+core@7.2_b86c0e59fc89644f4a10974877313a8d/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/.pnpm/next@16.4.2_@babel+core@7.2_b86c0e59fc89644f4a10974877313a8d/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/node_modules/.pnpm/next@16.4.2_@babel+core@7.2_b86c0e59fc89644f4a10974877313a8d/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_6 => "[project]/app/points/[pointId]/meeting/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>, but the module factory is not available.
+  This is often caused by a stale browser cache, misconfigured Cache-Control headers, or a service worker serving outdated responses.
+  To fix this, make sure your Cache-Control headers allow revalidation of chunks and review your service worker configuration. As an immediate workaround, try hard-reloading the page, clearing the browser cache, or unregistering any service workers.
+      at ignore-listed frames {
+    environmentName: 'Prefetch',
+    digest: ''
+  }
+}
+✓ Compiled in 72ms
+ GET /dashboard 200 in 104ms (next.js: 3ms, application-code: 102ms)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at DashboardPage (app\dashboard\page.tsx:20:19)
+  18 |
+  19 | export default async function DashboardPage() {
+> 20 |   await connection();
+     |                   ^
+  21 |   const viewer = await requireUser();
+  22 |
+  23 |   const [chords, points, goals, users, helpRequests] = await Promise.all([
+✓ Compiled in 37ms
+ GET /dashboard 200 in 377ms (next.js: 8ms, application-code: 370ms)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at DashboardPage (app\dashboard\page.tsx:20:19)
+  18 |
+  19 | export default async function DashboardPage() {
+> 20 |   await connection();
+     |                   ^
+  21 |   const viewer = await requireUser();
+  22 |
+  23 |   const [chords, points, goals, users, helpRequests] = await Promise.all([
+ GET / 200 in 240ms (next.js: 4ms, application-code: 236ms)
+ GET /chords/biology 200 in 211ms (next.js: 3ms, generate-params: 22ms, application-code: 186ms)
+ GET /points/ap-bio-genetics 200 in 241ms (next.js: 2ms, generate-params: 13ms, application-code: 226ms)
+ GET /points/ap-bio-genetics/meeting 200 in 108ms (next.js: 2ms, generate-params: 12ms, application-code: 94ms)
+Error: Route "/chords/[chordId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordPage (app\chords\[chordId]\page.tsx:27:19)
+  25 |
+  26 | export default async function ChordPage({ params, searchParams }: PageProps<"/chords/[chordId]">) {
+> 27 |   await connection();
+     |                   ^
+  28 |   const { chordId } = await params;
+  29 |   const query = await searchParams;
+  30 |   const audience = parseAudience(typeof query.audience === "string" ? query.audience : null);
+ GET /dashboard 307 in 100ms (next.js: 1.8ms, application-code: 98ms)
+ GET /login 200 in 103ms (next.js: 3ms, application-code: 100ms)
+Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (app\points\[pointId]\page.tsx:32:19)
+  30 |
+  31 | export default async function PointPage({ params }: PageProps<"/points/[pointId]">) {
+> 32 |   await connection();
+     |                   ^
+  33 |   const { pointId } = await params;
+  34 |   const point = await getPoint(pointId);
+  35 |   if (!point) notFound();
+Error: Route "/points/[pointId]/meeting": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at MeetingPage (C:%5CUsers%5Changy%5COneDrive%5CDesktop%5CProjects%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__15mrwbedwekp0._.js:52:25)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ignore-listed frames
