@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { connection } from "next/server";
 import { MotivationCard } from "@/components/assistant/MotivationCard";
 import { PointCard } from "@/components/point/PointCard";
 import { Calendar } from "@/components/schedule/Calendar";
@@ -16,6 +17,7 @@ import { nextWeeklyOccurrence } from "@/lib/domain/time";
 export const metadata = { title: "Dashboard · StudyCircle" };
 
 export default async function DashboardPage() {
+  await connection();
   const viewer = await requireUser();
 
   const [chords, points, goals, users, helpRequests] = await Promise.all([

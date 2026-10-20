@@ -6,6 +6,8 @@ import { Card } from "@/components/ui/Card";
 import { listChords, listPoints, listUsers } from "@/lib/database/repository";
 import { parseAudience } from "@/lib/domain/audience";
 
+export const instant = false;
+
 export default async function HomePage({ searchParams }: PageProps<"/">) {
   const params = await searchParams;
   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);

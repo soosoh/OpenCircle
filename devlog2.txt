@@ -1,0 +1,3594 @@
+$ next dev
+▲ Next.js 16.4.2 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.0.0.230:3000
+- Environments: .env.local
+✓ Ready in 461ms
+✓ Running next.config.ts took 39ms
+- Cache Components enabled
+- Partial Prefetching enabled
+
+✓ Generated AGENTS.md for AI agents. Set `agentRules: false` in next.config to disable.
+ GET / 200 in 426ms (next.js: 190ms, application-code: 236ms)
+ GET /chords/biology 200 in 638ms (next.js: 18ms, generate-params: 485ms, application-code: 135ms)
+Error: Route "/chords/[chordId]": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at <unknown> (app\chords\[chordId]\page.tsx:49:57)
+    at Array.map (<anonymous>)
+    at ChordPage (app\chords\[chordId]\page.tsx:49:6)
+    at ChordPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+Error: Route "/": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at HomePage (app\page.tsx:10:18)
+   8 |
+   9 | export default async function HomePage({ searchParams }: PageProps<"/">) {
+> 10 |   const params = await searchParams;
+     |                  ^
+  11 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  12 |
+  13 |   const [chords, points, users] = await Promise.all([listChords(), listPoints(), listUsers()]);
+ GET /points/19108 404 in 545ms (next.js: 11ms, generate-params: 473ms, application-code: 61ms)
+Error: Route "/points/[pointId]": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_HTTP_ERROR_FALLBACK;404
+      at PointPage (app\points\[pointId]\page.tsx:33:23)
+    31 |   const { pointId } = await params;
+    32 |   const point = await getPoint(pointId);
+  > 33 |   if (!point) notFound();
+       |                       ^
+    34 |
+    35 |   const [chord, users, allGoals, messages, helpRequests, viewer] = await Promise.all([
+    36 |     getChord(point.chordId), {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_HTTP_ERROR_FALLBACK;404'
+  }
+}
+ GET / 200 in 71ms (next.js: 1.2ms, application-code: 69ms)
+ GET /chords/biology 200 in 105ms (next.js: 2ms, generate-params: 8ms, application-code: 95ms)
+Error: Route "/chords/[chordId]": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at <unknown> (app\chords\[chordId]\page.tsx:49:57)
+    at Array.map (<anonymous>)
+    at ChordPage (app\chords\[chordId]\page.tsx:49:6)
+    at ChordPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ GET /points/ap-bio-genetics 200 in 154ms (next.js: 1.3ms, generate-params: 8ms, application-code: 144ms)
+Error: Route "/points/[pointId]": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at PointPage (app\points\[pointId]\page.tsx:63:36)
+    at PointPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+Error: Route "/": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at HomePage (app\page.tsx:10:18)
+   8 |
+   9 | export default async function HomePage({ searchParams }: PageProps<"/">) {
+> 10 |   const params = await searchParams;
+     |                  ^
+  11 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  12 |
+  13 |   const [chords, points, users] = await Promise.all([listChords(), listPoints(), listUsers()]);
+ GET /points/ap-bio-genetics/meeting 200 in 539ms (next.js: 9ms, generate-params: 482ms, application-code: 47ms)
+Error: Route "/points/[pointId]/meeting": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at DemoMeetingPage (app\points\[pointId]\meeting\page.tsx:19:23)
+  17 |  */
+  18 | export default async function DemoMeetingPage({ params }: PageProps<"/points/[pointId]/meeting">) {
+> 19 |   const { pointId } = await params;
+     |                       ^
+  20 |   const point = await getPoint(pointId);
+  21 |   if (!point) notFound();
+  22 |
+✓ Compiled in 356ms
+✓ Compiled in 31ms
+✓ Compiled in 35ms
+✓ Compiled in 69ms
+✓ Compiled in 31ms
+ GET /login 307 in 517ms (next.js: 134ms, application-code: 383ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 119ms (next.js: 19ms, application-code: 100ms)
+ GET /login 307 in 104ms (next.js: 2ms, application-code: 102ms)
+ GET /dashboard 307 in 96ms (next.js: 1.7ms, application-code: 94ms)
+ GET /login 307 in 122ms (next.js: 4ms, application-code: 117ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 307 in 157ms (next.js: 1.5ms, application-code: 155ms)
+ GET /login 307 in 94ms (next.js: 2.0ms, application-code: 92ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 133ms (next.js: 1.5ms, application-code: 131ms)
+ GET /login 307 in 83ms (next.js: 1.1ms, application-code: 82ms)
+ GET /dashboard 307 in 84ms (next.js: 1.0ms, application-code: 83ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 86ms (next.js: 1.2ms, application-code: 84ms)
+ GET /dashboard 307 in 85ms (next.js: 1.2ms, application-code: 84ms)
+ GET /login 307 in 86ms (next.js: 1.2ms, application-code: 85ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 97ms (next.js: 1.8ms, application-code: 96ms)
+ GET /login 307 in 86ms (next.js: 1.5ms, application-code: 84ms)
+ GET /dashboard 307 in 86ms (next.js: 1.0ms, application-code: 85ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 66ms (next.js: 1.5ms, application-code: 64ms)
+ GET /dashboard 307 in 74ms (next.js: 0.9ms, application-code: 73ms)
+ GET /login 307 in 82ms (next.js: 1.2ms, application-code: 81ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 80ms (next.js: 1.1ms, application-code: 79ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 84ms (next.js: 1.1ms, application-code: 83ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 77ms (next.js: 1.3ms, application-code: 75ms)
+ GET /dashboard 307 in 77ms (next.js: 0.7ms, application-code: 76ms)
+ GET /login 307 in 80ms (next.js: 0.8ms, application-code: 79ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 110ms (next.js: 1.4ms, application-code: 108ms)
+ GET /login 307 in 73ms (next.js: 0.8ms, application-code: 72ms)
+ GET /dashboard 307 in 85ms (next.js: 1.2ms, application-code: 84ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 77ms (next.js: 1.3ms, application-code: 76ms)
+ GET /dashboard 307 in 81ms (next.js: 1.2ms, application-code: 80ms)
+ GET /login 307 in 83ms (next.js: 0.8ms, application-code: 82ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 81ms (next.js: 1.3ms, application-code: 80ms)
+ GET /login 307 in 79ms (next.js: 0.7ms, application-code: 78ms)
+ GET /dashboard 307 in 80ms (next.js: 1.4ms, application-code: 79ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 76ms (next.js: 1.0ms, application-code: 75ms)
+ GET /dashboard 307 in 73ms (next.js: 0.9ms, application-code: 72ms)
+ GET /login 307 in 77ms (next.js: 1.1ms, application-code: 76ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 86ms (next.js: 0.8ms, application-code: 85ms)
+ GET /login 307 in 74ms (next.js: 1.3ms, application-code: 73ms)
+ GET /dashboard 307 in 82ms (next.js: 1.3ms, application-code: 81ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 69ms (next.js: 1.4ms, application-code: 68ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 84ms (next.js: 1.3ms, application-code: 83ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 74ms (next.js: 1.2ms, application-code: 73ms)
+ GET /login 307 in 82ms (next.js: 0.8ms, application-code: 82ms)
+ GET /dashboard 307 in 77ms (next.js: 1.3ms, application-code: 76ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 81ms (next.js: 0.9ms, application-code: 80ms)
+ GET /dashboard 307 in 73ms (next.js: 1.3ms, application-code: 72ms)
+ GET /login 307 in 84ms (next.js: 1.3ms, application-code: 83ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 79ms (next.js: 1.4ms, application-code: 77ms)
+ GET /login 307 in 91ms (next.js: 0.9ms, application-code: 90ms)
+ GET /dashboard 307 in 77ms (next.js: 1.3ms, application-code: 76ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 88ms (next.js: 0.9ms, application-code: 87ms)
+ GET /dashboard 307 in 79ms (next.js: 1.5ms, application-code: 77ms)
+ GET /login 307 in 91ms (next.js: 1.7ms, application-code: 89ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 91ms (next.js: 1.9ms, application-code: 89ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 93ms (next.js: 1.5ms, application-code: 92ms)
+ GET /dashboard 307 in 79ms (next.js: 1.3ms, application-code: 78ms)
+ GET /login 307 in 94ms (next.js: 1.3ms, application-code: 93ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 80ms (next.js: 1.6ms, application-code: 79ms)
+ GET /login 307 in 95ms (next.js: 1.2ms, application-code: 94ms)
+ GET /dashboard 307 in 83ms (next.js: 1.9ms, application-code: 81ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 307 in 83ms (next.js: 1.5ms, application-code: 82ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /login 307 in 78ms (next.js: 1.2ms, application-code: 76ms)
+ GET /dashboard 307 in 89ms (next.js: 1.3ms, application-code: 88ms)
+ GET /login 307 in 83ms (next.js: 1.2ms, application-code: 82ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 307 in 75ms (next.js: 1.2ms, application-code: 74ms)
+ GET /login 307 in 78ms (next.js: 1.2ms, application-code: 77ms)
+ GET /dashboard 307 in 91ms (next.js: 1.4ms, application-code: 89ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /login 307 in 86ms (next.js: 1.3ms, application-code: 85ms)
+ GET /dashboard 307 in 117ms (next.js: 1.3ms, application-code: 116ms)
+ GET /login 307 in 108ms (next.js: 1.4ms, application-code: 106ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 307 in 126ms (next.js: 1.6ms, application-code: 124ms)
+ GET /login 307 in 117ms (next.js: 1.5ms, application-code: 115ms)
+ GET /dashboard 307 in 105ms (next.js: 1.2ms, application-code: 104ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /login 307 in 108ms (next.js: 1.7ms, application-code: 106ms)
+ GET /dashboard 307 in 128ms (next.js: 1.8ms, application-code: 126ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 87ms (next.js: 1.2ms, application-code: 86ms)
+ GET /dashboard 307 in 121ms (next.js: 1.3ms, application-code: 120ms)
+ GET /login 307 in 84ms (next.js: 1.4ms, application-code: 83ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 307 in 100ms (next.js: 1.5ms, application-code: 99ms)
+ GET /login 307 in 89ms (next.js: 1.4ms, application-code: 88ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /login 307 in 99ms (next.js: 2ms, application-code: 97ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 307 in 80ms (next.js: 1.2ms, application-code: 78ms)
+ GET /login 307 in 82ms (next.js: 1.2ms, application-code: 81ms)
+ GET /dashboard 307 in 78ms (next.js: 0.8ms, application-code: 77ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /login 307 in 84ms (next.js: 1.1ms, application-code: 83ms)
+ GET /dashboard 307 in 80ms (next.js: 1.1ms, application-code: 79ms)
+ GET /login 307 in 92ms (next.js: 1.5ms, application-code: 91ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 307 in 83ms (next.js: 1.2ms, application-code: 82ms)
+ GET /login 307 in 79ms (next.js: 0.8ms, application-code: 79ms)
+ GET /dashboard 307 in 105ms (next.js: 0.9ms, application-code: 104ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /login 307 in 90ms (next.js: 1.1ms, application-code: 89ms)
+ GET /dashboard 307 in 104ms (next.js: 1.5ms, application-code: 103ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 84ms (next.js: 1.5ms, application-code: 82ms)
+ GET /dashboard 307 in 80ms (next.js: 1.2ms, application-code: 79ms)
+ GET /login 307 in 117ms (next.js: 1.6ms, application-code: 116ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 85ms (next.js: 1.5ms, application-code: 83ms)
+ GET /login 307 in 96ms (next.js: 1.4ms, application-code: 94ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 307 in 71ms (next.js: 1.4ms, application-code: 70ms)
+ GET /login 307 in 74ms (next.js: 1.0ms, application-code: 73ms)
+ GET /dashboard 307 in 71ms (next.js: 1.7ms, application-code: 70ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 89ms (next.js: 2ms, application-code: 86ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 78ms (next.js: 3ms, application-code: 75ms)
+ GET /dashboard 307 in 83ms (next.js: 1.0ms, application-code: 82ms)
+ GET /login 307 in 65ms (next.js: 1.1ms, application-code: 64ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 69ms (next.js: 1.2ms, application-code: 68ms)
+ GET /login 307 in 72ms (next.js: 1.2ms, application-code: 71ms)
+ GET /dashboard 307 in 69ms (next.js: 1.1ms, application-code: 68ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 73ms (next.js: 1.1ms, application-code: 72ms)
+ GET /dashboard 307 in 89ms (next.js: 1.6ms, application-code: 88ms)
+ GET /login 307 in 72ms (next.js: 1.2ms, application-code: 71ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 95ms (next.js: 1.9ms, application-code: 93ms)
+ GET /login 307 in 94ms (next.js: 1.9ms, application-code: 92ms)
+ GET /dashboard 307 in 87ms (next.js: 1.5ms, application-code: 86ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 82ms (next.js: 1.5ms, application-code: 81ms)
+ GET /dashboard 307 in 80ms (next.js: 1.0ms, application-code: 79ms)
+ GET /login 307 in 85ms (next.js: 1.3ms, application-code: 84ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 77ms (next.js: 1.5ms, application-code: 75ms)
+ GET /login 307 in 77ms (next.js: 1.2ms, application-code: 76ms)
+ GET /dashboard 307 in 97ms (next.js: 1.3ms, application-code: 96ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 88ms (next.js: 1.3ms, application-code: 87ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 99ms (next.js: 1.2ms, application-code: 98ms)
+ GET /dashboard 307 in 90ms (next.js: 1.6ms, application-code: 88ms)
+ GET /login 307 in 91ms (next.js: 1.3ms, application-code: 90ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 76ms (next.js: 1.2ms, application-code: 75ms)
+ GET /login 307 in 105ms (next.js: 1.4ms, application-code: 104ms)
+ GET /dashboard 307 in 78ms (next.js: 1.3ms, application-code: 77ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 307 in 83ms (next.js: 1.1ms, application-code: 82ms)
+ GET /dashboard 307 in 77ms (next.js: 1.3ms, application-code: 76ms)
+ GET /login 307 in 81ms (next.js: 1.0ms, application-code: 80ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /dashboard 307 in 79ms (next.js: 1.0ms, application-code: 78ms)
+ GET /login 307 in 101ms (next.js: 1.5ms, application-code: 99ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 307 in 201ms (next.js: 1.3ms, application-code: 200ms)
+ GET /login 307 in 76ms (next.js: 1.6ms, application-code: 75ms)
+ GET /dashboard 307 in 85ms (next.js: 1.8ms, application-code: 84ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+ GET /login 307 in 75ms (next.js: 1.5ms, application-code: 74ms)
+ GET /dashboard 307 in 89ms (next.js: 1.1ms, application-code: 88ms)
+ GET /login 307 in 80ms (next.js: 0.9ms, application-code: 79ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 307 in 88ms (next.js: 1.4ms, application-code: 87ms)
+ GET /login 307 in 85ms (next.js: 1.2ms, application-code: 84ms)
+ GET /dashboard 307 in 98ms (next.js: 1.7ms, application-code: 96ms)
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+Error: Route "/login": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at LoginPage (app\login\page.tsx:13:41)
+    11 |
+    12 | export default async function LoginPage() {
+  > 13 |   if (await getSessionUserId()) redirect("/dashboard");
+       |                                         ^
+    14 |   const users = await listUsers();
+    15 |
+    16 |   return ( {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/dashboard;307;'
+  }
+}
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+✓ Compiled in 60ms
+✓ Compiled in 56ms
+✓ Compiled in 161ms
+✓ Compiled in 367ms
+✓ Compiled in 184ms
+✓ Compiled in 369ms
+ GET / 200 in 148ms (next.js: 7ms, application-code: 141ms)
+ GET /moderator 307 in 96ms (next.js: 11ms, application-code: 86ms)
+Error: Route "/": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at HomePage (app\page.tsx:10:18)
+   8 |
+   9 | export default async function HomePage({ searchParams }: PageProps<"/">) {
+> 10 |   const params = await searchParams;
+     |                  ^
+  11 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  12 |
+  13 |   const [chords, points, users] = await Promise.all([listChords(), listPoints(), listUsers()]);
+Error: Route "/moderator": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at ModeratorPage (app\moderator\page.tsx:31:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /moderator 307 in 47ms (next.js: 0.8ms, application-code: 46ms)
+ GET /login 200 in 75ms (next.js: 3ms, application-code: 73ms)
+Error: Route "/moderator": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at ModeratorPage (app\moderator\page.tsx:31:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /dashboard 307 in 52ms (next.js: 3ms, application-code: 49ms)
+ GET /login 200 in 81ms (next.js: 1.1ms, application-code: 80ms)
+Error: Route "/dashboard": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at DashboardPage (app\dashboard\page.tsx:19:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET / 200 in 186ms (next.js: 1.3ms, application-code: 185ms)
+ GET /moderator 307 in 59ms (next.js: 0.9ms, application-code: 58ms)
+ GET /login 200 in 70ms (next.js: 1.9ms, application-code: 68ms)
+Error: Route "/": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at HomePage (app\page.tsx:10:18)
+   8 |
+   9 | export default async function HomePage({ searchParams }: PageProps<"/">) {
+> 10 |   const params = await searchParams;
+     |                  ^
+  11 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  12 |
+  13 |   const [chords, points, users] = await Promise.all([listChords(), listPoints(), listUsers()]);
+Error: Route "/moderator": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\api\session.ts:25:22)
+      at ModeratorPage (app\moderator\page.tsx:31:18)
+    23 | export async function requireUser(): Promise<User> {
+    24 |   const user = await getCurrentUser();
+  > 25 |   if (!user) redirect("/login");
+       |                      ^
+    26 |   return user;
+    27 | }
+    28 | {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /moderator 200 in 145ms (next.js: 0.9ms, application-code: 144ms)
+Error: Route "/moderator": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ModeratorPage (app\moderator\page.tsx:32:18)
+  30 | export default async function ModeratorPage({ searchParams }: PageProps<"/moderator">) {
+  31 |   const viewer = await requireUser();
+> 32 |   const params = await searchParams;
+     |                  ^
+  33 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  34 |
+  35 |   const [chords, points, goals, users, helpRequests, privateMessages] = await Promise.all([
+ GET /dashboard 200 in 92ms (next.js: 0.9ms, application-code: 91ms)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at <unknown> (app\dashboard\page.tsx:43:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:43:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ GET / 200 in 119ms (next.js: 1.7ms, application-code: 117ms)
+ GET /chords/biology 200 in 187ms (next.js: 28ms, generate-params: 17ms, application-code: 142ms)
+Error: Route "/chords/[chordId]": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at <unknown> (app\chords\[chordId]\page.tsx:49:57)
+    at Array.map (<anonymous>)
+    at ChordPage (app\chords\[chordId]\page.tsx:49:6)
+    at ChordPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ GET /points/ap-bio-genetics 200 in 399ms (next.js: 27ms, generate-params: 10ms, application-code: 363ms)
+Error: Route "/": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at HomePage (app\page.tsx:10:18)
+   8 |
+   9 | export default async function HomePage({ searchParams }: PageProps<"/">) {
+> 10 |   const params = await searchParams;
+     |                  ^
+  11 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  12 |
+  13 |   const [chords, points, users] = await Promise.all([listChords(), listPoints(), listUsers()]);
+Error: Route "/points/[pointId]": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at PointPage (app\points\[pointId]\page.tsx:63:36)
+    at PointPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ GET /points/ap-bio-genetics/meeting 200 in 242ms (next.js: 41ms, generate-params: 13ms, application-code: 189ms)
+Error: Route "/points/[pointId]/meeting": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at DemoMeetingPage (app\points\[pointId]\meeting\page.tsx:19:23)
+  17 |  */
+  18 | export default async function DemoMeetingPage({ params }: PageProps<"/points/[pointId]/meeting">) {
+> 19 |   const { pointId } = await params;
+     |                       ^
+  20 |   const point = await getPoint(pointId);
+  21 |   if (!point) notFound();
+  22 |
+✓ Compiled in 168ms
+⨯ ./app/moderator/page.tsx:1:1
+Error: Module not found: Can't resolve '@/components/assistant/AssistantPanel'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mAssistantPanel[0m } [36mfrom[0m [32m"@/components/assistant/AssistantPanel"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { [33mRiskPanel[0m } [36mfrom[0m [32m"@/components/assistant/RiskPanel"[0m;
+  [90m3 |[0m [36mimport[0m { [33mModeratorPanel[0m } [36mfrom[0m [32m"@/components/moderator/ModeratorPanel"[0m;
+  [90m4 |[0m [36mimport[0m { [33mUserCard[0m } [36mfrom[0m [32m"@/components/moderator/UserCard"[0m;
+
+Import map: aliased to relative './components/assistant/AssistantPanel' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/moderator/page.tsx:1:1
+Error: Module not found: Can't resolve '@/components/assistant/AssistantPanel'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mAssistantPanel[0m } [36mfrom[0m [32m"@/components/assistant/AssistantPanel"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m [36mimport[0m { [33mRiskPanel[0m } [36mfrom[0m [32m"@/components/assistant/RiskPanel"[0m;
+  [90m3 |[0m [36mimport[0m { [33mModeratorPanel[0m } [36mfrom[0m [32m"@/components/moderator/ModeratorPanel"[0m;
+  [90m4 |[0m [36mimport[0m { [33mUserCard[0m } [36mfrom[0m [32m"@/components/moderator/UserCard"[0m;
+
+Import map: aliased to relative './components/assistant/AssistantPanel' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/moderator/page.tsx:2:1
+Error: Module not found: Can't resolve '@/components/assistant/RiskPanel'
+  [90m1 |[0m [36mimport[0m { [33mAssistantPanel[0m } [36mfrom[0m [32m"@/components/assistant/AssistantPanel"[0m;
+[31m[1m>[0m [90m2 |[0m [36mimport[0m { [33mRiskPanel[0m } [36mfrom[0m [32m"@/components/assistant/RiskPanel"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m3 |[0m [36mimport[0m { [33mModeratorPanel[0m } [36mfrom[0m [32m"@/components/moderator/ModeratorPanel"[0m;
+  [90m4 |[0m [36mimport[0m { [33mUserCard[0m } [36mfrom[0m [32m"@/components/moderator/UserCard"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSupportChat[0m } [36mfrom[0m [32m"@/components/chat/SupportChat"[0m;
+
+Import map: aliased to relative './components/assistant/RiskPanel' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/moderator/page.tsx:2:1
+Error: Module not found: Can't resolve '@/components/assistant/RiskPanel'
+  [90m1 |[0m [36mimport[0m { [33mAssistantPanel[0m } [36mfrom[0m [32m"@/components/assistant/AssistantPanel"[0m;
+[31m[1m>[0m [90m2 |[0m [36mimport[0m { [33mRiskPanel[0m } [36mfrom[0m [32m"@/components/assistant/RiskPanel"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m3 |[0m [36mimport[0m { [33mModeratorPanel[0m } [36mfrom[0m [32m"@/components/moderator/ModeratorPanel"[0m;
+  [90m4 |[0m [36mimport[0m { [33mUserCard[0m } [36mfrom[0m [32m"@/components/moderator/UserCard"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSupportChat[0m } [36mfrom[0m [32m"@/components/chat/SupportChat"[0m;
+
+Import map: aliased to relative './components/assistant/RiskPanel' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/dashboard/page.tsx:2:1
+Error: Module not found: Can't resolve '@/components/assistant/MotivationCard'
+  [90m1 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m"next/link"[0m;
+[31m[1m>[0m [90m2 |[0m [36mimport[0m { [33mMotivationCard[0m } [36mfrom[0m [32m"@/components/assistant/MotivationCard"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m3 |[0m [36mimport[0m { [33mPointCard[0m } [36mfrom[0m [32m"@/components/point/PointCard"[0m;
+  [90m4 |[0m [36mimport[0m { [33mCalendar[0m } [36mfrom[0m [32m"@/components/schedule/Calendar"[0m;
+  [90m5 |[0m [36mimport[0m { [33mDeadlineCard[0m } [36mfrom[0m [32m"@/components/schedule/DeadlineCard"[0m;
+
+Import map: aliased to relative './components/assistant/MotivationCard' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/dashboard/page.tsx:2:1
+Error: Module not found: Can't resolve '@/components/assistant/MotivationCard'
+  [90m1 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m"next/link"[0m;
+[31m[1m>[0m [90m2 |[0m [36mimport[0m { [33mMotivationCard[0m } [36mfrom[0m [32m"@/components/assistant/MotivationCard"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m3 |[0m [36mimport[0m { [33mPointCard[0m } [36mfrom[0m [32m"@/components/point/PointCard"[0m;
+  [90m4 |[0m [36mimport[0m { [33mCalendar[0m } [36mfrom[0m [32m"@/components/schedule/Calendar"[0m;
+  [90m5 |[0m [36mimport[0m { [33mDeadlineCard[0m } [36mfrom[0m [32m"@/components/schedule/DeadlineCard"[0m;
+
+Import map: aliased to relative './components/assistant/MotivationCard' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+✓ Compiled in 193ms
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import trace:
+  Server Component:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import trace:
+  Server Component:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/dashboard/page.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/dashboard/page.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/points/[pointId]/meeting/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/points/[pointId]/meeting/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/chords/[chordId]/page.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/chords/[chordId]/page.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/moderator/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/moderator/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/points/[pointId]/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/points/[pointId]/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/login/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./lib/api/session.ts:4:1
+Error: Module not found: Can't resolve '@supabase/ssr'
+  [90m2 |[0m [36mimport[0m { redirect } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m3 |[0m [36mimport[0m { createClient } [36mfrom[0m [32m"@supabase/supabase-js"[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { createServerClient } [36mfrom[0m [32m"@supabase/ssr"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m { getUser } [36mfrom[0m [32m"@/lib/database/repository"[0m;
+  [90m6 |[0m [36mimport[0m [36mtype[0m { [33mUser[0m } [36mfrom[0m [32m"@/types"[0m;
+  [90m7 |[0m
+
+
+
+Import traces:
+  #1 [Server Component]:
+    ./lib/api/session.ts
+    ./app/layout.tsx
+
+  #2 [Server Component]:
+    ./lib/api/session.ts
+    ./app/login/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+✓ Compiled in 945ms
+ GET / 200 in 168ms (next.js: 29ms, application-code: 138ms)
+Error: Route "/": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at HomePage (app\page.tsx:10:18)
+   8 |
+   9 | export default async function HomePage({ searchParams }: PageProps<"/">) {
+> 10 |   const params = await searchParams;
+     |                  ^
+  11 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  12 |
+  13 |   const [chords, points, users] = await Promise.all([listChords(), listPoints(), listUsers()]);
+ GET /login 200 in 91ms (next.js: 4ms, application-code: 88ms)
+ GET /dashboard 200 in 97ms (next.js: 7ms, application-code: 90ms)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at eval (app\dashboard\page.tsx:40:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:40:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ POST /login 200 in 236ms (next.js: 1.3ms, application-code: 235ms)
+  └─ ƒ signIn({}) in 18ms lib/api/actions.ts
+  Reload env: .env.local
+ GET /dashboard 200 in 5.2s (next.js: 3.5s, application-code: 1695ms)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at <unknown> (app\dashboard\page.tsx:40:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:40:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+  Reload env: .env.local
+ GET /dashboard 200 in 1656ms (next.js: 1227ms, application-code: 428ms)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at <unknown> (app\dashboard\page.tsx:40:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:40:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ GET /dashboard 200 in 294ms (next.js: 167ms, application-code: 127ms)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at <unknown> (app\dashboard\page.tsx:40:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:40:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+✓ Compiled in 388ms
+ GET /dashboard 200 in 448ms (next.js: 146ms, application-code: 302ms)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at eval (app\dashboard\page.tsx:43:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:43:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ GET /dashboard 200 in 912ms (next.js: 29ms, application-code: 884ms)
+ GET / 200 in 223ms (next.js: 145ms, application-code: 78ms)
+Error: Route "/": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at HomePage (app\page.tsx:10:18)
+   8 |
+   9 | export default async function HomePage({ searchParams }: PageProps<"/">) {
+> 10 |   const params = await searchParams;
+     |                  ^
+  11 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  12 |
+  13 |   const [chords, points, users] = await Promise.all([listChords(), listPoints(), listUsers()]);
+ GET /profile 200 in 94ms (next.js: 15ms, application-code: 79ms)
+ GET / 200 in 256ms (next.js: 2ms, application-code: 254ms)
+ POST /profile 200 in 2.1s (next.js: 14ms, application-code: 2.0s)
+  └─ ƒ signOut() in 323ms lib/api/actions.ts
+ GET / 200 in 113ms (next.js: 1.9ms, application-code: 111ms)
+ POST /chords/[chordId] 200 in 421ms (next.js: 212ms, generate-params: 24ms, application-code: 185ms)
+  └─ ƒ signOut() in 3ms lib/api/actions.ts
+ POST / 200 in 550ms (next.js: 4ms, application-code: 546ms)
+ GET / 200 in 97ms (next.js: 1.8ms, application-code: 95ms)
+ POST /chords/[chordId] 200 in 138ms (next.js: 1.6ms, generate-params: 0.1ms, application-code: 137ms)
+  └─ ƒ signOut() in 1ms lib/api/actions.ts
+ POST / 200 in 240ms (next.js: 1.3ms, application-code: 238ms)
+ GET /profile 307 in 106ms (next.js: 1.2ms, application-code: 105ms)
+ GET / 200 in 241ms (next.js: 1.6ms, application-code: 240ms)
+ POST /chords/[chordId] 200 in 271ms (next.js: 1.1ms, generate-params: 0.0ms, application-code: 270ms)
+  └─ ƒ signOut() in 2ms lib/api/actions.ts
+ POST / 200 in 290ms (next.js: 1.7ms, application-code: 288ms)
+Error: Route "/profile": Could not validate `instant` because an error prevented the target segment from rendering.
+    at ignore-listed frames {
+  [cause]: Error: NEXT_REDIRECT
+      at requireUser (lib\database\memory-store.ts:7:56)
+      at ProfilePage (app\profile\page.tsx:16:16)
+     5 |   const tables = new Map<TableName, Map<string, RowWithId>>();
+     6 |   for (const [table, rows] of Object.entries(seed) as [TableName, RowWithId[]][]) {
+  >  7 |     tables.set(table, new Map(rows.map((row) => [row.id, structuredClone(row)])));
+       |                                                        ^
+     8 |   }
+     9 |   const tableOf = (table: TableName) => {
+    10 |     let map = tables.get(table); {
+    environmentName: 'Prefetch',
+    digest: 'NEXT_REDIRECT;replace;/login;307;'
+  }
+}
+ GET /login 200 in 2.7s (next.js: 246ms, application-code: 2.5s)
+ GET /login 200 in 520ms (next.js: 12ms, application-code: 508ms)
+ GET /dashboard 200 in 3.0s (next.js: 13ms, application-code: 3.0s)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at eval (app\dashboard\page.tsx:43:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:43:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+Error: Route "/": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at HomePage (app\page.tsx:10:18)
+   8 |
+   9 | export default async function HomePage({ searchParams }: PageProps<"/">) {
+> 10 |   const params = await searchParams;
+     |                  ^
+  11 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  12 |
+  13 |   const [chords, points, users] = await Promise.all([listChords(), listPoints(), listUsers()]);
+ POST /login 200 in 6.5s (next.js: 8ms, application-code: 6.5s)
+  └─ ƒ signIn({}) in 18ms lib/api/actions.ts
+ GET /dashboard 200 in 1886ms (next.js: 19ms, application-code: 1867ms)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at eval (app\dashboard\page.tsx:43:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:43:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ POST /dashboard 200 in 5.2s (next.js: 27ms, application-code: 5.2s)
+  └─ ƒ signIn({}) in 10ms lib/api/actions.ts
+ GET /dashboard 200 in 3.0s (next.js: 6ms, application-code: 3.0s)
+ POST /dashboard 200 in 3.6s (next.js: 1.8ms, application-code: 3.6s)
+  └─ ƒ signIn({}) in 2ms lib/api/actions.ts
+ GET /dashboard 200 in 2.7s (next.js: 4ms, application-code: 2.7s)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at eval (app\dashboard\page.tsx:43:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:43:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ POST /dashboard 200 in 5.7s (next.js: 4ms, application-code: 5.7s)
+  └─ ƒ signIn({}) in 14ms lib/api/actions.ts
+ GET /dashboard 200 in 1290ms (next.js: 121ms, application-code: 1168ms)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at eval (app\dashboard\page.tsx:43:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:43:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ POST /dashboard 200 in 3.7s (next.js: 46ms, application-code: 3.7s)
+  └─ ƒ signIn({}) in 69ms lib/api/actions.ts
+ GET / 200 in 61ms (next.js: 1.9ms, application-code: 59ms)
+Error: Route "/": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at HomePage (app\page.tsx:10:18)
+   8 |
+   9 | export default async function HomePage({ searchParams }: PageProps<"/">) {
+> 10 |   const params = await searchParams;
+     |                  ^
+  11 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  12 |
+  13 |   const [chords, points, users] = await Promise.all([listChords(), listPoints(), listUsers()]);
+ GET / 200 in 171ms (next.js: 1.7ms, application-code: 169ms)
+Error: Route "/": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at HomePage (app\page.tsx:10:18)
+   8 |
+   9 | export default async function HomePage({ searchParams }: PageProps<"/">) {
+> 10 |   const params = await searchParams;
+     |                  ^
+  11 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  12 |
+  13 |   const [chords, points, users] = await Promise.all([listChords(), listPoints(), listUsers()]);
+ GET /profile 200 in 79ms (next.js: 1.9ms, application-code: 77ms)
+ GET / 200 in 61ms (next.js: 0.9ms, application-code: 60ms)
+ POST /profile 200 in 95ms (next.js: 1.2ms, application-code: 94ms)
+  └─ ƒ signOut() in 16ms lib/api/actions.ts
+Error: Route "/": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at HomePage (app\page.tsx:10:18)
+   8 |
+   9 | export default async function HomePage({ searchParams }: PageProps<"/">) {
+> 10 |   const params = await searchParams;
+     |                  ^
+  11 |   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
+  12 |
+  13 |   const [chords, points, users] = await Promise.all([listChords(), listPoints(), listUsers()]);
+ GET /login 200 in 41ms (next.js: 1.5ms, application-code: 40ms)
+ GET /dashboard 200 in 104ms (next.js: 1.4ms, application-code: 103ms)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at eval (app\dashboard\page.tsx:43:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:43:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+ POST /login 200 in 238ms (next.js: 1.2ms, application-code: 237ms)
+  └─ ƒ signIn({}) in 14ms lib/api/actions.ts
+  Reload env: .env.local
+ GET /dashboard 200 in 878ms (next.js: 628ms, application-code: 250ms)
+Error: Route "/dashboard": Next.js encountered the unstable value `new Date()` while prerendering.
+
+This value can change between renders, so it must be either prerendered or computed later.
+
+Ways to fix this:
+  - [dynamic] Render at request time by adding a dynamic data access (e.g. `await connection()`) before this call
+  - [cache] Prerender and cache the value with `"use cache"`
+  - [client] Render the value on the client with `"use client"`
+  - [measure] If the value is for telemetry, use a timing API such as `performance.now()`
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-current-time
+    at nextWeeklyOccurrence (lib\domain\time.ts:83:16)
+    at <unknown> (app\dashboard\page.tsx:43:57)
+    at Array.map (<anonymous>)
+    at DashboardPage (app\dashboard\page.tsx:43:6)
+    at DashboardPage (<anonymous>)
+  81 | export function nextWeeklyOccurrence(
+  82 |   schedule: { weekday: number; time: string; timezone: string },
+> 83 |   from: Date = new Date(),
+     |                ^
+  84 | ): Date {
+  85 |   const now = zonedParts(from, schedule.timezone);
+  86 |   const [hour, minute] = schedule.time.split(":").map(Number);
+✓ Compiled in 1004ms
+✓ Compiled in 110ms
+ GET /dashboard 200 in 454ms (next.js: 64ms, application-code: 390ms)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at DashboardPage (app\dashboard\page.tsx:20:19)
+  18 |
+  19 | export default async function DashboardPage() {
+> 20 |   await connection();
+     |                   ^
+  21 |   const viewer = await requireUser();
+  22 |
+  23 |   const [chords, points, goals, users, helpRequests] = await Promise.all([
+✓ Compiled in 419ms
+ GET /dashboard 200 in 381ms (next.js: 35ms, application-code: 346ms)
+Error: Route "/dashboard": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at DashboardPage (app\dashboard\page.tsx:20:19)
+  18 |
+  19 | export default async function DashboardPage() {
+> 20 |   await connection();
+     |                   ^
+  21 |   const viewer = await requireUser();
+  22 |
+  23 |   const [chords, points, goals, users, helpRequests] = await Promise.all([
