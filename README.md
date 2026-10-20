@@ -149,7 +149,8 @@ which is server-only and must never be imported from a client component.
 
 1. Set `ENABLE_ZOOM_API: true` in `config/features.ts`.
 2. In the Zoom App Marketplace, create a **Server-to-Server OAuth** app and grant the
-   `meeting:write:admin` and `cloud_recording:read:admin` scopes.
+   `meeting:write:meeting:admin`, `meeting:update:status:admin`, and
+   `cloud_recording:read:list_recording_files:admin` scopes.
 3. Add the credentials to `.env.local`:
 
    ```
@@ -158,13 +159,19 @@ which is server-only and must never be imported from a client component.
    ZOOM_CLIENT_SECRET=...
    ```
 
-`lib/zoom/zoom.ts` provides `createZoomMeeting`, `joinZoomMeeting`, `getMeetingTranscript`,
-and `endMeeting`. Tokens are fetched with the account-credentials grant and cached in
-memory. Transcripts need cloud recording with audio transcription enabled on the Zoom
-account; otherwise `getMeetingTranscript` returns an empty string.
+`lib/zoom/zoom.ts` provides `createZoomMeeting`, `getMeetingTranscript`, and `endMeeting`.
+Tokens are fetched with the account-credentials grant (single-flight, refreshed on 401) and
+cached in memory. Creating a point creates a **recurring weekly** Zoom meeting (52
+occurrences) from the point's schedule, with cloud recording and audio transcription on;
+transcripts therefore need that transcription setting enabled on the Zoom account itself,
+otherwise `getMeetingTranscript` returns an empty string. The moderator ends the meeting
+from the meeting room, which also pulls the transcript for the AI assistant in one step.
+If Zoom is unreachable when a point is created, the point silently falls back to the demo
+room so point creation never fails.
 
 With the flag off, "Join meeting" opens the in-app **Demo Meeting Room** at
-`/points/[id]/meeting`.
+`/points/[id]/meeting`, and all Zoom functions return mock data without reading
+credentials or touching the network.
 
 ## Database
 

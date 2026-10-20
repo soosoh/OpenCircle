@@ -1,21 +1,21 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ActionForm } from "@/components/ui/ActionForm";
+import { MeetingTranscriptPanel } from "@/components/point/MeetingTranscriptPanel";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { getCurrentUser } from "@/lib/api/session";
-import { endPointMeeting } from "@/lib/api/actions";
 import { getPoint, listUsers } from "@/lib/database/repository";
-import { FEATURES } from "@/config/features";
 
-export const metadata = { title: "Demo Meeting Room · StudyCircle" };
+export const metadata = { title: "Meeting Room · StudyCircle" };
 
 /**
- * Mock meeting room used when ENABLE_ZOOM_API is false. No external calls happen here.
+ * Meeting room for a point. With ENABLE_ZOOM_API false (or when Zoom creation failed),
+ * this is the built-in demo room and no external calls happen here. With Zoom enabled,
+ * participants join via the stored Zoom link; the transcript controls work for either provider.
  */
-export default async function DemoMeetingPage({ params }: PageProps<"/points/[pointId]/meeting">) {
+export default async function MeetingPage({ params }: PageProps<"/points/[pointId]/meeting">) {
   const { pointId } = await params;
   const point = await getPoint(pointId);
   if (!point) notFound();
@@ -24,6 +24,7 @@ export default async function DemoMeetingPage({ params }: PageProps<"/points/[po
   const userById = new Map(users.map((user) => [user.id, user]));
   const memberIds = [...new Set([...point.memberIds, point.moderatorId])];
   const isModerator = viewer?.id === point.moderatorId;
+  const isZoom = point.meeting.provider === "zoom";
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
@@ -32,44 +33,54 @@ export default async function DemoMeetingPage({ params }: PageProps<"/points/[po
       </Link>
 
       <Card className="space-y-5 text-center">
-        <Badge tone="brand">Demo Meeting Room</Badge>
+        <Badge tone="brand">{isZoom ? "Zoom Meeting" : "Demo Meeting Room"}</Badge>
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">{point.title}</h1>
-          <p className="mt-1 text-muted">
-            This is the built-in demo room. It runs entirely inside StudyCircle, so nothing is sent to Zoom.
-          </p>
+          {isZoom ? (
+            <p className="mt-1 text-muted">This point meets on Zoom every week at its scheduled time.</p>
+          ) : (
+            <p className="mt-1 text-muted">
+              This is the built-in demo room. It runs entirely inside StudyCircle, so nothing is sent to Zoom.
+            </p>
+          )}
         </div>
 
-        <div className="rounded-xl border border-dashed border-line bg-paper px-4 py-10">
-          <p className="text-sm text-muted">Camera and microphone preview would appear here.</p>
-          <div className="mt-4 flex flex-wrap justify-center gap-2">
-            <Button variant="secondary" size="sm">Mute</Button>
-            <Button variant="secondary" size="sm">Camera off</Button>
-            <Button variant="secondary" size="sm">Share screen</Button>
+        {isZoom ? (
+          <div className="flex flex-wrap justify-center gap-2">
+            <Button href={point.meeting.meetingUrl} target="_blank" rel="noopener noreferrer">
+              Join Zoom meeting
+            </Button>
           </div>
-        </div>
+        ) : (
+          <>
+            <div className="rounded-xl border border-dashed border-line bg-paper px-4 py-10">
+              <p className="text-sm text-muted">Camera and microphone preview would appear here.</p>
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
+                <Button variant="secondary" size="sm">Mute</Button>
+                <Button variant="secondary" size="sm">Camera off</Button>
+                <Button variant="secondary" size="sm">Share screen</Button>
+              </div>
+            </div>
 
-        <div className="flex flex-wrap justify-center gap-2">
-          {memberIds.map((id) => {
-            const user = userById.get(id);
-            if (!user) return null;
-            return (
-              <span key={user.id} className="flex items-center gap-2 rounded-full border border-line py-1 pl-1 pr-3 text-sm">
-                <Avatar name={user.name} color={user.avatarColor} size={24} />
-                {user.name.split(" ")[0]}
-              </span>
-            );
-          })}
-        </div>
+            <div className="flex flex-wrap justify-center gap-2">
+              {memberIds.map((id) => {
+                const user = userById.get(id);
+                if (!user) return null;
+                return (
+                  <span key={user.id} className="flex items-center gap-2 rounded-full border border-line py-1 pl-1 pr-3 text-sm">
+                    <Avatar name={user.name} color={user.avatarColor} size={24} />
+                    {user.name.split(" ")[0]}
+                  </span>
+                );
+              })}
+            </div>
+          </>
+        )}
 
         {isModerator ? (
-          <ActionForm
-            action={endPointMeeting.bind(null, point.id)}
-            variant="danger"
-            confirm="End the meeting for everyone?"
-          >
-            End meeting
-          </ActionForm>
+          <div className="border-t border-line pt-4">
+            <MeetingTranscriptPanel pointId={point.id} />
+          </div>
         ) : null}
       </Card>
 
@@ -85,8 +96,8 @@ export default async function DemoMeetingPage({ params }: PageProps<"/points/[po
             <dd className="font-mono text-xs">{point.meeting.meetingPassword}</dd>
           </div>
           <div className="flex justify-between gap-2 sm:block">
-            <dt className="text-muted">Zoom integration</dt>
-            <dd className="font-medium">{FEATURES.ENABLE_ZOOM_API ? "Enabled" : "Disabled (demo mode)"}</dd>
+            <dt className="text-muted">Provider</dt>
+            <dd className="font-medium">{isZoom ? "Zoom" : "Demo (in-app)"}</dd>
           </div>
         </dl>
       </Card>
