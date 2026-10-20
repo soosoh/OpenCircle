@@ -11,7 +11,16 @@ import { deriveGoalStatus } from "@/lib/domain/progress";
 import { nextWeeklyOccurrence } from "@/lib/domain/time";
 import { createZoomMeeting, endMeeting } from "@/lib/zoom/zoom";
 import { parseProfileForm } from "./profile";
-import { clearSession, requireUser, setSessionUser } from "./session";
+import {
+  clearSession,
+  DEMO_PASSWORD,
+  isSupabaseAuthEnabled,
+  requireUser,
+  setSessionUser,
+  supabaseCreateUser,
+  supabaseSignIn,
+  type AuthState,
+} from "./session";
 import type { Chord, Goal, GoalAssignment, GoalStatus, Point, User } from "@/types";
 
 /**
@@ -56,25 +65,64 @@ async function joinChordFor(user: User, chord: Chord): Promise<void> {
 
 // ---------- Accounts ----------
 
+/** Demo-account picker sign-in (memory backend only; cards carry a shared password). */
 export async function signIn(formData: FormData) {
+  if (isSupabaseAuthEnabled()) return;
+  if (String(formData.get("password") ?? "") !== DEMO_PASSWORD) {
+    throw new Error(`The demo password is ${DEMO_PASSWORD}.`);
+  }
   const user = await repo.getUser(String(formData.get("userId") ?? ""));
   if (!user) throw new Error("Unknown account.");
   await setSessionUser(user.id);
   redirect("/dashboard");
 }
 
-export async function signUp(formData: FormData) {
-  const profile = parseProfileForm(formData);
-  const user: User = {
-    id: newId("user"),
-    ...profile,
-    avatarColor: AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)],
-    reputation: 50,
-    groupSuccessRate: 0,
-    isCreator: false,
-  };
-  await repo.insertUser(user);
-  await setSessionUser(user.id);
+export async function signUp(_prev: AuthState, formData: FormData): Promise<AuthState> {
+  let id = newId("user");
+  let email = "";
+  let password = "";
+  try {
+    const profile = parseProfileForm(formData);
+    email = text(formData, "email", 120).toLowerCase();
+    password = String(formData.get("password") ?? "");
+    if (isSupabaseAuthEnabled()) {
+      if (!email) throw new Error("Email is required.");
+      if (password.length < 6) throw new Error("Password must be at least 6 characters.");
+      id = await supabaseCreateUser(email, password);
+    }
+    const user: User = {
+      id,
+      ...profile,
+      avatarColor: AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)],
+      reputation: 50,
+      groupSuccessRate: 0,
+      isCreator: false,
+    };
+    await repo.insertUser(user);
+    if (isSupabaseAuthEnabled()) {
+      const signedIn = await supabaseSignIn(email, password);
+      if (!signedIn) {
+        throw new Error("Account created, but automatic sign-in failed. Sign in from the top of this page.");
+      }
+    } else {
+      await setSessionUser(user.id);
+    }
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "Could not create the account." };
+  }
+  redirect("/dashboard");
+}
+
+/** Email + password sign-in (Supabase Auth backend only). */
+export async function signInWithPassword(_prev: AuthState, formData: FormData): Promise<AuthState> {
+  const email = text(formData, "email", 120).toLowerCase();
+  const password = String(formData.get("password") ?? "");
+  if (!email || !password) return { error: "Enter your email and password." };
+  if (!isSupabaseAuthEnabled()) {
+    return { error: "Password sign-in needs DATA_BACKEND=supabase. Pick a demo account instead." };
+  }
+  const id = await supabaseSignIn(email, password);
+  if (!id) return { error: "Wrong email or password." };
   redirect("/dashboard");
 }
 
