@@ -29,7 +29,7 @@
 ### Status
 
 - Branch: `Auth`
-- Latest commit: `0d1219d` (pushed — this report, on top of merge `b783e77` and auth code `371bb6b`); the trivial report-sync commit that records this line follows each push (a file cannot contain its own commit sha)
+- Latest commit: `75078dd` (pushed — report status sync, on top of report `0d1219d`, merge `b783e77`, auth code `371bb6b`); the trivial report-sync commit that records this line follows each push (a file cannot contain its own commit sha)
 - Draft PR: `none` (no GitHub MCP or `gh` in this session; manual link above)
 - Blocked on: **nothing** for memory-mode verification; Supabase live round-trip waits on the three "Now"/schema items.
 - Verification: `pnpm lint` ✅ · `pnpm typecheck` ✅ · `pnpm build` ✅ on `371bb6b` (clean isolated worktree; `b783e77` adds markdown only). Click-through with both feature flags off, memory backend: `/` → `/login` (demo picker + `demo1234`) → sign-in action 303 + `sc_user` → `/dashboard` → `/chords/biology` → `/points/ap-bio-genetics` → **Demo Meeting Room** ✅ · anon `/profile` → 307 `/login` ✅ · wrong demo password → no cookie ✅ · sign-up → new account + session ✅.
