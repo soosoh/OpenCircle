@@ -22,6 +22,17 @@ export interface StudentProgressAnalysis {
   notes: string;
 }
 
+export interface StudentRisk extends StudentProgressAnalysis {
+  userId: string;
+  name: string;
+}
+
+export interface StudentInput {
+  userId: string;
+  name: string;
+  assignments: GoalAssignment[];
+}
+
 export function mockMeetingSummary(transcript: string): MeetingSummary {
   return {
     summary: `Mock summary of a ${transcript.length}-character transcript.`,
@@ -42,6 +53,15 @@ export function mockStudentProgress(assignments: GoalAssignment[]): StudentProgr
   return average >= 60
     ? { risk: "low", notes: "Progress is on track." }
     : { risk: "medium", notes: "Consider a check-in or a shorter next goal." };
+}
+
+/** Batched twin of mockStudentProgress: one risk line per student, no model call. */
+export function mockPointStudents(students: StudentInput[]): StudentRisk[] {
+  return students.map((student) => ({
+    userId: student.userId,
+    name: student.name,
+    ...mockStudentProgress(student.assignments),
+  }));
 }
 
 export function mockMotivation(name: string): string {

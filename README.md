@@ -128,22 +128,36 @@ functions in `lib/ai/mock.ts` and the mock branches of `lib/zoom/zoom.ts`.
 2. Add your key to `.env.local`:
 
    ```
-   OPENAI_API_KEY=sk-...
-   OPENAI_MODEL=gpt-4o-mini   # optional
+   AI_API_KEY=your-key
+   AI_BASE_URL=https://openrouter.ai/api/v1   # optional; OpenAI-compatible
+   AI_MODEL=openrouter/free                    # optional; provider default otherwise
    ```
 
 `lib/ai/openai.ts` exposes `generateMeetingSummary`, `generateGoals`,
-`analyzeStudentProgress`, and `generateMotivationMessage`. Each returns mock data while
-the flag is off, and calls the Chat Completions API (with JSON responses) when it is on.
+`analyzeStudentProgress`, batched `analyzePointStudents`, and `generateMotivationMessage`.
+Each returns mock data while the flag is off, and calls the Chat Completions API (with JSON
+responses) when it is on. The `OPENAI_API_KEY` / `OPENAI_BASE_URL` / `OPENAI_MODEL` names
+are still accepted as fallbacks.
 
 Intended use: read a meeting transcript, summarize it, extract what was completed, and
 suggest next week's goals. Moderators still record goals by hand — the AI only proposes.
 
-## Connecting OpenAI
+`runMeetingAssistant` accepts either pasted notes or a Zoom transcript, and
+`analyzePointStudents` checks a whole point in one call. All AI output is on-demand, never
+on page load, because free model tiers allow only tens of requests a day. The moderator
+panel renders the assistant and risk panels; the dashboard shows the motivation card.
 
-Create an API key at https://platform.openai.com/api-keys, put it in `OPENAI_API_KEY`,
-and keep that file out of version control. The key is read only in `lib/ai/openai.ts`,
-which is server-only and must never be imported from a client component.
+## Connecting an AI provider
+
+The client speaks the OpenAI Chat Completions API, so it works with OpenAI, OpenRouter, or
+any compatible server. For a free setup, create a key at https://openrouter.ai/keys, set
+`AI_BASE_URL=https://openrouter.ai/api/v1`, and keep `AI_MODEL=openrouter/free`; `:free`
+model ids such as `deepseek/deepseek-chat-v3:free` also work. For OpenAI, create a key at
+https://platform.openai.com/api-keys and leave `AI_BASE_URL` unset.
+
+Put the key in `.env.local` only and keep that file out of version control. The key is read
+only in `lib/ai/openai.ts`, which is server-only and must never be imported from a client
+component.
 
 ## Connecting Zoom
 
