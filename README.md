@@ -183,8 +183,8 @@ To use Supabase instead:
    ```
 
 The service role key bypasses row-level security and is server-only. `supabase/schema.sql`
-creates the tables but **no seed rows** — a Supabase project starts empty, so create your
-first account through `/login`.
+creates the tables but **no seed rows**. On first access the app detects empty tables and
+seeds them from `lib/database/seed.ts` (idempotent: tables that already contain rows are never touched), so a fresh project works immediately.
 
 Each table is `(id text primary key, data jsonb)`: the whole entity is one JSON document
 matching `types/index.ts`. This keeps the store interface small, but it means there are no
