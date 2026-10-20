@@ -194,10 +194,7 @@ export async function createPoint(chordId: string, formData: FormData) {
 
   const schedule = { weekday, time, timezone: user.timezone };
   const pointId = newId("point");
-  const zoom = await createZoomMeeting({
-    topic: title,
-    startTime: nextWeeklyOccurrence(schedule).toISOString(),
-  });
+  const zoom = await createZoomMeeting({ topic: title, schedule });
 
   const point: Point = {
     id: pointId,
@@ -210,9 +207,9 @@ export async function createPoint(chordId: string, formData: FormData) {
     schedule,
     status: "Recruiting",
     meeting: {
-      provider: FEATURES.ENABLE_ZOOM_API ? "zoom" : "demo",
+      provider: zoom.provider,
       meetingId: zoom.meetingId,
-      meetingUrl: FEATURES.ENABLE_ZOOM_API ? zoom.meetingUrl : `/points/${pointId}/meeting`,
+      meetingUrl: zoom.provider === "zoom" ? zoom.meetingUrl : `/points/${pointId}/meeting`,
       meetingPassword: zoom.meetingPassword,
     },
     createdAt: new Date().toISOString(),
@@ -356,13 +353,58 @@ export async function updateGoalProgress(goalId: string, formData: FormData) {
   revalidatePoint(point);
 }
 
-/** Ends a point's meeting. Moderator only. A no-op mock when Zoom is disabled. */
-export async function endPointMeeting(pointId: string) {
+interface TranscriptState {
+  error?: string;
+  ended?: boolean;
+  transcript?: string;
+}
+
+/**
+ * Ends a point's meeting and returns its transcript in one round trip. Moderator only.
+ * Demo-provider points never call Zoom. getMeetingTranscript returns "" when no transcript
+ * exists yet, which the UI shows as a friendly message.
+ */
+export async function endPointMeeting(
+  pointId: string,
+  _prev: TranscriptState,
+  _formData: FormData,
+): Promise<TranscriptState> {
   const user = await requireUser();
   const point = await requirePoint(pointId);
-  if (!isModerator(point, user.id)) throw new Error("Only the point moderator can end the meeting.");
-  await endMeeting(point.meeting.meetingId);
+  if (!isModerator(point, user.id)) return { error: "Only the point moderator can end the meeting." };
+  if (point.meeting.provider === "zoom") {
+    try {
+      await endMeeting(point.meeting.meetingId);
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : "Zoom could not end the meeting." };
+    }
+  }
+  let transcript = "";
+  try {
+    transcript = await getMeetingTranscript(point.meeting.meetingId);
+  } catch (error) {
+    console.error("Transcript fetch failed after ending the meeting.", error);
+  }
   revalidatePath(`/points/${pointId}/meeting`);
+  revalidatePath(`/points/${pointId}`);
+  return { ended: true, transcript };
+}
+
+/** Moderator-only fetch of the cloud-recording transcript without ending the meeting. */
+export async function fetchPointMeetingTranscript(
+  pointId: string,
+  _prev: TranscriptState,
+  _formData: FormData,
+): Promise<TranscriptState> {
+  const user = await requireUser();
+  const point = await requirePoint(pointId);
+  if (!isModerator(point, user.id)) return { error: "Only the point moderator can fetch the transcript." };
+  try {
+    const transcript = await getMeetingTranscript(point.meeting.meetingId);
+    return { transcript };
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "The transcript could not be fetched." };
+  }
 }
 
 // ---------- AI moderator assistant ----------
