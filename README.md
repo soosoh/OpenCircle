@@ -174,13 +174,20 @@ when the server restarts, which is ideal for demos and development.
 To use Supabase instead:
 
 1. Create a project and run `supabase/schema.sql` in the SQL editor.
-2. Set in `.env.local`:
+2. In **Authentication → Providers → Email**, turn **Confirm email** off (sign-up
+   creates users with confirmation already applied, so this just keeps the flows
+   consistent) and note the free tier's default 1-hour JWT expiry.
+3. Set in `.env.local`:
 
    ```
    DATA_BACKEND=supabase
    SUPABASE_URL=https://your-project.supabase.co
+   SUPABASE_PUBLISHABLE_KEY=your-publishable-anon-key
    SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
    ```
+
+   `SUPABASE_PUBLISHABLE_KEY` (the anon/publishable key) is used by Supabase Auth; it is
+   safe to expose, unlike the service role key.
 
 The service role key bypasses row-level security and is server-only. `supabase/schema.sql`
 creates the tables but **no seed rows** — a Supabase project starts empty, so create your
@@ -193,9 +200,22 @@ queries, reporting, or row-level security per field.
 
 ## Authentication
 
-**Not production auth.** `lib/api/session.ts` stores the signed-in user id in a plain,
-unsigned cookie. Anyone can edit it. Replace this module with real authentication
-(for example Supabase Auth) before exposing the app publicly.
+Authentication follows the data backend (`lib/api/session.ts`):
+
+- **`DATA_BACKEND=supabase`** — real email + password auth via **Supabase Auth**. The
+  session is a signed JWT stored in Supabase's auth cookies (`@supabase/ssr`), so it
+  cannot be forged. Sign-up creates the auth user with the service-role key
+  (email confirmation bypassed, so no SMTP is required) and stores the profile row under
+  the same id. Set all three variables from the Database section plus
+  `SUPABASE_PUBLISHABLE_KEY`. Sessions last as long as your Supabase JWT expiry setting
+  (default 1 hour; raise it under Auth → Settings for longer demos). Free tier includes
+  50,000 monthly active users.
+- **`DATA_BACKEND=memory`** (default) — the demo session: a plain `sc_user` cookie
+  holding the signed-in user id, and the seeded accounts on `/login` are gated by the
+  shared `DEMO_PASSWORD` ("demo1234", `lib/api/session.ts`). This is local-development
+  auth only: never expose a memory-backend deployment publicly.
+
+Password reset and email verification are not implemented (core auth only).
 
 ## Creating a new chord
 

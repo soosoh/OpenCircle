@@ -30,7 +30,7 @@
 - Every point has exactly one moderator, chosen by `lib/domain/moderation.ts` from subject familiarity, experience, group success, and reputation.
 - Points store a `WeeklySchedule` (weekday + time + timezone) rather than a fixed date, so recurring meetings can be added later without a migration.
 - `lib/ai/*` and `lib/zoom/*` are server-only. They must keep working with no API keys: each returns mock data when its flag in `config/features.ts` is off.
-- Auth is **not production auth** — `lib/api/session.ts` uses an unsigned cookie holding the user id. Replace before deploying publicly.
+- Auth is backend-aware (`lib/api/session.ts` is the seam, exports unchanged): `DATA_BACKEND=supabase` uses Supabase Auth (email + password, signed JWT cookies via `@supabase/ssr`); `DATA_BACKEND=memory` uses the demo session (`sc_user` cookie + shared `DEMO_PASSWORD`). Keep every auth rule server-only — no auth logic in components.
 
 ## Features are off by default
 - `config/features.ts` has `ENABLE_AI_MODERATOR: false` and `ENABLE_ZOOM_API: false`. The app must fully work with both false and make no external calls. Leave them off unless explicitly asked.
@@ -43,3 +43,13 @@
 
 ## Docs
 - `README.md` covers enabling AI moderation, connecting OpenAI and Zoom, the Supabase schema, creating chords and points, and extending components.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
