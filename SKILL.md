@@ -114,6 +114,12 @@ on top of transcripts. Expect real conflicts only in `lib/api/actions.ts` and
   flip. Never commit the flag as `true`.
 - Never commit `.env.local` or real keys.
 
+## Reporting to the user
+
+Follow `AGENT_REPORTING.md`. Lead every response with "What you need to do" and keep
+`reports/<branch>.md` current after every push. Human-only steps (env vars, dashboards,
+OAuth scopes, approvals) belong there, never buried in prose or commit messages.
+
 ## Coordinator (merge agent)
 
 Replay branches in order DB → Auth → Zoom → AI. After each merge run the verification
