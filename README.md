@@ -38,8 +38,8 @@ Open http://localhost:3000. No environment variables and no external services ar
 needed: the app runs on an in-memory store with seeded demo data, and both optional
 integrations are off.
 
-Sign in from `/login` by picking a demo account (no password). **Maya Chen** and
-**Dev Patel** are the site creators and moderate points.
+Sign in from `/login` by picking a demo account (the shared demo password is filled
+in for you). **Maya Chen** and **Dev Patel** are the site creators and moderate points.
 
 ### Commands
 
@@ -67,6 +67,7 @@ components/
   chord/                 ChordCard, AudienceFilter, MemberPanel, CreatePointForm
   point/                 PointCard, SOSButton, SupportNotification, HelpRequestCard,
                          ProgressUpdater
+  assistant/             AssistantPanel, RiskPanel, MotivationCard
   schedule/              Calendar, ScheduleEvent, GoalCard, DeadlineCard
   chat/                  PointChat, ChatMessage, MessageInput, ChatSidebar,
                          SupportChat, PrivateMessage, HelpRequest
