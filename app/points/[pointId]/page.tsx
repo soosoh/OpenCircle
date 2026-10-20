@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { ChatSidebar } from "@/components/chat/ChatSidebar";
 import { PointChat } from "@/components/chat/PointChat";
 import { HelpRequestCard } from "@/components/point/HelpRequestCard";
@@ -28,6 +29,7 @@ export async function generateMetadata({ params }: PageProps<"/points/[pointId]"
 }
 
 export default async function PointPage({ params }: PageProps<"/points/[pointId]">) {
+  await connection();
   const { pointId } = await params;
   const point = await getPoint(pointId);
   if (!point) notFound();
