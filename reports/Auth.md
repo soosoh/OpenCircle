@@ -32,7 +32,7 @@
 ### Status
 
 - Branch: `Auth`
-- Latest commit: `154c3b6` (pushed — Next 16 prerender fix; before it: `ebb741d`/`ec3446e` reports, `89b4a24` redirect-loop fix, `5bf9491`/`75078dd`/`0d1219d` reports, `b783e77` main merge, `371bb6b` auth code). The trivial report-sync commit that records this line follows each push (a file cannot contain its own commit sha).
+- Latest commit: `3fe4d36` (pushed — this report; before it: `154c3b6` Next 16 prerender fix, `ebb741d`/`ec3446e` reports, `89b4a24` redirect-loop fix, `5bf9491`/`75078dd`/`0d1219d` reports, `b783e77` main merge, `371bb6b` auth code). The trivial report-sync commit that records this line follows each push (a file cannot contain its own commit sha).
 - Draft PR: `none` (no GitHub MCP or `gh` in this session; PR prompt + manual link above)
 - Blocked on: **your env flip** (`DATA_BACKEND=supabase` + `SUPABASE_PUBLISHABLE_KEY`) for the Supabase live round-trip; nothing else.
 - Verification: `pnpm lint` ✅ · `pnpm build` (incl. TypeScript) ✅ on `154c3b6`. Memory-mode click-through, both flags off: `/login` sign-in → `/dashboard` → `/chords/biology` → `/points/ap-bio-genetics` → **Demo Meeting Room** ✅. Redirect repro matrix ✅ (ghost cookie `/login` 200 instead of loop; valid cookie bounces to `/dashboard`). Dev log after fix: **no `unstable value` errors** on `/dashboard`, `/chords/[chordId]`, `/points/[pointId]` ✅.
