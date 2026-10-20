@@ -11,6 +11,8 @@ export interface DataStore {
   list<T extends RowWithId>(table: TableName): Promise<T[]>;
   get<T extends RowWithId>(table: TableName, id: string): Promise<T | null>;
   insert<T extends RowWithId>(table: TableName, row: T): Promise<T>;
+  /** Insert or overwrite by id. Used for seeding. */
+  upsert<T extends RowWithId>(table: TableName, row: T): Promise<T>;
   /** Shallow merge. Returns null when the row does not exist. */
   update<T extends RowWithId>(table: TableName, id: string, patch: Partial<T>): Promise<T | null>;
 }

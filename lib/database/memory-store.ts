@@ -28,6 +28,10 @@ export function createMemoryStore(seed: Record<TableName, RowWithId[]>): DataSto
       tableOf(table).set(row.id, structuredClone(row));
       return structuredClone(row);
     },
+    async upsert<T extends RowWithId>(table: TableName, row: T) {
+      tableOf(table).set(row.id, structuredClone(row));
+      return structuredClone(row) as T;
+    },
     async update<T extends RowWithId>(table: TableName, id: string, patch: Partial<T>) {
       const existing = tableOf(table).get(id);
       if (!existing) return null;
