@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/Card";
 import { GoalStatusBadge } from "@/components/ui/StatusBadge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { formatDateTime } from "@/lib/domain/time";
+import type { ReactNode } from "react";
 import type { Goal, HelpRequest, Point, User } from "@/types";
 
 /**
@@ -24,6 +25,7 @@ export function ModeratorPanel({
     goals: Goal[];
     helpRequests: HelpRequest[];
     requesters: Map<string, User>;
+    assistant?: ReactNode;
   }[];
   timeZone: string;
   createGoalAction: (pointId: string, formData: FormData) => void | Promise<void>;
@@ -42,7 +44,7 @@ export function ModeratorPanel({
 
   return (
     <div className="space-y-8">
-      {entries.map(({ point, members, goals, helpRequests, requesters }) => {
+      {entries.map(({ point, members, goals, helpRequests, requesters, assistant }) => {
         const openRequests = helpRequests.filter((request) => request.status === "open");
 
         return (
@@ -51,6 +53,8 @@ export function ModeratorPanel({
               <h2 className="text-lg font-semibold tracking-tight">{point.title}</h2>
               <Badge tone="brand">{members.length} members</Badge>
             </header>
+
+            {assistant}
 
             <div className="grid gap-4 lg:grid-cols-2">
               <Card className="space-y-4">

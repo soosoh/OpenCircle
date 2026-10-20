@@ -1,10 +1,19 @@
+import { AssistantPanel } from "@/components/assistant/AssistantPanel";
+import { RiskPanel } from "@/components/assistant/RiskPanel";
 import { ModeratorPanel } from "@/components/moderator/ModeratorPanel";
 import { UserCard } from "@/components/moderator/UserCard";
 import { SupportChat } from "@/components/chat/SupportChat";
 import { Badge } from "@/components/ui/Badge";
-import { Card, EmptyState, SectionHeading } from "@/components/ui/Card";
+import { EmptyState, SectionHeading } from "@/components/ui/Card";
 import { FEATURES } from "@/config/features";
-import { createGoal, resolveHelpRequest, sendPrivateMessage, updateGoalProgress } from "@/lib/api/actions";
+import {
+  analyzePointStudents,
+  createGoal,
+  resolveHelpRequest,
+  runMeetingAssistant,
+  sendPrivateMessage,
+  updateGoalProgress,
+} from "@/lib/api/actions";
 import { requireUser } from "@/lib/api/session";
 import {
   listChords,
@@ -37,13 +46,36 @@ export default async function ModeratorPage({ searchParams }: PageProps<"/modera
 
   const entries = moderated.map((point) => {
     const memberIds = [...new Set([...point.memberIds, point.moderatorId])];
+    const members = memberIds.map((id) => userById.get(id)).filter((user) => user !== undefined);
+    const pointGoals = goals.filter((goal) => goal.pointId === point.id);
+    const pointRequests = helpRequests
+      .filter((request) => request.pointId === point.id)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    const lastGoal = pointGoals[0];
+    const openRequests = pointRequests.filter((request) => request.status === "open");
+    const hint = [
+      lastGoal ? `Last goal: ${lastGoal.title}` : null,
+      openRequests.length > 0 ? `${openRequests.length} open support request${openRequests.length === 1 ? "" : "s"}` : null,
+    ]
+      .filter((part) => part !== null)
+      .join(" · ");
+
     return {
       point,
-      members: memberIds.map((id) => userById.get(id)).filter((user) => user !== undefined),
-      goals: goals.filter((goal) => goal.pointId === point.id),
-      helpRequests: helpRequests
-        .filter((request) => request.pointId === point.id)
-        .sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
+      members,
+      goals: pointGoals,
+      helpRequests: pointRequests,
+      assistant: (
+        <div className="grid gap-4 lg:grid-cols-2">
+          <AssistantPanel
+            pointId={point.id}
+            action={runMeetingAssistant.bind(null, point.id)}
+            recordGoalAction={createGoal.bind(null, point.id)}
+            hint={hint}
+          />
+          <RiskPanel pointId={point.id} action={analyzePointStudents.bind(null, point.id)} />
+        </div>
+      ),
     };
   });
 
@@ -132,17 +164,6 @@ export default async function ModeratorPage({ searchParams }: PageProps<"/modera
           </div>
         </section>
       ) : null}
-
-      {FEATURES.ENABLE_AI_MODERATOR ? null : (
-        <Card>
-          <h2 className="font-semibold tracking-tight">AI moderator</h2>
-          <p className="mt-1 text-sm text-muted">
-            The AI moderator is currently disabled, so every point is run by a human moderator. Turn on
-            ENABLE_AI_MODERATOR in <code>config/features.ts</code> and set OPENAI_API_KEY to enable
-            summaries and goal suggestions.
-          </p>
-        </Card>
-      )}
 
       <section className="space-y-3">
         <SectionHeading title="Find a student" hint="Searchable by education level, using the same age filter as chords and points." />

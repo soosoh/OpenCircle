@@ -3,13 +3,22 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { FEATURES } from "@/config/features";
-import { generateGoals, generateMeetingSummary, type GeneratedGoal, type MeetingSummary } from "@/lib/ai/openai";
+import {
+  analyzePointStudents as analyzePointStudentsAi,
+  generateGoals,
+  generateMeetingSummary,
+  generateMotivationMessage,
+  type GeneratedGoal,
+  type MeetingSummary,
+  type StudentInput,
+  type StudentRisk,
+} from "@/lib/ai/openai";
 import * as repo from "@/lib/database/repository";
 import { canJoinAudience, parseAudience } from "@/lib/domain/audience";
 import { selectModerator } from "@/lib/domain/moderation";
 import { deriveGoalStatus } from "@/lib/domain/progress";
 import { nextWeeklyOccurrence } from "@/lib/domain/time";
-import { createZoomMeeting, endMeeting } from "@/lib/zoom/zoom";
+import { createZoomMeeting, endMeeting, getMeetingTranscript } from "@/lib/zoom/zoom";
 import { parseProfileForm } from "./profile";
 import {
   clearSession,
@@ -356,26 +365,101 @@ export async function endPointMeeting(pointId: string) {
   revalidatePath(`/points/${pointId}/meeting`);
 }
 
-// ---------- AI moderator assistant (only when ENABLE_AI_MODERATOR is true) ----------
+// ---------- AI moderator assistant ----------
+// With ENABLE_AI_MODERATOR false these return mock data (see lib/ai/openai.ts), so every
+// surface below is testable with no key and no network. The AI only ever proposes:
+// recording a goal still goes through createGoal, which re-checks the moderator.
+
 export interface AssistantState {
   error?: string;
   summary?: MeetingSummary;
   goals?: GeneratedGoal[];
+  source?: "pasted" | "recording";
+  live?: boolean;
 }
 
 export async function runMeetingAssistant(pointId: string, _prev: AssistantState, formData: FormData): Promise<AssistantState> {
   const user = await requireUser();
   const point = await requirePoint(pointId);
   if (!isModerator(point, user.id)) return { error: "Only the point moderator can use the assistant." };
-  if (!FEATURES.ENABLE_AI_MODERATOR) return { error: "The AI moderator is turned off. See README.md to enable it." };
 
-  const transcript = text(formData, "transcript", 20_000);
-  if (!transcript) return { error: "Paste a meeting transcript or notes first." };
+  let transcript = text(formData, "transcript", 20_000);
+  let source: "pasted" | "recording" = "pasted";
+  if (!transcript && formData.get("useRecording") === "on") {
+    transcript = await getMeetingTranscript(point.meeting.meetingId);
+    source = "recording";
+    if (!transcript) return { error: "This meeting has no transcript yet. Paste notes instead." };
+  }
+  if (!transcript) return { error: "Paste meeting notes, or tick \u201cuse the meeting recording\u201d." };
+
   try {
     const summary = await generateMeetingSummary(transcript);
-    const goals = await generateGoals(JSON.stringify({ summary, transcript }));
-    return { summary, goals };
+    const goals = await generateGoals(JSON.stringify({ summary }));
+    return { summary, goals, source, live: FEATURES.ENABLE_AI_MODERATOR };
   } catch (error) {
     return { error: error instanceof Error ? error.message : "The AI request failed." };
+  }
+}
+
+export interface RiskState {
+  error?: string;
+  risks?: StudentRisk[];
+  live?: boolean;
+}
+
+/** One model call covers every member of a point, so a free-tier request budget goes a long way. */
+export async function analyzePointStudents(pointId: string, prev: RiskState, formData: FormData): Promise<RiskState> {
+  const user = await requireUser();
+  const point = await requirePoint(pointId);
+  if (!isModerator(point, user.id)) return { error: "Only the point moderator can run this check." };
+
+  const [goals, users] = await Promise.all([repo.listGoals(), repo.listUsers()]);
+  const userById = new Map(users.map((entry) => [entry.id, entry]));
+  const pointGoals = goals.filter((goal) => goal.pointId === pointId);
+
+  const students: StudentInput[] = [...new Set([...point.memberIds, point.moderatorId])]
+    .map((id) => {
+      const member = userById.get(id);
+      if (!member) return null;
+      const assignments = pointGoals
+        .map((goal) => goal.assignments.find((assignment) => assignment.userId === id))
+        .filter((assignment): assignment is GoalAssignment => assignment !== undefined);
+      return { userId: id, name: member.name, assignments };
+    })
+    .filter((student): student is StudentInput => student !== null);
+
+  if (students.length === 0) return { error: "This point has no members to check yet." };
+
+  try {
+    return { risks: await analyzePointStudentsAi(students), live: FEATURES.ENABLE_AI_MODERATOR };
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "The student check failed." };
+  }
+}
+
+export interface MotivationState {
+  error?: string;
+  message?: string;
+  live?: boolean;
+}
+
+/** On demand only, never on page load: the free model tier is roughly 50 requests a day. */
+export async function getMotivation(prev: MotivationState, formData: FormData): Promise<MotivationState> {
+  const user = await requireUser();
+  const [points, goals] = await Promise.all([repo.listPoints(), repo.listGoals()]);
+  const myPoints = points.filter(
+    (point) => point.memberIds.includes(user.id) || point.moderatorId === user.id,
+  );
+  const myGoals = goals.filter((goal) => goal.assignments.some((assignment) => assignment.userId === user.id));
+
+  const context = [
+    `Points: ${myPoints.map((point) => point.title).join(", ") || "none yet"}.`,
+    `Goals: ${myGoals.map((goal) => `${goal.title} (${goal.status})`).join(", ") || "none yet"}.`,
+  ].join(" ");
+
+  try {
+    return { message: await generateMotivationMessage(user.name, context), live: FEATURES.ENABLE_AI_MODERATOR };
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "Could not reach the AI provider." };
   }
 }

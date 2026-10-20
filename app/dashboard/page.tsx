@@ -1,11 +1,14 @@
 import Link from "next/link";
+import { MotivationCard } from "@/components/assistant/MotivationCard";
 import { PointCard } from "@/components/point/PointCard";
 import { Calendar } from "@/components/schedule/Calendar";
 import { DeadlineCard } from "@/components/schedule/DeadlineCard";
 import { ScheduleEvent } from "@/components/schedule/ScheduleEvent";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
-import { EmptyState, SectionHeading } from "@/components/ui/Card";import { requireUser } from "@/lib/api/session";
+import { EmptyState, SectionHeading } from "@/components/ui/Card";
+import { getMotivation } from "@/lib/api/actions";
+import { requireUser } from "@/lib/api/session";
 import { listChords, listGoals, listHelpRequests, listPoints, listUsers } from "@/lib/database/repository";
 import { buildScheduleItems } from "@/lib/domain/schedule";
 import { nextWeeklyOccurrence } from "@/lib/domain/time";
@@ -136,6 +139,10 @@ export default async function DashboardPage() {
             ))}
           </div>
         )}
+      </section>
+
+      <section className="space-y-3">
+        <MotivationCard action={getMotivation} />
       </section>
 
       <section className="space-y-3">
