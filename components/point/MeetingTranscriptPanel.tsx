@@ -26,35 +26,34 @@ export function MeetingTranscriptPanel({ pointId }: { pointId: string }) {
   const ended = endState.ended === true;
 
   return (
-    <div className="space-y-4 text-left">
-      <div className="flex flex-wrap justify-center gap-2">
+    <div className="space-y-4">
+      <div className="flex flex-wrap gap-2">
         <form
           action={endAction}
           onSubmit={(event) => {
             if (!window.confirm("End the meeting for everyone?")) event.preventDefault();
           }}
         >
-          <SubmitButton variant="danger" pending={endPending} pendingLabel="Ending…">
+          <SubmitButton variant="danger" pending={endPending} pendingLabel="Ending…" className="min-h-10">
             End meeting
           </SubmitButton>
         </form>
         <form action={fetchAction}>
-          <SubmitButton variant="secondary" pending={fetchPending} pendingLabel="Fetching…">
+          <SubmitButton variant="secondary" pending={fetchPending} pendingLabel="Fetching…" className="min-h-10">
             Fetch transcript
           </SubmitButton>
         </form>
       </div>
 
-      {ended ? <p className="text-sm font-medium text-ink">The meeting has ended.</p> : null}
-      {error ? <p className="text-sm text-coral">{error}</p> : null}
+      <div role="status" aria-live="polite" className="space-y-1">
+        {ended ? <p className="text-sm font-medium text-ink">The meeting has ended.</p> : null}
+        {error ? <p className="text-sm text-coral">{error}</p> : null}
+      </div>
 
       {transcript ? (
-        <div className="space-y-2">
-          <h3 className="text-sm font-semibold tracking-tight">Meeting transcript</h3>
-          <pre className="max-h-80 overflow-auto whitespace-pre-wrap rounded-xl border border-line bg-paper px-4 py-3 text-sm text-ink">
-            {transcript}
-          </pre>
-        </div>
+        <pre className="max-h-80 overflow-auto whitespace-pre-wrap rounded-xl border border-line bg-paper p-4 font-mono text-sm leading-6 text-ink/80">
+          {transcript}
+        </pre>
       ) : ended ? (
         <p className="text-sm text-muted">No transcript is available for this meeting yet.</p>
       ) : null}

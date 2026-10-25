@@ -1,0 +1,95 @@
+- generic [active] [ref=f23e1]:
+  - banner [ref=f23e2]:
+    - generic [ref=f23e3]:
+      - link "StudyCircle" [ref=f23e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f23e11]:
+        - link [ref=f23e12] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [aria-hidden] [ref=f23e13]: MC
+        - button "Sign out" [ref=f23e15]
+    - navigation "Main" [ref=f23e16]:
+      - link "Dashboard" [ref=f23e17] [cursor=pointer]:
+        - /url: /dashboard
+      - link "Chords" [ref=f23e18] [cursor=pointer]:
+        - /url: /chords
+      - link "Moderate" [ref=f23e19] [cursor=pointer]:
+        - /url: /moderator
+      - link "Profile" [ref=f23e20] [cursor=pointer]:
+        - /url: /profile
+  - main [ref=f23e21]:
+    - generic [ref=f23e22]:
+      - link "AP Biology Genetics Point" [ref=f23e23] [cursor=pointer]:
+        - /url: /points/ap-bio-genetics
+        - generic [aria-hidden] [ref=f23e24]: ←
+        - text: AP Biology Genetics Point
+      - generic [ref=f23e25]:
+        - generic [ref=f23e26]:
+          - heading "Meeting room" [level=1] [ref=f23e27]
+          - paragraph [ref=f23e28]: AP Biology Genetics Point · Sunday at 7:00 PM (New York time) · repeats weekly
+        - link "Back to point" [ref=f23e29] [cursor=pointer]:
+          - /url: /points/ap-bio-genetics
+      - generic [ref=f23e30]:
+        - generic [ref=f23e31]:
+          - generic [ref=f23e32]:
+            - generic [ref=f23e33]:
+              - generic [ref=f23e34]:
+                - heading "Demo room" [level=2] [ref=f23e35]
+                - paragraph [ref=f23e36]: This room runs inside StudyCircle. Video and audio are not connected, and nothing is sent to Zoom.
+              - generic [ref=f23e37]: Demo
+            - generic [ref=f23e38]:
+              - paragraph [ref=f23e39]: This is where the weekly session would open
+              - paragraph [ref=f23e40]: Bring your questions to the point chat first. When the session starts, your moderator leads the group from here.
+              - generic [ref=f23e41]:
+                - link "Open point chat" [ref=f23e42] [cursor=pointer]:
+                  - /url: /points/ap-bio-genetics#chat
+                - link "Back to point" [ref=f23e43] [cursor=pointer]:
+                  - /url: /points/ap-bio-genetics
+            - generic [ref=f23e44]:
+              - heading "In the room · 4" [level=3] [ref=f23e45]
+              - list [ref=f23e46]:
+                - listitem [ref=f23e47]:
+                  - generic [aria-hidden] [ref=f23e48]: BM
+                  - generic [ref=f23e49]: Bob Martinez
+                - listitem [ref=f23e50]:
+                  - generic [aria-hidden] [ref=f23e51]: SK
+                  - generic [ref=f23e52]: Sarah Kim
+                - listitem [ref=f23e53]:
+                  - generic [aria-hidden] [ref=f23e54]: JO
+                  - generic [ref=f23e55]: John Okafor
+                - listitem [ref=f23e56]:
+                  - generic [aria-hidden] [ref=f23e57]: MC
+                  - generic [ref=f23e58]: Maya Chen
+                  - generic [ref=f23e59]: Moderator
+          - generic [ref=f23e60]:
+            - heading "Transcript" [level=2] [ref=f23e61]
+            - paragraph [ref=f23e62]: End the meeting to close the room for everyone and save the transcript here. You can also fetch the latest transcript without ending the session.
+            - generic [ref=f23e63]:
+              - generic [ref=f23e64]:
+                - button "End meeting" [ref=f23e66]
+                - button "Fetch transcript" [ref=f23e68]
+              - status
+        - complementary [ref=f23e69]:
+          - generic [ref=f23e70]:
+            - heading "Meeting details" [level=2] [ref=f23e71]
+            - generic [ref=f23e72]:
+              - generic [ref=f23e73]:
+                - term [ref=f23e74]: Provider
+                - definition [ref=f23e75]: Demo (in-app)
+              - generic [ref=f23e76]:
+                - term [ref=f23e77]: Room ID
+                - definition [ref=f23e78]: bio-genetics-room
+              - generic [ref=f23e79]:
+                - term [ref=f23e80]: Passcode
+                - definition [ref=f23e81]: study
+            - paragraph [ref=f23e82]: Demo room codes come from the sample data. Nothing leaves StudyCircle.
+          - generic [ref=f23e83]:
+            - heading "Before the session" [level=2] [ref=f23e84]
+            - paragraph [ref=f23e85]: Post what you want to cover in the point chat so the moderator can plan the hour.
+            - link "Go to the point chat" [ref=f23e86] [cursor=pointer]:
+              - /url: /points/ap-bio-genetics#chat
+  - contentinfo [ref=f23e87]:
+    - generic [ref=f23e88]:
+      - link "StudyCircle" [ref=f23e89] [cursor=pointer]:
+        - /url: /
+      - paragraph [ref=f23e96]: "Built the way our points run: slowly, together, every week."

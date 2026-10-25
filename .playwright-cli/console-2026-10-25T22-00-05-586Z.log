@@ -1,0 +1,957 @@
+[    1255ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[    1535ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[    3193ms] [ERROR] Error: Route "/chords": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordsPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__1yzy2cw43nd7c._.js?79:38:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   18178ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   18228ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   18701ms] [ERROR] Error: Route "/chords": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordsPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__1yzy2cw43nd7c._.js?96:38:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   29184ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   29186ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   29345ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   29443ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   29618ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   29669ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   29860ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   29968ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   30045ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   30127ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   30187ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   30285ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   30341ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   30476ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   30527ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   30638ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   30715ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   30780ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   30886ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   30903ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   30994ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   31013ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   31119ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   31122ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   31229ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   31254ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   31341ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   31452ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   31590ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   31699ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   31767ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   31920ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   31977ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   32072ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   32164ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   32185ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   32275ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   32385ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   32528ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   32630ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   32649ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   32741ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   32866ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   32977ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   33104ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   33226ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   33351ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   33458ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   33461ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   33600ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   33707ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   33725ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   33839ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   33941ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   34097ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   34099ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   34238ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   34363ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   34533ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   34609ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   34668ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   34875ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   34892ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   35038ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   35110ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   35239ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   35284ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   35380ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   35487ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   35508ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   35614ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   35720ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   35742ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   35848ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   35953ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   35974ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   36065ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   36207ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   36312ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   36334ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   36443ms] [ERROR] ./app/login/AuthForm.tsx:144:7
+Error: Expected corresponding JSX closing tag for <div>
+  142 |         </form>
+  143 |       )}
+> 144 |     </Card>
+      |       ^^^^
+  145 |   );
+  146 | }
+  147 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./app/login/AuthForm.tsx
+    ./app/login/page.tsx @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   36547ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   36676ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   36707ms] [LOG] [Fast Refresh] done in 95ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   36918ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   37529ms] [LOG] [Fast Refresh] done in 717ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   42750ms] [ERROR] Error: Route "/chords": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordsPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__1yzy2cw43nd7c._.js?96:38:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995

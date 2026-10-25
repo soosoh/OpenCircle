@@ -13,9 +13,9 @@ function ChipTrack({ chords, hidden }: { chords: ChordDefinition[]; hidden?: boo
       {chords.map((chord) => (
         <span
           key={chord.id}
-          className="flex shrink-0 items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-sm font-medium text-white/80 backdrop-blur transition-colors duration-300 hover:bg-white/[0.12]"
+          className="flex shrink-0 items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-medium text-ink transition-colors duration-300 hover:bg-sun-wash"
         >
-          <span className="size-4 rounded-full border border-white/40" style={{ backgroundColor: chord.color }} />
+          <span className="size-3.5 rounded-full" style={{ backgroundColor: chord.color }} />
           {chord.name}
         </span>
       ))}

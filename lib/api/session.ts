@@ -67,8 +67,11 @@ function supabaseAdmin() {
 
 export async function getSessionUserId(): Promise<string | null> {
   if (isSupabaseAuthEnabled()) {
-    const { data } = await (await supabaseAuth()).getSession();
-    return data.session?.user.id ?? null;
+    // getUser() validates the JWT with Supabase Auth; getSession() only reads the
+    // cookie and would trust a token this server has not verified.
+    const { data, error } = await (await supabaseAuth()).getUser();
+    if (error) return null;
+    return data.user?.id ?? null;
   }
   return (await cookies()).get(SESSION_COOKIE)?.value ?? null;
 }
@@ -93,7 +96,11 @@ export async function setSessionUser(userId: string): Promise<void> {
 /** Clears whichever session is active (Supabase auth cookies and/or the demo cookie). */
 export async function clearSession(): Promise<void> {
   if (isSupabaseAuthEnabled()) {
-    await (await supabaseAuth()).signOut();
+    try {
+      await (await supabaseAuth()).signOut();
+    } catch {
+      // Best effort: still clear the demo cookie so a failed auth call cannot strand it.
+    }
   }
   const cookieStore = await cookies();
   if (cookieStore.has(SESSION_COOKIE)) cookieStore.delete(SESSION_COOKIE);

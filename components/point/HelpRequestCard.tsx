@@ -1,10 +1,9 @@
+import { ActionForm } from "@/components/ui/ActionForm";
 import { Avatar } from "@/components/ui/Avatar";
-import { Card } from "@/components/ui/Card";
-import { GoalStatusBadge } from "@/components/ui/StatusBadge";
 import { formatDateTime } from "@/lib/domain/time";
 import type { HelpRequest, User } from "@/types";
 
-/** An open SOS request as a card, with an optional moderator resolve action. */
+/** An open support request as a card, with an optional moderator resolve action. */
 export function HelpRequestCard({
   request,
   user,
@@ -17,27 +16,30 @@ export function HelpRequestCard({
   /** Resolve action. Omit when the viewer is not the moderator. */
   action?: () => void | Promise<void>;
 }) {
+  const open = request.status === "open";
+
   return (
-    <Card className="flex items-start gap-3">
-      {user ? <Avatar name={user.name} color={user.avatarColor} size={36} /> : null}
+    <div className="flex items-start gap-3 rounded-xl border border-coral/30 bg-[#FBE3DC] p-3 text-[#8E3520]">
+      {user ? <Avatar name={user.name} color={user.avatarColor} size={32} /> : null}
       <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-center gap-2">
-          <p className="font-medium">{user?.name ?? "Member"}</p>
-          <GoalStatusBadge status={request.status === "open" ? "Needs assistance" : "Completed"} />
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-[13px] font-semibold">{user?.name ?? "Member"}</p>
+          <span
+            className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${
+              open ? "border border-coral/30 bg-surface text-[#8E3520]" : "bg-sage text-[#2F5D3A]"
+            }`}
+          >
+            {open ? "Open" : "Resolved"}
+          </span>
         </div>
-        <p className="mt-0.5 text-sm text-muted">{request.reason}</p>
-        <p className="mt-1 text-xs text-muted">{formatDateTime(request.createdAt, timeZone)}</p>
-        {action && request.status === "open" ? (
-          <form action={action} className="mt-3">
-            <button
-              type="submit"
-              className="rounded-full border border-line px-3 py-1 text-xs font-medium transition-colors hover:border-brand/40"
-            >
-              Mark resolved
-            </button>
-          </form>
+        <p className="mt-1 text-sm leading-6 text-[#8E3520]/85">{request.reason}</p>
+        <p className="mt-1 text-[11px] text-[#8E3520]/65">{formatDateTime(request.createdAt, timeZone)}</p>
+        {action && open ? (
+          <ActionForm action={action} variant="secondary" className="mt-2.5" pendingLabel="Resolving…">
+            Mark resolved
+          </ActionForm>
         ) : null}
       </div>
-    </Card>
+    </div>
   );
 }

@@ -1,0 +1,133 @@
+- generic [active] [ref=f16e1]:
+  - banner [ref=f16e2]:
+    - generic [ref=f16e3]:
+      - link "StudyCircle" [ref=f16e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f16e11]:
+        - navigation "Main" [ref=f16e12]:
+          - link "Dashboard" [ref=f16e13] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Chords" [ref=f16e14] [cursor=pointer]:
+            - /url: /chords
+          - link "Moderate" [ref=f16e15] [cursor=pointer]:
+            - /url: /moderator
+          - link "Profile" [ref=f16e16] [cursor=pointer]:
+            - /url: /profile
+        - link "Maya Chen" [ref=f16e17] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [aria-hidden] [ref=f16e18]: MC
+        - button "Sign out" [ref=f16e21]
+  - main [ref=f16e22]:
+    - generic [ref=f16e23]:
+      - generic [ref=f16e24]:
+        - heading "Chords" [level=1] [ref=f16e25]
+        - paragraph [ref=f16e26]: A chord is a subject community. Join one to find its points — the small groups that meet every week.
+      - region [ref=f16e27]:
+        - generic [ref=f16e28]:
+          - generic [ref=f16e29]:
+            - heading "All subjects" [level=2] [ref=f16e30]
+            - paragraph [ref=f16e31]: 8 chords · 5 points across the circle
+          - group "Filter by education level" [ref=f16e32]:
+            - button "All students 8" [pressed] [ref=f16e33]:
+              - text: All students
+              - generic [ref=f16e34]: "8"
+            - button "High school 8" [ref=f16e35]:
+              - text: High school
+              - generic [ref=f16e36]: "8"
+            - button "College (18+) 7" [ref=f16e37]:
+              - text: College (18+)
+              - generic [ref=f16e38]: "7"
+        - list [ref=f16e39]:
+          - listitem [ref=f16e40]:
+            - generic [ref=f16e41]:
+              - heading "Biology" [level=3] [ref=f16e45]
+              - paragraph [ref=f16e46]: Cells, genetics, ecology and the living world.
+              - generic [ref=f16e47]:
+                - generic [ref=f16e48]:
+                  - generic [aria-hidden] [ref=f16e49]: MC
+                  - generic [aria-hidden] [ref=f16e50]: BM
+                  - generic [aria-hidden] [ref=f16e51]: SK
+                  - generic [aria-hidden] [ref=f16e52]: JO
+                - generic [ref=f16e53]: 1 point · 4 members
+              - link "Open the Biology chord" [ref=f16e54] [cursor=pointer]:
+                - /url: /chords/biology
+          - listitem [ref=f16e56]:
+            - generic [ref=f16e57]:
+              - heading "Chemistry" [level=3] [ref=f16e61]
+              - paragraph [ref=f16e62]: Reactions, bonding, stoichiometry and lab reasoning.
+              - generic [ref=f16e63]:
+                - generic [ref=f16e64]:
+                  - generic [aria-hidden] [ref=f16e65]: MC
+                  - generic [aria-hidden] [ref=f16e66]: BM
+                - generic [ref=f16e67]: 1 point · 2 members
+              - link "Open the Chemistry chord" [ref=f16e68] [cursor=pointer]:
+                - /url: /chords/chemistry
+          - listitem [ref=f16e70]:
+            - generic [ref=f16e71]:
+              - heading "Physics" [level=3] [ref=f16e75]
+              - paragraph [ref=f16e76]: Mechanics, waves, electricity and problem solving.
+              - generic [ref=f16e77]:
+                - generic [ref=f16e78]:
+                  - generic [aria-hidden] [ref=f16e79]: DP
+                  - generic [aria-hidden] [ref=f16e80]: AR
+                - generic [ref=f16e81]: 0 points · 2 members
+              - link "Open the Physics chord" [ref=f16e82] [cursor=pointer]:
+                - /url: /chords/physics
+          - listitem [ref=f16e84]:
+            - generic [ref=f16e85]:
+              - heading "Mathematics" [level=3] [ref=f16e89]
+              - paragraph [ref=f16e90]: Algebra, calculus, proofs and problem circles.
+              - generic [ref=f16e91]:
+                - generic [ref=f16e92]:
+                  - generic [aria-hidden] [ref=f16e93]: DP
+                  - generic [aria-hidden] [ref=f16e94]: JO
+                - generic [ref=f16e95]: 0 points · 2 members
+              - link "Open the Mathematics chord" [ref=f16e96] [cursor=pointer]:
+                - /url: /chords/mathematics
+          - listitem [ref=f16e98]:
+            - generic [ref=f16e99]:
+              - heading "Computer Science" [level=3] [ref=f16e103]
+              - paragraph [ref=f16e104]: Programming, algorithms and building things.
+              - generic [ref=f16e105]:
+                - generic [ref=f16e106]:
+                  - generic [aria-hidden] [ref=f16e107]: DP
+                  - generic [aria-hidden] [ref=f16e108]: PN
+                - generic [ref=f16e109]: 1 point · 2 members
+              - link "Open the Computer Science chord" [ref=f16e110] [cursor=pointer]:
+                - /url: /chords/computer-science
+          - listitem [ref=f16e112]:
+            - generic [ref=f16e113]:
+              - generic [ref=f16e114]:
+                - heading "SAT Preparation" [level=3] [ref=f16e117]
+                - generic [ref=f16e118]: High school
+              - paragraph [ref=f16e119]: Practice sets, timed drills and test strategy.
+              - generic [ref=f16e120]:
+                - generic [ref=f16e121]:
+                  - generic [aria-hidden] [ref=f16e122]: MC
+                  - generic [aria-hidden] [ref=f16e123]: SK
+                - generic [ref=f16e124]: 1 point · 2 members
+              - link "Open the SAT Preparation chord" [ref=f16e125] [cursor=pointer]:
+                - /url: /chords/sat-prep
+          - listitem [ref=f16e127]:
+            - generic [ref=f16e128]:
+              - heading "Engineering" [level=3] [ref=f16e132]
+              - paragraph [ref=f16e133]: Design, materials and applied math for makers.
+              - generic [ref=f16e134]:
+                - generic [aria-hidden] [ref=f16e136]: AR
+                - generic [ref=f16e137]: 0 points · 1 member
+              - link "Open the Engineering chord" [ref=f16e138] [cursor=pointer]:
+                - /url: /chords/engineering
+          - listitem [ref=f16e140]:
+            - generic [ref=f16e141]:
+              - heading "Robotics" [level=3] [ref=f16e145]
+              - paragraph [ref=f16e146]: Sensors, controllers and competition builds.
+              - generic [ref=f16e147]:
+                - generic [aria-hidden] [ref=f16e149]: PN
+                - generic [ref=f16e150]: 0 points · 1 member
+              - link "Open the Robotics chord" [ref=f16e151] [cursor=pointer]:
+                - /url: /chords/robotics
+  - contentinfo [ref=f16e153]:
+    - generic [ref=f16e154]:
+      - link "StudyCircle" [ref=f16e155] [cursor=pointer]:
+        - /url: /
+      - paragraph [ref=f16e162]: "Built the way our points run: slowly, together, every week."

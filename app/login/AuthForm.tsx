@@ -3,7 +3,6 @@
 import { useActionState, useState } from "react";
 import { signInWithPassword, signUp } from "@/lib/api/actions";
 import { SubmitButton } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
 import { CheckboxGroup, Field, Select, TextInput, Textarea } from "@/components/ui/Field";
 import { CHORD_CATALOG } from "@/config/chords";
 import { TIMEZONES } from "@/config/timezones";
@@ -19,9 +18,9 @@ export function AuthForm({ passwordAuth }: { passwordAuth: boolean }) {
   const state = mode === "signin" ? signInState : signUpState;
 
   return (
-    <Card>
+    <div className="rounded-2xl border border-line bg-surface p-6 shadow-[0_20px_50px_-30px_rgba(41,49,61,0.35)] sm:p-8">
       {passwordAuth ? (
-        <div className="mb-4 flex gap-2">
+        <div role="group" aria-label="Account mode" className="mb-6 flex gap-1 rounded-full border border-line bg-mist p-1">
           <TabButton active={mode === "signin"} onClick={() => setMode("signin")}>
             Sign in
           </TabButton>
@@ -31,41 +30,51 @@ export function AuthForm({ passwordAuth }: { passwordAuth: boolean }) {
         </div>
       ) : null}
 
-      {state.error ? (
-        <p role="alert" className="mb-4 rounded-xl border border-coral/30 bg-coral/10 px-3 py-2 text-sm text-ink">
-          {state.error}
+      <div>
+        <h2 className="font-display text-2xl font-bold tracking-tight text-ink">
+          {mode === "signin" ? "Welcome back" : "Create your profile"}
+        </h2>
+        <p className="mt-1.5 text-sm text-muted">
+          {mode === "signin"
+            ? "Pick up where your point left off."
+            : "A profile gets you into a point. You can change any of this later."}
         </p>
-      ) : null}
+      </div>
 
       {mode === "signin" ? (
-        <form action={signInAction} className="space-y-4">
+        <form action={signInAction} className="mt-6 space-y-4">
           <Field label="Email">
             <TextInput name="email" type="email" required maxLength={120} autoComplete="email" placeholder="you@example.com" />
           </Field>
           <Field label="Password">
-            <TextInput name="password" type="password" required maxLength={100} autoComplete="current-password" />
+            <TextInput name="password" type="password" required maxLength={100} autoComplete="current-password" placeholder="Your password" />
           </Field>
-          <SubmitButton pending={signInPending}>Sign in</SubmitButton>
+
+          <FormError message={state.error} />
+
+          <SubmitButton pending={signInPending} size="lg" className="w-full" pendingLabel="Signing in…">
+            Sign in
+          </SubmitButton>
         </form>
       ) : (
-        <form action={signUpAction} className="space-y-4">
+        <form action={signUpAction} className="mt-6 space-y-5">
           {passwordAuth ? (
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4">
               <Field label="Email">
                 <TextInput name="email" type="email" required maxLength={120} autoComplete="email" placeholder="you@example.com" />
               </Field>
               <Field label="Password" hint="At least 6 characters.">
-                <TextInput name="password" type="password" required minLength={6} maxLength={100} autoComplete="new-password" />
+                <TextInput name="password" type="password" required minLength={6} maxLength={100} autoComplete="new-password" placeholder="Choose a password" />
               </Field>
             </div>
           ) : null}
 
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Name">
-              <TextInput name="name" required maxLength={60} placeholder="Alex Kim" />
+              <TextInput name="name" required maxLength={60} placeholder="Alex Kim" autoComplete="name" />
             </Field>
             <Field label="Age">
-              <TextInput name="age" type="number" required min={10} max={99} placeholder="17" />
+              <TextInput name="age" type="number" required min={10} max={99} inputMode="numeric" placeholder="17" />
             </Field>
             <Field label="Education level">
               <Select name="educationLevel" defaultValue="High School">
@@ -87,14 +96,15 @@ export function AuthForm({ passwordAuth }: { passwordAuth: boolean }) {
                 <option>Expert</option>
               </Select>
             </Field>
-            <Field label="Timezone" hint="Used to show meetings and deadlines in your local time.">
-              <Select name="timezone" defaultValue="America/New_York">
-                {TIMEZONES.map((zone) => (
-                  <option key={zone}>{zone}</option>
-                ))}
-              </Select>
-            </Field>
           </div>
+
+          <Field label="Timezone" hint="Used to show meetings and deadlines in your local time.">
+            <Select name="timezone" defaultValue="America/New_York">
+              {TIMEZONES.map((zone) => (
+                <option key={zone}>{zone}</option>
+              ))}
+            </Select>
+          </Field>
 
           <Field label="Subjects you're interested in">
             <CheckboxGroup
@@ -103,7 +113,7 @@ export function AuthForm({ passwordAuth }: { passwordAuth: boolean }) {
             />
           </Field>
 
-          <Field label="Availability" hint="Pick the windows you usually study. Optional.">
+          <Field label="Availability" hint="Pick the windows you usually study. Optional, and only you see them.">
             <CheckboxGroup
               name="availability"
               options={[
@@ -119,10 +129,30 @@ export function AuthForm({ passwordAuth }: { passwordAuth: boolean }) {
             <Textarea name="bio" maxLength={280} placeholder="What are you working on?" />
           </Field>
 
-          <SubmitButton pending={signUpPending}>Create account</SubmitButton>
+          <FormError message={state.error} />
+
+          <SubmitButton pending={signUpPending} size="lg" className="w-full" pendingLabel="Creating your profile…">
+            Create account
+          </SubmitButton>
+          <p className="text-xs leading-relaxed text-muted">
+            Age is used to keep high-school and college points separate. It is never shown on
+            member lists or point pages.
+          </p>
         </form>
       )}
-    </Card>
+    </div>
+  );
+}
+
+function FormError({ message }: { message?: string }) {
+  if (!message) return null;
+  return (
+    <p
+      role="alert"
+      className="rounded-xl border border-coral/30 bg-coral/10 px-3 py-2.5 text-sm font-medium text-ink"
+    >
+      {message}
+    </p>
   );
 }
 
@@ -131,8 +161,9 @@ function TabButton({ active, onClick, children }: { active: boolean; onClick: ()
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-        active ? "bg-brand text-white" : "text-muted hover:bg-ink/5 hover:text-ink"
+      aria-pressed={active}
+      className={`min-h-10 flex-1 rounded-full px-4 text-sm font-semibold transition-colors ${
+        active ? "bg-ink text-white" : "text-muted hover:bg-surface hover:text-ink"
       }`}
     >
       {children}

@@ -1,16 +1,20 @@
 import { ActionForm } from "@/components/ui/ActionForm";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { GoalStatusBadge } from "@/components/ui/StatusBadge";
+import { GoalStatusBadge, PointStatusBadge } from "@/components/ui/StatusBadge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
-import { formatDateTime } from "@/lib/domain/time";
+import { formatDateTime, formatTime, WEEKDAY_NAMES } from "@/lib/domain/time";
 import type { ReactNode } from "react";
 import type { Goal, HelpRequest, Point, User } from "@/types";
+import { GoalForm } from "./GoalForm";
+import { ProgressUpdateForm } from "./ProgressUpdateForm";
 
 /**
- * Moderator panel: student progress plus the goal recorder, grouped per point.
- * Every action here re-checks that the viewer moderates the point.
+ * Moderator panels for one point: goal creation, member progress, shared
+ * resources and support requests. Every action here re-checks that the viewer
+ * moderates the point.
  */
 export function ModeratorPanel({
   entries,
@@ -21,6 +25,7 @@ export function ModeratorPanel({
 }: {
   entries: {
     point: Point;
+    chordName: string;
     members: User[];
     goals: Goal[];
     helpRequests: HelpRequest[];
@@ -33,101 +38,190 @@ export function ModeratorPanel({
   resolveAction: (requestId: string) => void | Promise<void>;
 }) {
   if (entries.length === 0) {
-    return (
-      <Card>
-        <p className="text-sm text-muted">
-          You do not moderate any points yet. Create a point in a chord to get started.
-        </p>
-      </Card>
-    );
+    return null;
   }
 
   return (
-    <div className="space-y-8">
-      {entries.map(({ point, members, goals, helpRequests, requesters, assistant }) => {
+    <div className="space-y-10">
+      {entries.map(({ point, chordName, members, goals, helpRequests, requesters, assistant }) => {
         const openRequests = helpRequests.filter((request) => request.status === "open");
+        const resources = goals.flatMap((goal) =>
+          goal.resources.map((resource, index) => ({
+            id: `${goal.id}-${index}`,
+            label: resource,
+            goalTitle: goal.title,
+          })),
+        );
 
         return (
-          <section key={point.id} className="space-y-4">
-            <header className="flex flex-wrap items-center justify-between gap-2">
-              <h2 className="text-lg font-semibold tracking-tight">{point.title}</h2>
-              <Badge tone="brand">{members.length} members</Badge>
+          <section key={point.id} className="space-y-5">
+            <header className="flex flex-wrap items-end justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-xs text-muted">
+                  {chordName} · {WEEKDAY_NAMES[point.schedule.weekday] ?? "Weekly"} at{" "}
+                  <span className="tnum">{formatTime(point.schedule.time, point.schedule.timezone)}</span>
+                </p>
+                <h2 className="mt-1 font-display text-2xl font-bold tracking-tight text-ink">{point.title}</h2>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <PointStatusBadge status={point.status} />
+                <Badge tone="muted">
+                  <span className="tnum">{members.length}</span> members
+                </Badge>
+                <Button href={`/points/${point.id}`} variant="secondary" size="sm" className="min-h-10">
+                  Open point
+                </Button>
+              </div>
             </header>
 
-            {assistant}
+            <div className="grid gap-4 lg:grid-cols-12 lg:items-start">
+              <div className="space-y-4 lg:col-span-7">
+                <Card className="space-y-4">
+                  <div>
+                    <h3 className="font-display text-lg font-bold tracking-tight text-ink">Member progress</h3>
+                    <p className="mt-1 text-sm text-muted">
+                      Reputation, latest goal, and how far each member has got.
+                    </p>
+                  </div>
 
-            <div className="grid gap-4 lg:grid-cols-2">
-              <Card className="space-y-4">
-                <h3 className="font-semibold tracking-tight">Student progress</h3>
-                {members.length === 0 ? (
-                  <p className="text-sm text-muted">No members yet.</p>
-                ) : (
-                  <ul className="space-y-3">
-                    {members.map((member) => {
-                      const memberGoals = goals.filter((goal) => goal.assignments.some((a) => a.userId === member.id));
-                      const latest = memberGoals[0];
-                      const assignment = latest?.assignments.find((a) => a.userId === member.id);
+                  {members.length === 0 ? (
+                    <p className="text-sm text-muted">No members yet.</p>
+                  ) : (
+                    <ul className="space-y-2.5">
+                      {members.map((member) => {
+                        const memberGoals = goals.filter((goal) => goal.assignments.some((a) => a.userId === member.id));
+                        const latest = memberGoals[0];
+                        const assignment = latest?.assignments.find((a) => a.userId === member.id);
+                        const isModerator = member.id === point.moderatorId;
 
-                      return (
-                        <li key={member.id} className="rounded-xl border border-line p-3">
-                          <div className="flex items-center gap-3">
-                            <Avatar name={member.name} color={member.avatarColor} size={32} />
-                            <div className="min-w-0 flex-1">
-                              <p className="truncate text-sm font-medium">{member.name}</p>
-                              <p className="truncate text-xs text-muted">{latest?.title ?? "No goals yet"}</p>
+                        return (
+                          <li key={member.id} className="rounded-xl border border-line bg-paper p-3">
+                            <div className="flex items-start gap-3">
+                              <Avatar name={member.name} color={member.avatarColor} size={36} />
+                              <div className="min-w-0 flex-1">
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <p className="truncate text-sm font-semibold text-ink">{member.name}</p>
+                                  <Badge tone={isModerator ? "sun" : "muted"}>
+                                    {isModerator ? "Moderator" : "Member"}
+                                  </Badge>
+                                  {assignment ? <GoalStatusBadge status={assignment.status} /> : null}
+                                </div>
+                                <p className="mt-0.5 truncate text-xs text-muted">
+                                  {latest?.title ?? "No goals yet"}
+                                </p>
+                                <div className="mt-2 flex items-center gap-2">
+                                  <span className="w-16 shrink-0 text-xs text-muted">Reputation</span>
+                                  <ProgressBar value={member.reputation} label={`${member.name} reputation`} />
+                                  <span className="tnum w-6 shrink-0 text-right text-xs text-muted">
+                                    {member.reputation}
+                                  </span>
+                                </div>
+                              </div>
                             </div>
-                            {assignment ? (
-                              <span className="text-sm font-semibold">{assignment.progress}%</span>
-                            ) : null}
-                          </div>
-                          {assignment ? (
-                            <div className="mt-2 space-y-2">
-                              <ProgressBar value={assignment.progress} label={`${member.name} progress`} />
-                              {member.id === point.moderatorId || !latest || !assignment ? null : (
-                                <form
-                                  action={updateProgressAction.bind(null, latest.id)}
-                                  className="flex flex-wrap items-center gap-2"
-                                >
-                                  <input type="hidden" name="userId" value={member.id} />
-                                  <select
-                                    name="status"
-                                    defaultValue={assignment.status}
-                                    className="rounded-lg border border-line bg-surface px-2 py-1 text-xs"
-                                    aria-label={`Status for ${member.name}`}
-                                  >
-                                    <option>On track</option>
-                                    <option>Needs assistance</option>
-                                    <option>Completed</option>
-                                  </select>
-                                  <input
-                                    type="number"
-                                    name="progress"
-                                    min={0}
-                                    max={100}
-                                    defaultValue={assignment.progress}
-                                    className="w-20 rounded-lg border border-line bg-surface px-2 py-1 text-xs"
-                                    aria-label={`Progress percent for ${member.name}`}
+
+                            {assignment && latest ? (
+                              <div className="mt-3 space-y-2 border-t border-line pt-3">
+                                <div className="flex items-center gap-2">
+                                  <span className="w-16 shrink-0 text-xs text-muted">Goal</span>
+                                  <ProgressBar value={assignment.progress} label={`${member.name} goal progress`} />
+                                  <span className="tnum w-6 shrink-0 text-right text-xs font-semibold text-ink">
+                                    {assignment.progress}%
+                                  </span>
+                                </div>
+                                {isModerator ? null : (
+                                  <ProgressUpdateForm
+                                    action={updateProgressAction.bind(null, latest.id)}
+                                    memberId={member.id}
+                                    memberName={member.name}
+                                    status={assignment.status}
+                                    progress={assignment.progress}
                                   />
-                                  <button
-                                    type="submit"
-                                    className="rounded-full border border-line px-3 py-1 text-xs font-medium transition-colors hover:border-brand/40"
-                                  >
-                                    Update
-                                  </button>
-                                </form>
-                              )}
-                            </div>
-                          ) : null}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-              </Card>
+                                )}
+                              </div>
+                            ) : null}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </Card>
 
-              <div className="space-y-4">
-                <Card>
-                  <h3 className="mb-1 font-semibold tracking-tight">Support requests</h3>
+                <Card className="space-y-3">
+                  <div>
+                    <h3 className="font-display text-lg font-bold tracking-tight text-ink">Recorded goals</h3>
+                    <p className="mt-1 text-sm text-muted">The targets this point is working through.</p>
+                  </div>
+                  {goals.length === 0 ? (
+                    <p className="text-sm text-muted">No goals recorded yet.</p>
+                  ) : (
+                    <ul className="space-y-2">
+                      {goals.map((goal) => (
+                        <li
+                          key={goal.id}
+                          className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line bg-paper p-3"
+                        >
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-semibold text-ink">{goal.title}</p>
+                            <p className="mt-0.5 text-xs text-muted">
+                              Due {formatDateTime(goal.deadline, timeZone)}
+                            </p>
+                          </div>
+                          <GoalStatusBadge status={goal.status} />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </Card>
+
+                <Card className="space-y-3">
+                  <div>
+                    <h3 className="font-display text-lg font-bold tracking-tight text-ink">Resources</h3>
+                    <p className="mt-1 text-sm text-muted">Handouts and links attached to this point&rsquo;s goals.</p>
+                  </div>
+                  {resources.length === 0 ? (
+                    <p className="text-sm text-muted">Nothing shared yet. Add resources when you record a goal.</p>
+                  ) : (
+                    <ul className="space-y-2">
+                      {resources.map((resource) => (
+                        <li key={resource.id} className="rounded-xl border border-line bg-paper p-3">
+                          {/^https?:\/\//.test(resource.label) ? (
+                            <a
+                              href={resource.label}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-sm font-semibold text-ink underline decoration-line underline-offset-4 hover:decoration-ink"
+                            >
+                              {resource.label}
+                            </a>
+                          ) : (
+                            <p className="text-sm font-semibold text-ink">{resource.label}</p>
+                          )}
+                          <p className="mt-0.5 text-xs text-muted">{resource.goalTitle}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </Card>
+              </div>
+
+              <div className="space-y-4 lg:col-span-5">
+                <Card className="space-y-4">
+                  <div>
+                    <h3 className="font-display text-lg font-bold tracking-tight text-ink">Record a goal</h3>
+                    <p className="mt-1 text-sm text-muted">One clear target, a deadline, and who it is for.</p>
+                  </div>
+                  <GoalForm action={createGoalAction.bind(null, point.id)} members={members} />
+                </Card>
+
+                <Card className="space-y-3">
+                  <div>
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h3 className="font-display text-lg font-bold tracking-tight text-ink">Support requests</h3>
+                      {openRequests.length > 0 ? <Badge tone="coral">{openRequests.length} open</Badge> : null}
+                    </div>
+                    <p className="mt-1 text-sm text-muted">Members who asked for a hand.</p>
+                  </div>
+
                   {openRequests.length === 0 ? (
                     <p className="text-sm text-muted">Nothing open right now.</p>
                   ) : (
@@ -137,16 +231,25 @@ export function ModeratorPanel({
                         return (
                           <li
                             key={request.id}
-                            className="flex items-start justify-between gap-3 rounded-xl border border-line p-3"
+                            className="flex flex-wrap items-start justify-between gap-3 rounded-xl border border-line bg-paper p-3"
                           >
-                            <div className="min-w-0">
-                              <p className="text-sm font-medium">{requester?.name ?? "Member"}</p>
-                              <p className="text-sm text-muted">{request.reason}</p>
-                              <p className="mt-0.5 text-xs text-muted">
-                                {formatDateTime(request.createdAt, timeZone)}
-                              </p>
+                            <div className="flex min-w-0 flex-1 items-start gap-3">
+                              {requester ? (
+                                <Avatar name={requester.name} color={requester.avatarColor} size={28} />
+                              ) : null}
+                              <div className="min-w-0">
+                                <p className="text-sm font-semibold text-ink">{requester?.name ?? "Member"}</p>
+                                <p className="mt-0.5 text-sm leading-relaxed text-muted">{request.reason}</p>
+                                <p className="mt-1 text-xs text-muted">{formatDateTime(request.createdAt, timeZone)}</p>
+                              </div>
                             </div>
-                            <ActionForm action={resolveAction.bind(null, request.id)} size="sm" variant="secondary">
+                            <ActionForm
+                              action={resolveAction.bind(null, request.id)}
+                              size="md"
+                              variant="secondary"
+                              pendingLabel="Resolving…"
+                              className="shrink-0"
+                            >
                               Resolve
                             </ActionForm>
                           </li>
@@ -155,86 +258,19 @@ export function ModeratorPanel({
                     </ul>
                   )}
                 </Card>
-
-                <Card>
-                  <h3 className="mb-3 font-semibold tracking-tight">Record a goal</h3>
-                  <form action={createGoalAction.bind(null, point.id)} className="space-y-3">
-                    <input
-                      name="title"
-                      required
-                      placeholder="Goal title"
-                      className="w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm"
-                    />
-                    <textarea
-                      name="description"
-                      placeholder="What exactly should the group accomplish?"
-                      className="w-full min-h-16 resize-y rounded-xl border border-line bg-surface px-3 py-2 text-sm"
-                    />
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <label className="block">
-                        <span className="mb-1 block text-xs font-medium text-muted">Deadline</span>
-                        <input
-                          type="date"
-                          name="deadline"
-                          required
-                          className="w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm"
-                        />
-                      </label>
-                      <label className="block">
-                        <span className="mb-1 block text-xs font-medium text-muted">Resources (one per line)</span>
-                        <textarea
-                          name="resources"
-                          placeholder="Handout, link, worksheet…"
-                          className="w-full min-h-9 resize-y rounded-xl border border-line bg-surface px-3 py-2 text-sm"
-                        />
-                      </label>
-                    </div>
-                    <fieldset>
-                      <legend className="mb-1 text-xs font-medium text-muted">Assign to</legend>
-                      <div className="flex flex-wrap gap-2">
-                        {members.map((member) => (
-                          <label
-                            key={member.id}
-                            className="inline-flex items-center gap-1.5 rounded-full border border-line px-2.5 py-1 text-xs has-checked:border-brand has-checked:bg-brand/10"
-                          >
-                            <input
-                              type="checkbox"
-                              name="assignees"
-                              value={member.id}
-                              defaultChecked
-                              className="size-3 accent-[#4f46e5]"
-                            />
-                            {member.name}
-                          </label>
-                        ))}
-                      </div>
-                    </fieldset>
-                    <button
-                      type="submit"
-                      className="rounded-full bg-brand px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#3f38c9]"
-                    >
-                      Record goal
-                    </button>
-                  </form>
-                </Card>
               </div>
             </div>
 
-            {goals.length > 0 ? (
-              <Card>
-                <h3 className="mb-3 font-semibold tracking-tight">Recorded goals</h3>
-                <ul className="space-y-2">
-                  {goals.map((goal) => (
-                    <li key={goal.id} className="flex items-center justify-between gap-3 rounded-xl border border-line p-3">
-                      <div className="min-w-0">
-                        <p className="truncate text-sm font-medium">{goal.title}</p>
-                        <p className="text-xs text-muted">Due {formatDateTime(goal.deadline, timeZone)}</p>
-                      </div>
-                      <GoalStatusBadge status={goal.status} />
-                    </li>
-                  ))}
-                </ul>
-              </Card>
+            {assistant ? (
+              <section className="space-y-3">
+                <div>
+                  <h3 className="font-display text-lg font-bold tracking-tight text-ink">Meeting notes and check-ins</h3>
+                  <p className="mt-1 text-sm text-muted">
+                    Turn a session into a summary, or ask which members may need a check-in.
+                  </p>
+                </div>
+                {assistant}
+              </section>
             ) : null}
           </section>
         );

@@ -17,7 +17,7 @@ import * as repo from "@/lib/database/repository";
 import { canJoinAudience, parseAudience } from "@/lib/domain/audience";
 import { selectModerator } from "@/lib/domain/moderation";
 import { deriveGoalStatus } from "@/lib/domain/progress";
-import { nextWeeklyOccurrence } from "@/lib/domain/time";
+import { isValidTimeZone } from "@/lib/domain/time";
 import { createZoomMeeting, endMeeting, getMeetingTranscript } from "@/lib/zoom/zoom";
 import { parseProfileForm } from "./profile";
 import {
@@ -58,6 +58,7 @@ function revalidatePoint(point: Point) {
   revalidatePath(`/chords/${point.chordId}`);
   revalidatePath("/dashboard");
   revalidatePath("/moderator");
+  revalidatePath("/profile");
 }
 
 /** Adds a user to a chord (and to their interests). Enforces the audience rule. */
@@ -142,9 +143,31 @@ export async function signOut() {
 
 export async function updateProfile(formData: FormData) {
   const user = await requireUser();
-  await repo.updateUser(user.id, parseProfileForm(formData));
+  const profile = parseProfileForm(formData);
+  const next: User = { ...user, ...profile };
+
+  // A profile edit can change age or education level, so re-check every group the
+  // viewer already belongs to. Otherwise a 17-year-old could stay in a college point.
+  const [chords, points] = await Promise.all([repo.listChords(), repo.listPoints()]);
+  const blockedBy = [
+    ...chords
+      .filter((chord) => chord.memberIds.includes(user.id))
+      .map((chord) => ({ label: chord.name, audience: chord.audience })),
+    ...points
+      .filter((point) => point.memberIds.includes(user.id) || point.moderatorId === user.id)
+      .map((point) => ({ label: point.title, audience: point.audience })),
+  ].find(
+    (group) => canJoinAudience(user, group.audience).ok && !canJoinAudience(next, group.audience).ok,
+  );
+  if (blockedBy) {
+    throw new Error(`That change does not match the audience of ${blockedBy.label}. Leave it first.`);
+  }
+
+  await repo.updateUser(user.id, profile);
   revalidatePath("/profile");
   revalidatePath("/dashboard");
+  revalidatePath("/moderator");
+  revalidatePath("/chords");
 }
 
 // ---------- Chords and points ----------
@@ -155,7 +178,9 @@ export async function joinChord(chordId: string) {
   if (!chord) throw new Error("Chord not found.");
   await joinChordFor(user, chord);
   revalidatePath(`/chords/${chordId}`);
+  revalidatePath("/chords");
   revalidatePath("/dashboard");
+  revalidatePath("/profile");
 }
 
 export async function joinPoint(pointId: string) {
@@ -170,6 +195,50 @@ export async function joinPoint(pointId: string) {
   if (!point.memberIds.includes(user.id)) {
     await repo.updatePoint(point.id, { memberIds: [...point.memberIds, user.id] });
   }
+  revalidatePoint(point);
+}
+
+/** Removes the viewer from a chord. Points in the chord must be left first. */
+export async function leaveChord(chordId: string) {
+  const user = await requireUser();
+  const chord = await repo.getChord(chordId);
+  if (!chord) throw new Error("Chord not found.");
+  if (!chord.memberIds.includes(user.id)) return;
+
+  const points = (await repo.listPoints()).filter((point) => point.chordId === chordId);
+  const stillIn = points.find(
+    (point) => point.memberIds.includes(user.id) || point.moderatorId === user.id,
+  );
+  if (stillIn) {
+    throw new Error(`Leave or hand over “${stillIn.title}” before leaving this chord.`);
+  }
+
+  await repo.updateChord(chordId, { memberIds: chord.memberIds.filter((id) => id !== user.id) });
+  await repo.updateUser(user.id, { subjects: user.subjects.filter((id) => id !== chordId) });
+  revalidatePath(`/chords/${chordId}`);
+  revalidatePath("/chords");
+  revalidatePath("/dashboard");
+  revalidatePath("/profile");
+}
+
+/** Removes the viewer from a point and clears their goal assignments there. */
+export async function leavePoint(pointId: string) {
+  const user = await requireUser();
+  const point = await requirePoint(pointId);
+  if (!point.memberIds.includes(user.id)) return;
+  if (isModerator(point, user.id)) {
+    throw new Error("A point's moderator cannot leave it. Hand over moderation first.");
+  }
+
+  const goals = (await repo.listGoals()).filter(
+    (goal) => goal.pointId === pointId && goal.assignments.some((assignment) => assignment.userId === user.id),
+  );
+  for (const goal of goals) {
+    const assignments = goal.assignments.filter((assignment) => assignment.userId !== user.id);
+    await repo.updateGoal(goal.id, { assignments, status: deriveGoalStatus(assignments) });
+  }
+
+  await repo.updatePoint(pointId, { memberIds: point.memberIds.filter((id) => id !== user.id) });
   revalidatePoint(point);
 }
 
@@ -188,11 +257,24 @@ export async function createPoint(chordId: string, formData: FormData) {
 
   // Points inherit the chord's audience restriction so a chord cannot contain conflicting groups.
   const audience = chord.audience !== "all" ? chord.audience : parseAudience(String(formData.get("audience")));
-  const users = await repo.listUsers();
-  const moderator = selectModerator(users, chordId) ?? users.find((u) => u.isCreator);
-  if (!moderator) throw new Error("No eligible moderator is available.");
+  const audienceCheck = canJoinAudience(user, audience);
+  if (!audienceCheck.ok) throw new Error(audienceCheck.reason);
 
-  const schedule = { weekday, time, timezone: user.timezone };
+  // Pick the highest-scoring moderator who can actually belong to this audience. Prefer
+  // people already in the chord, then fall back to the rest of the audience-eligible pool.
+  const users = await repo.listUsers();
+  const eligible = users.filter((candidate) => canJoinAudience(candidate, audience).ok);
+  const chordMembers = eligible.filter(
+    (candidate) => chord.memberIds.includes(candidate.id) || candidate.subjects.includes(chordId),
+  );
+  const moderator = selectModerator(chordMembers, chordId) ?? selectModerator(eligible, chordId);
+  if (!moderator) throw new Error("No eligible moderator is available for this audience.");
+
+  const schedule = {
+    weekday,
+    time,
+    timezone: isValidTimeZone(user.timezone) ? user.timezone : "UTC",
+  };
   const pointId = newId("point");
   const zoom = await createZoomMeeting({ topic: title, schedule });
 
@@ -203,7 +285,7 @@ export async function createPoint(chordId: string, formData: FormData) {
     description,
     audience,
     moderatorId: moderator.id,
-    memberIds: [user.id],
+    memberIds: [...new Set([user.id, moderator.id])],
     schedule,
     status: "Recruiting",
     meeting: {
@@ -214,10 +296,13 @@ export async function createPoint(chordId: string, formData: FormData) {
     },
     createdAt: new Date().toISOString(),
   };
-  await repo.insertPoint(point);
   await joinChordFor(user, chord);
+  await repo.insertPoint(point);
   revalidatePath(`/chords/${chordId}`);
+  revalidatePath("/chords");
   revalidatePath("/dashboard");
+  revalidatePath("/moderator");
+  revalidatePath("/profile");
   redirect(`/points/${pointId}`);
 }
 
@@ -305,11 +390,15 @@ export async function createGoal(pointId: string, formData: FormData) {
   const title = text(formData, "title", 120);
   if (!title) throw new Error("Goal title is required.");
   const deadlineInput = String(formData.get("deadline") ?? "");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(deadlineInput)) throw new Error("Choose a deadline.");
   const deadline = new Date(`${deadlineInput}T23:59:59Z`);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(deadlineInput) || Number.isNaN(deadline.getTime())) throw new Error("Choose a deadline.");
+  if (Number.isNaN(deadline.getTime())) throw new Error("Choose a deadline.");
 
-  const requested = formData.getAll("assignees").map(String).filter((id) => point.memberIds.includes(id));
+  const requested = [...new Set(formData.getAll("assignees").map(String))].filter((id) =>
+    point.memberIds.includes(id),
+  );
   const assignees = requested.length > 0 ? requested : point.memberIds;
+  if (assignees.length === 0) throw new Error("This point has no members to assign the goal to.");
   const assignments: GoalAssignment[] = assignees.map((userId) => ({ userId, progress: 0, status: "On track" }));
 
   const goal: Goal = {
@@ -336,6 +425,7 @@ export async function updateGoalProgress(goalId: string, formData: FormData) {
   const goal = await repo.getGoal(goalId);
   if (!goal) throw new Error("Goal not found.");
   const point = await requirePoint(goal.pointId);
+  if (!isMember(point, user.id)) throw new Error("Join this point to update progress.");
 
   const targetId = String(formData.get("userId") || user.id);
   if (targetId !== user.id && !isModerator(point, user.id)) {
@@ -343,8 +433,9 @@ export async function updateGoalProgress(goalId: string, formData: FormData) {
   }
   if (!goal.assignments.some((a) => a.userId === targetId)) throw new Error("That member is not assigned to this goal.");
 
-  const progress = Math.min(100, Math.max(0, Math.round(Number(formData.get("progress")))));
-  if (Number.isNaN(progress)) throw new Error("Progress must be a number from 0 to 100.");
+  const rawProgress = Number(formData.get("progress"));
+  if (!Number.isFinite(rawProgress)) throw new Error("Progress must be a number from 0 to 100.");
+  const progress = Math.min(100, Math.max(0, Math.round(rawProgress)));
   const requested = String(formData.get("status") ?? "On track");
   const status: GoalStatus = progress === 100 ? "Completed" : requested === "Needs assistance" ? "Needs assistance" : "On track";
 
@@ -369,6 +460,8 @@ export async function endPointMeeting(
   _prev: TranscriptState,
   _formData: FormData,
 ): Promise<TranscriptState> {
+  void _prev;
+  void _formData;
   const user = await requireUser();
   const point = await requirePoint(pointId);
   if (!isModerator(point, user.id)) return { error: "Only the point moderator can end the meeting." };
@@ -396,6 +489,8 @@ export async function fetchPointMeetingTranscript(
   _prev: TranscriptState,
   _formData: FormData,
 ): Promise<TranscriptState> {
+  void _prev;
+  void _formData;
   const user = await requireUser();
   const point = await requirePoint(pointId);
   if (!isModerator(point, user.id)) return { error: "Only the point moderator can fetch the transcript." };
@@ -451,6 +546,8 @@ export interface RiskState {
 
 /** One model call covers every member of a point, so a free-tier request budget goes a long way. */
 export async function analyzePointStudents(pointId: string, prev: RiskState, formData: FormData): Promise<RiskState> {
+  void prev;
+  void formData;
   const user = await requireUser();
   const point = await requirePoint(pointId);
   if (!isModerator(point, user.id)) return { error: "Only the point moderator can run this check." };
@@ -486,7 +583,9 @@ export interface MotivationState {
 }
 
 /** On demand only, never on page load: the free model tier is roughly 50 requests a day. */
-export async function getMotivation(prev: MotivationState, formData: FormData): Promise<MotivationState> {
+export async function getMotivation(_prev: MotivationState, _formData: FormData): Promise<MotivationState> {
+  void _prev;
+  void _formData;
   const user = await requireUser();
   const [points, goals] = await Promise.all([repo.listPoints(), repo.listGoals()]);
   const myPoints = points.filter(

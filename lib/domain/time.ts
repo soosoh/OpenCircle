@@ -77,7 +77,7 @@ export function formatTime(time: string, timeZone: string): string {
 
 export const WEEKDAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-/** Next occurrence (inclusive of `from`) of a weekly wall-clock slot in its timezone. */
+/** Next occurrence strictly after `from` of a weekly wall-clock slot in its timezone. */
 export function nextWeeklyOccurrence(
   schedule: { weekday: number; time: string; timezone: string },
   from: Date = new Date(),
@@ -96,7 +96,7 @@ export function nextWeeklyOccurrence(
       minute,
       schedule.timezone,
     );
-    if (candidate.getTime() >= from.getTime()) return candidate;
+    if (candidate.getTime() > from.getTime()) return candidate;
   }
   throw new Error(`Could not resolve next occurrence for ${JSON.stringify(schedule)}`);
 }

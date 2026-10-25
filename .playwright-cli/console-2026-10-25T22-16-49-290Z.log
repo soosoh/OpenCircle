@@ -1,0 +1,652 @@
+[     466ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[     526ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[    1451ms] [ERROR] Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (about://React/Server/file:///C:/Users/tanis/OpenCircle/.next/dev/server/chunks/ssr/%255Broot-of-the-server%255D__1l3btjk7lwnf3._.js?id=%255Bproject%255D/app/points/%255BpointId%255D/page.tsx+%255Bapp-rsc%255D+(ecmascript)?247:64:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[    4110ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[    4120ms] [LOG] [Fast Refresh] done in 17ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[    4167ms] [LOG] [Fast Refresh] done in 17ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[    4401ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[    4409ms] [LOG] [Fast Refresh] done in 118ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[    6347ms] [ERROR] Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (about://React/Server/file:///C:/Users/tanis/OpenCircle/.next/dev/server/chunks/ssr/%255Broot-of-the-server%255D__1l3btjk7lwnf3._.js?id=%255Bproject%255D/app/points/%255BpointId%255D/page.tsx+%255Bapp-rsc%255D+(ecmascript)?247:64:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   21640ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   21647ms] [LOG] [Fast Refresh] done in 32ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   21694ms] [LOG] [Fast Refresh] done in 32ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   21941ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   21944ms] [LOG] [Fast Refresh] done in 119ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   23675ms] [ERROR] Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (about://React/Server/file:///C:/Users/tanis/OpenCircle/.next/dev/server/chunks/ssr/%255Broot-of-the-server%255D__1l3btjk7lwnf3._.js?id=%255Bproject%255D/app/points/%255BpointId%255D/page.tsx+%255Bapp-rsc%255D+(ecmascript)?247:64:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   30429ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   30439ms] [LOG] [Fast Refresh] done in 2ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   30475ms] [LOG] [Fast Refresh] done in 2ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   32183ms] [ERROR] Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (about://React/Server/file:///C:/Users/tanis/OpenCircle/.next/dev/server/chunks/ssr/%255Broot-of-the-server%255D__1l3btjk7lwnf3._.js?id=%255Bproject%255D/app/points/%255BpointId%255D/page.tsx+%255Bapp-rsc%255D+(ecmascript)?247:64:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   47890ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   47896ms] [LOG] [Fast Refresh] done in 29ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   47944ms] [LOG] [Fast Refresh] done in 29ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   48201ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   48206ms] [LOG] [Fast Refresh] done in 111ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   50176ms] [ERROR] Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (about://React/Server/file:///C:/Users/tanis/OpenCircle/.next/dev/server/chunks/ssr/%255Broot-of-the-server%255D__1l3btjk7lwnf3._.js?id=%255Bproject%255D/app/points/%255BpointId%255D/page.tsx+%255Bapp-rsc%255D+(ecmascript)?247:64:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[   64845ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=J1kmK0qTL234Bk9fSdBIO' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_client_05_bxc_n0811w._.js:16375
+[   65861ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=J1kmK0qTL234Bk9fSdBIO' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_client_05_bxc_n0811w._.js:16375
+[   66881ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=J1kmK0qTL234Bk9fSdBIO' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_client_05_bxc_n0811w._.js:16375
+[   67885ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=J1kmK0qTL234Bk9fSdBIO' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_client_05_bxc_n0811w._.js:16375
+[   71276ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   80651ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   80727ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[   85008ms] [ERROR] Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (about://React/Server/C:%255CUsers%255Ctanis%255COpenCircle%255C.next%255Cdev%255Cserver%255Cchunks%255Cssr%255C%255Broot-of-the-server%255D__1l3btjk7lwnf3._.js?247:81:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  119811ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  119827ms] [LOG] [Fast Refresh] done in 2ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  119914ms] [LOG] [Fast Refresh] done in 2ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  120169ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  120314ms] [LOG] [Fast Refresh] done in 250ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  123051ms] [ERROR] Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (about://React/Server/C:%255CUsers%255Ctanis%255COpenCircle%255C.next%255Cdev%255Cserver%255Cchunks%255Cssr%255C%255Broot-of-the-server%255D__1l3btjk7lwnf3._.js?247:81:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  123967ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  124049ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  124830ms] [ERROR] Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (about://React/Server/C:%255CUsers%255Ctanis%255COpenCircle%255C.next%255Cdev%255Cserver%255Cchunks%255Cssr%255C%255Broot-of-the-server%255D__1l3btjk7lwnf3._.js?247:81:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  135552ms] [LOG] [Fast Refresh] done in 11384ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  135633ms] [LOG] [Fast Refresh] done in 11384ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  135745ms] [LOG] [Fast Refresh] done in 11384ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  135795ms] [LOG] [Fast Refresh] done in 11384ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  135928ms] [LOG] [Fast Refresh] done in 11384ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  137776ms] [ERROR] Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (about://React/Server/C:%255CUsers%255Ctanis%255COpenCircle%255C.next%255Cdev%255Cserver%255Cchunks%255Cssr%255C%255Broot-of-the-server%255D__1l3btjk7lwnf3._.js?247:81:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  183246ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  183308ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  184252ms] [ERROR] Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (about://React/Server/C:%255CUsers%255Ctanis%255COpenCircle%255C.next%255Cdev%255Cserver%255Cchunks%255Cssr%255C%255Broot-of-the-server%255D__1l3btjk7lwnf3._.js?247:81:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  214896ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  214946ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  215624ms] [ERROR] Error: Route "/chords": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordsPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__1yzy2cw43nd7c._.js?96:38:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  245834ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  245887ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  246892ms] [ERROR] Error: Route "/chords/[chordId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__0u1792dwy8r20._.js?205:58:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  251794ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  251837ms] [LOG] [Fast Refresh] done in 96ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  251910ms] [LOG] [Fast Refresh] done in 96ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  252038ms] [LOG] [Fast Refresh] done in 96ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  252040ms] [LOG] [Fast Refresh] done in 96ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  252214ms] [LOG] [Fast Refresh] done in 96ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  253560ms] [ERROR] Error: Route "/chords/[chordId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__0u1792dwy8r20._.js?205:58:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  276751ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  276759ms] [LOG] [Fast Refresh] done in 10ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  276820ms] [LOG] [Fast Refresh] done in 10ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  276880ms] [LOG] [Fast Refresh] done in 10ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  276966ms] [LOG] [Fast Refresh] done in 10ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  276991ms] [LOG] [Fast Refresh] done in 10ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  277080ms] [LOG] [Fast Refresh] done in 10ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  277188ms] [LOG] [Fast Refresh] done in 10ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  277311ms] [LOG] [Fast Refresh] done in 10ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  277420ms] [LOG] [Fast Refresh] done in 10ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  278032ms] [ERROR] Error: Route "/chords/[chordId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__0u1792dwy8r20._.js?205:58:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  284663ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  284670ms] [LOG] [Fast Refresh] done in 16ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  284726ms] [LOG] [Fast Refresh] done in 16ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  284868ms] [LOG] [Fast Refresh] done in 16ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  284984ms] [LOG] [Fast Refresh] done in 16ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  285094ms] [LOG] [Fast Refresh] done in 16ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  285207ms] [LOG] [Fast Refresh] done in 16ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  285327ms] [LOG] [Fast Refresh] done in 16ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  286215ms] [ERROR] Error: Route "/chords/[chordId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__0u1792dwy8r20._.js?205:58:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  289766ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  289774ms] [LOG] [Fast Refresh] done in 1ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  289884ms] [LOG] [Fast Refresh] done in 1ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  289887ms] [LOG] [Fast Refresh] done in 1ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  289984ms] [LOG] [Fast Refresh] done in 1ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  290166ms] [LOG] [Fast Refresh] done in 1ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  290167ms] [LOG] [Fast Refresh] done in 1ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  291632ms] [ERROR] Error: Route "/chords/[chordId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__0u1792dwy8r20._.js?205:58:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  292496ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  292511ms] [LOG] [Fast Refresh] done in 17ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  292659ms] [LOG] [Fast Refresh] done in 17ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  292914ms] [LOG] [Fast Refresh] done in 17ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  292915ms] [LOG] [Fast Refresh] done in 17ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  294142ms] [ERROR] Error: Route "/chords/[chordId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__0u1792dwy8r20._.js?205:58:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  327127ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  327167ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  327839ms] [ERROR] Error: Route "/points/[pointId]/meeting": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at MeetingPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__15mrwbedwekp0._.js?136:57:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  329159ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  329170ms] [LOG] [Fast Refresh] done in 17ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  329277ms] [LOG] [Fast Refresh] done in 17ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  329294ms] [LOG] [Fast Refresh] done in 17ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  329469ms] [LOG] [Fast Refresh] done in 17ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  329470ms] [LOG] [Fast Refresh] done in 17ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  330616ms] [ERROR] Error: Route "/points/[pointId]/meeting": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at MeetingPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__15mrwbedwekp0._.js?136:57:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  337467ms] [LOG] [Fast Refresh] done in 7850ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  337533ms] [LOG] [Fast Refresh] done in 7850ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  337647ms] [LOG] [Fast Refresh] done in 7850ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  337648ms] [LOG] [Fast Refresh] done in 7850ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  337770ms] [LOG] [Fast Refresh] done in 7850ms @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  339018ms] [ERROR] Error: Route "/points/[pointId]/meeting": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at MeetingPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__15mrwbedwekp0._.js?136:57:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  351885ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  351946ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  352461ms] [ERROR] Error: Route "/points/[pointId]/meeting": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at MeetingPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__15mrwbedwekp0._.js?136:57:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  376193ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  376275ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  377281ms] [ERROR] Error: Route "/points/[pointId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at PointPage (about://React/Server/C:%255CUsers%255Ctanis%255COpenCircle%255C.next%255Cdev%255Cserver%255Cchunks%255Cssr%255C%255Broot-of-the-server%255D__1l3btjk7lwnf3._.js?213:81:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995
+[  395928ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  395973ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:719
+[  396706ms] [ERROR] Error: Route "/chords/[chordId]": Next.js encountered uncached data during prerendering or a navigation.
+
+`fetch(...)` or `connection()` accessed outside of `<Suspense>` prevents the route from being prerendered or the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [cache] Cache the data access with `"use cache"` (does not apply to `connection()`)
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/blocking-prerender-dynamic
+    at ChordPage (about://React/Server/C:%5CUsers%5Ctanis%5COpenCircle%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__0u1792dwy8r20._.js?198:58:267)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2029:105)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1568:28)
+    at parseModelString (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1688:50)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2634:66)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2637:61)
+    at reviveModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2716:112)
+    at parseModel (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2629:16)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1141:25)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:1039:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2585:371)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2507:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2614:221)
+    at progress (http://localhost:3000/_next/static/chunks/1o-r_next_dist_compiled_react-server-dom-turbopack_1xi7b0yf5x0c7._.js:2801:13) @ http://localhost:3000/_next/static/chunks/1o-r_next_dist_0ju43f_1r0bpo._.js:995

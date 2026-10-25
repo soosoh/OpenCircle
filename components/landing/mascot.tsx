@@ -7,8 +7,8 @@
 
 type Mood = "happy" | "cheer" | "wink" | "peek";
 
-const CREAM = "#f4f2e8";
-const INK = "#1e2030";
+const CREAM = "#FFFFFF";
+const INK = "#29313D";
 
 function Face({ mood }: { mood: Mood }) {
   return (
@@ -62,22 +62,22 @@ function Body({ color }: { color: string }) {
   // low, where legs belong, never across the face.
   return (
     <>
-      <circle cx="32" cy="28" r="24" fill={color} />
+      <circle cx="32" cy="28" r="24" fill={color} stroke={INK} strokeWidth="1.6" />
       <line x1="26" y1="48" x2="23" y2="56.5" stroke={color} strokeWidth="3" strokeLinecap="round" />
       <line x1="38" y1="48" x2="41" y2="56.5" stroke={color} strokeWidth="3" strokeLinecap="round" />
-      <circle cx="23" cy="58" r="2.6" fill={color} />
-      <circle cx="41" cy="58" r="2.6" fill={color} />
+      <circle cx="23" cy="58" r="2.6" fill={color} stroke={INK} strokeWidth="0.8" />
+      <circle cx="41" cy="58" r="2.6" fill={color} stroke={INK} strokeWidth="0.8" />
     </>
   );
 }
 
 export function Mascot({
   mood = "happy",
-  color = "#4f46e5",
+  color = "#F4D35E",
   className,
   label,
-  width,
-  height,
+  width = 64,
+  height = 64,
 }: {
   mood?: Mood;
   color?: string;
@@ -93,7 +93,7 @@ export function Mascot({
       viewBox="0 0 64 64"
       width={width}
       height={height}
-      className={className}
+      className={`block shrink-0 ${className ?? ""}`}
       {...(label ? { role: "img", "aria-label": label } : { "aria-hidden": true })}
     >
       <Body color={color} />
@@ -112,7 +112,7 @@ export function Mascot({
           {/* confetti */}
           <path d="M18 5 v6 M15 8 h6" stroke={CREAM} strokeWidth="2" strokeLinecap="round" opacity="0.85" />
           <path d="M46 3 v6 M43 6 h6" stroke={CREAM} strokeWidth="2" strokeLinecap="round" opacity="0.85" />
-          <circle cx="32" cy="3" r="2" fill="#f0a03c" />
+          <circle cx="32" cy="3" r="2" fill="#E86A45" />
         </>
       )}
     </svg>
@@ -122,9 +122,9 @@ export function Mascot({
 export function MascotCrowd({ className }: { className?: string }) {
   return (
     <div className={`relative flex items-end justify-center ${className ?? ""}`} aria-hidden="true">
-      <Mascot mood="wink" color="#22a58a" className="absolute -left-10 bottom-2 size-16 rotate-[-10deg] animate-bob [animation-delay:-1.5s] drop-shadow-md" />
-      <Mascot mood="peek" color="#e2578a" className="absolute -right-10 bottom-2 size-16 rotate-[10deg] animate-bob [animation-delay:-3.1s] drop-shadow-md" />
-      <Mascot mood="cheer" className="relative size-28 animate-float drop-shadow-xl" />
+      <Mascot mood="wink" color="#C4462A" className="absolute -left-10 bottom-2 size-16 rotate-[-10deg] animate-bob [animation-delay:-1.5s]" />
+      <Mascot mood="peek" color="#2E7D5B" className="absolute -right-10 bottom-2 size-16 rotate-[10deg] animate-bob [animation-delay:-3.1s]" />
+      <Mascot mood="cheer" color="#F4D35E" className="relative size-28 animate-float" />
     </div>
   );
 }

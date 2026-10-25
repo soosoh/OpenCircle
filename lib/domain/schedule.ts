@@ -10,7 +10,9 @@ export function buildScheduleItems(points: Point[], goals: Goal[], from: Date = 
 
   for (const point of points) {
     const first = nextWeeklyOccurrence(point.schedule, from);
-    const occurrences = [first, new Date(first.getTime() + 7 * 86_400_000)];
+    // Resolve the second week through the timezone helper too: adding 7 * 24h of
+    // absolute time drifts by an hour across a DST boundary.
+    const occurrences = [first, nextWeeklyOccurrence(point.schedule, new Date(first.getTime() + 1))];
     occurrences.forEach((at, index) => {
       items.push({
         id: `${point.id}-meeting-${index}`,

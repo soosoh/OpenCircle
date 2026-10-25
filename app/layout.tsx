@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Avatar } from "@/components/ui/Avatar";
 import { signOut } from "@/lib/api/actions";
 import { getCurrentUser } from "@/lib/api/session";
+import { listPoints } from "@/lib/database/repository";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,57 +15,87 @@ export const metadata: Metadata = {
 // prerendered into a static shell. Revisit per route if adopting Suspense boundaries.
 export const instant = false;
 
+/** The mark: a circle with a chord drawn across it — the product's whole idea. */
+export function CircleMark({ className = "size-8" }: { className?: string }) {
+  return (
+    <span className={`inline-flex items-center justify-center ${className}`} aria-hidden="true">
+      <svg viewBox="0 0 28 28" className="size-full">
+        <circle cx="14" cy="14" r="13" fill="#29313D" />
+        <line x1="4.5" y1="17" x2="23.5" y2="10" stroke="#F4D35E" strokeWidth="2.4" strokeLinecap="round" />
+        <circle cx="4.5" cy="17" r="2.4" fill="#F4D35E" />
+        <circle cx="23.5" cy="10" r="2.4" fill="#F4D35E" />
+      </svg>
+    </span>
+  );
+}
+
 // The header reads the session so the chrome tells the truth: signed-out visitors
 // see "Sign in"; signed-in members get an app nav plus their name and a way back out.
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const user = await getCurrentUser();
 
-  const NAV = user ? [
-    { href: "/chords", label: "Chords" },
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/moderator", label: "Moderate" },
-    { href: "/profile", label: "Profile" },
-  ] : [];
+  // "Moderate" is only offered to people who actually run a point; everyone
+  // else would land on a permission notice, which is a dead end.
+  const moderates = user ? (await listPoints()).some((point) => point.moderatorId === user.id) : false;
+
+  const NAV = user
+    ? [
+        { href: "/dashboard", label: "Dashboard" },
+        { href: "/chords", label: "Chords" },
+        ...(moderates ? [{ href: "/moderator", label: "Moderate" }] : []),
+        { href: "/profile", label: "Profile" },
+      ]
+    : [];
 
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="flex min-h-full flex-col">
-        <header className="sticky top-0 z-40 border-b border-white/10 bg-[#16131f]/85 backdrop-blur">
-          <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3">
-            <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight text-paper">
-              {/* The logo drawn, not typed: a circle with a chord across it. */}
-              <span className="inline-flex size-7 items-center justify-center" aria-hidden="true">
-                <svg viewBox="0 0 28 28" className="size-full">
-                  <circle cx="14" cy="14" r="13" fill="#8b7ff7" />
-                  <line x1="4.5" y1="17" x2="23.5" y2="10" stroke="#121017" strokeWidth="2" strokeLinecap="round" />
-                  <circle cx="4.5" cy="17" r="2" fill="#121017" />
-                  <circle cx="23.5" cy="10" r="2" fill="#121017" />
-                </svg>
-              </span>
+    <html lang="en" className={`h-full antialiased ${user ? "has-appnav" : ""}`}>
+      <body className="flex min-h-full flex-col bg-paper text-ink">
+        {/* Two families, loaded at runtime with a system fallback: Fraunces for
+            headings (a warm, slightly wonky old-style serif) and Instrument Sans
+            for everything you read and click. Runtime <link> rather than
+            next/font on purpose: next/font fetches at build time, and this
+            project has to build with no network. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font -- offline builds, see above */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Instrument+Sans:wght@400..700&display=swap"
+        />
+        <header className="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur">
+          <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+            <Link
+              href="/"
+              className="flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-ink"
+            >
+              <CircleMark />
               StudyCircle
             </Link>
 
             {user ? (
-              <div className="flex items-center gap-3">
-                <nav className="hidden items-center gap-1 md:flex">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
                   {NAV.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:bg-white/5 hover:text-paper"
+                      className="rounded-full px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-mist hover:text-ink"
                     >
                       {item.label}
                     </Link>
                   ))}
                 </nav>
-                <Link href="/dashboard" className="flex items-center gap-2 text-sm font-medium text-paper">
+                <Link
+                  href="/dashboard"
+                  className="flex items-center gap-2 rounded-full py-1 pl-1 pr-2.5 text-sm font-semibold text-ink transition-colors hover:bg-mist"
+                >
                   <Avatar name={user.name} color={user.avatarColor} size={26} />
                   <span className="hidden sm:inline">{user.name}</span>
                 </Link>
                 <form action={signOut}>
                   <button
                     type="submit"
-                    className="rounded-full border border-white/15 px-3.5 py-1.5 text-sm font-medium text-paper transition-colors hover:border-[#22a58a] hover:text-[#39d3a8]"
+                    className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-semibold text-ink transition-colors hover:border-ink/25 hover:bg-sun-wash"
                   >
                     Sign out
                   </button>
@@ -73,18 +104,42 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             ) : (
               <Link
                 href="/login"
-                className="rounded-full bg-[#8b7ff7] px-3.5 py-1.5 text-sm font-medium text-[#141126] transition-colors hover:bg-[#a99ffc]"
+                className="rounded-full bg-sun px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-sun-deep"
               >
                 Sign in
               </Link>
             )}
           </div>
+
+          {/* On narrow screens the app nav gets its own row instead of disappearing. */}
+          {user ? (
+            <nav
+              aria-label="Main"
+              className="no-scrollbar mx-auto flex w-full max-w-6xl items-center gap-1 overflow-x-auto border-t border-line px-3 py-1.5 md:hidden"
+            >
+              {NAV.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="shrink-0 rounded-full px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-mist hover:text-ink"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          ) : null}
         </header>
 
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
+        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
 
-        <footer className="border-t border-white/10 bg-[#0f0d15] py-6 text-center text-sm text-white/45">
-          StudyCircle — built the way our points run: slowly, together, every week.
+        <footer className="mt-16 bg-sun">
+          <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-3 px-4 py-8 text-sm text-ink/75 sm:flex-row sm:px-6">
+            <Link href="/" className="flex items-center gap-2 font-display text-base font-bold text-ink">
+              <CircleMark className="size-6" />
+              StudyCircle
+            </Link>
+            <p>Built the way our points run: slowly, together, every week.</p>
+          </div>
         </footer>
       </body>
     </html>

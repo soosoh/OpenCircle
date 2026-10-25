@@ -1,21 +1,107 @@
 @import "tailwindcss";
-/* Landing page motion system lives in @theme below. */
+/* Motion system lives in @theme below. Colour + type tokens are the single
+   source of truth for every surface, landing page and app alike. */
+
+:root {
+  /* StudyCircle palette: a clean school-bus yellow, used as an accent and as
+     one bold field, surrounded by warm white rather than a yellow wash. */
+  --calm-bg: #FFFCF5;         /* page ground — warm white, not beige */
+  --calm-card: #FFFFFF;       /* content surface */
+  --calm-fg: #29313D;         /* ink */
+  --calm-muted: #667085;      /* secondary text */
+  --calm-accent: #F4D35E;     /* the school yellow */
+  --calm-border: #EAE4D8;     /* hairline */
+
+  /* The landing hero's campus band. Its height is tied to the artwork's own
+     proportions (380/720 of a 2:1 scene), so the horizon always lands just
+     inside the band instead of slicing through roofs and trees. */
+  --scene-h: clamp(150px, calc(26.4vw + 40px), 620px);
+  /* Height of the sticky site header, so in-page sticky bars can sit under it.
+     Signed-in members get a second nav row on phones. */
+  --header-h: 60px;
+}
+
+.shadow-calm-lift {
+  box-shadow: 0 14px 30px rgba(41, 49, 61, 0.10), 0 2px 4px rgba(41, 49, 61, 0.05);
+}
+
+.bg-cream-card {
+  background-color: var(--calm-card);
+}
+
+/* ---- Shared surface + action language for the whole app ---- */
+.app-card {
+  background-color: var(--calm-card);
+  border: 1px solid var(--calm-border);
+  border-radius: 1rem;
+}
+.app-card-hover {
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+.app-card-hover:hover {
+  transform: translateY(-2px);
+  border-color: #DCD3C2;
+  box-shadow: 0 10px 24px rgba(41, 49, 61, 0.08);
+}
+.app-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  background-color: var(--calm-accent);
+  color: var(--calm-fg);
+  font-weight: 600;
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+.app-btn-primary:hover { background-color: #E9BE3F; }
+.app-btn-primary:active { transform: translateY(1px); }
+.app-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  background-color: var(--calm-card);
+  color: var(--calm-fg);
+  border: 1px solid var(--calm-border);
+  font-weight: 600;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.app-btn-secondary:hover { background-color: #FFF7DF; border-color: #DCD3C2; }
+
+/* The app nav row only exists on narrow screens, which makes the header taller. */
+@media (max-width: 767px) {
+  html.has-appnav {
+    --header-h: 104px;
+  }
+}
 
 @theme {
-  --color-paper: #fbf8f4;
-  --color-ink: #1e2030;
-  --color-muted: #6b6f83;
-  --color-line: #e8e2d9;
-  --color-brand: #4f46e5;
-  --color-mint: #22a58a;
-  --color-sun: #f0a03c;
-  --color-coral: #e2578a;
-  --color-surface: #ffffff;
-  --color-duo-green: #58cc02;
-  --color-duo-dark: #0b1d36;
-  --color-duo-light: #f4f2e8;
+  --color-paper: #FFFCF5;
+  --color-ink: #29313D;
+  --color-muted: #667085;
+  --color-line: #EAE4D8;
+  --color-brand: #F4D35E;
+  --color-mint: #2E7D5B;
+  --color-sun: #F4D35E;
+  --color-sun-deep: #E9BE3F;
+  --color-sun-soft: #FFF1B8;
+  --color-sun-wash: #FFF7DF;
+  --color-coral: #C4462A;
+  --color-surface: #FFFFFF;
+  --color-cream: #FFFFFF;
+  --color-cream-soft: #FFF8E6;
+  --color-field: #F4D35E;
+  --color-field-deep: #E9BE3F;
+  --color-sage: #D8E8D1;
+  --color-mist: #F7F4ED;
+  --color-duo-green: #2E7D5B;
+  --color-duo-dark: #29313D;
+  --color-duo-light: #FFF7DF;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Instrument Sans", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, ui-serif, serif;
 
   --animate-fade-up: fade-up 0.35s ease-out both;
   --animate-float: float 6s ease-in-out infinite;
@@ -164,6 +250,20 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Display headings sit tight and warm; body copy keeps a generous measure. */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+/* Numbers that live in columns (progress %, dates, counts) align. */
+.tnum {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Landing-page bands: escape the max-w container and span the full viewport. */
@@ -172,27 +272,22 @@ body {
   margin-right: calc(50% - 50vw);
 }
 
-/* Subtle "stars in the night sky" texture for dark hero bands. */
+/* A light paper speckle, used only on the yellow hero field. */
 .starfield {
   background-image:
-    radial-gradient(1px 1px at 22% 30%, rgba(244, 242, 232, 0.35) 0, transparent 2px),
-    radial-gradient(1.5px 1.5px at 68% 58%, rgba(244, 242, 232, 0.28) 0, transparent 2px),
-    radial-gradient(1px 1px at 42% 78%, rgba(244, 242, 232, 0.22) 0, transparent 2px),
-    radial-gradient(1.2px 1.2px at 85% 18%, rgba(244, 242, 232, 0.2) 0, transparent 2px);
+    radial-gradient(1px 1px at 22% 30%, rgba(41, 49, 61, 0.10) 0, transparent 2px),
+    radial-gradient(1.5px 1.5px at 68% 58%, rgba(41, 49, 61, 0.07) 0, transparent 2px),
+    radial-gradient(1px 1px at 42% 78%, rgba(255, 255, 255, 0.6) 0, transparent 2px),
+    radial-gradient(1.2px 1.2px at 85% 18%, rgba(255, 255, 255, 0.5) 0, transparent 2px);
   background-size: 220px 220px, 320px 320px, 280px 280px, 360px 360px;
 }
 
-/* Landing canvas: the cozy night field the lit panels float on. One dominant
-   indigo glow (top right), fading to near-black; grain keeps it photographic. */
+/* The bold yellow field: flat colour, no gradient, with a whisper of grain so
+   it reads as printed paper rather than a screen fill. */
 .dream {
   position: relative;
   isolation: isolate;
-  background:
-    radial-gradient(55rem 34rem at 80% -6%, rgba(124, 106, 255, 0.22), transparent 62%),
-    radial-gradient(30rem 20rem at 90% 34%, rgba(58, 78, 150, 0.35), transparent 72%),
-    radial-gradient(36rem 24rem at 4% 20%, rgba(226, 87, 138, 0.09), transparent 70%),
-    radial-gradient(44rem 30rem at 46% 112%, rgba(34, 165, 138, 0.09), transparent 70%),
-    linear-gradient(180deg, #171324 0%, #121017 55%, #0e0c14 100%);
+  background-color: #F4D35E;
 }
 .dream::before {
   content: "";
@@ -200,13 +295,19 @@ body {
   inset: 0;
   z-index: -1;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  opacity: 0.28;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+}
+
+/* The quiet band between white sections: pale yellow, never beige. */
+.band-wash {
+  background-color: #FFF7DF;
 }
 
 .subtle-grid {
   background-image:
-    linear-gradient(to right, rgba(30, 32, 48, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(30, 32, 48, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, rgba(41, 49, 61, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(41, 49, 61, 0.045) 1px, transparent 1px);
   background-size: 56px 56px;
 }
 
@@ -218,13 +319,13 @@ body {
 }
 
 ::selection {
-  background-color: #3b3466;
-  color: #f4f2e8;
+  background-color: #29313D;
+  color: #F4D35E;
 }
 
 /* Consistent focus ring for keyboard users. */
 :where(a, button, input, select, textarea):focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid #29313D;
   outline-offset: 2px;
   border-radius: 6px;
 }

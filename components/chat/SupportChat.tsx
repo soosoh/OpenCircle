@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MessageInput } from "@/components/chat/MessageInput";
 import { PrivateMessage } from "@/components/chat/PrivateMessage";
+import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import type { PrivateMessage as PrivateMessageRecord, User } from "@/types";
@@ -36,22 +37,24 @@ export function SupportChat({
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        className="flex w-full items-center gap-3 text-left"
+        className="flex min-h-11 w-full items-center gap-3 text-left"
       >
-        <span className="flex size-2 shrink-0 rounded-full bg-mint" aria-hidden />
+        <Avatar name={other.name} color={other.avatarColor} size={32} />
         <span className="min-w-0 flex-1">
-          <span className="block font-medium">{other.name}</span>
-          <span className="block truncate text-sm text-muted">
+          <span className="block text-[13px] font-semibold text-ink">{other.name}</span>
+          <span className="mt-0.5 block truncate text-xs text-muted">
             {last ? last.content : "No messages yet"}
           </span>
         </span>
-        <span className="text-xs text-muted">{open ? "Hide" : "Open"}</span>
+        <span className="shrink-0 text-xs font-semibold text-muted">{open ? "Hide" : "Open"}</span>
       </button>
 
       {open ? (
         <div className="mt-4 space-y-2 border-t border-line pt-4">
           {thread.length === 0 ? (
-            <p className="py-3 text-center text-sm text-muted">Start a private conversation.</p>
+            <p className="py-3 text-center text-sm text-muted">
+              {canStart ? "Start a private conversation." : "No messages yet. Your moderator can start this thread."}
+            </p>
           ) : (
             thread.map((message) => (
               <PrivateMessage key={message.id} message={message} mine={message.senderId === viewerId} />
@@ -67,7 +70,7 @@ export function SupportChat({
               />
             </div>
           ) : (
-            <Button variant="secondary" size="sm" disabled className="mt-2">
+            <Button variant="secondary" size="sm" disabled className="mt-2 min-h-10">
               Only the moderator can start this thread
             </Button>
           )}

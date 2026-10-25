@@ -1,7 +1,7 @@
 /** Circular initials avatar. `color` is the user's avatarColor. */
 export function Avatar({
   name,
-  color = "#4f46e5",
+  color = "#29313D",
   size = 40,
   className = "",
 }: {
@@ -42,7 +42,7 @@ export function AvatarStack({ people, size = 32 }: { people: { name: string; ava
       ))}
       {people.length > 5 ? (
         <span
-          className="inline-flex items-center justify-center rounded-full bg-ink/10 font-medium text-muted ring-2 ring-surface"
+          className="inline-flex items-center justify-center rounded-full bg-mist font-semibold text-muted ring-2 ring-surface"
           style={{ width: size, height: size, fontSize: Math.round(size * 0.34) }}
         >
           +{people.length - 5}

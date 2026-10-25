@@ -1,0 +1,189 @@
+- generic [active] [ref=f19e1]:
+  - banner [ref=f19e2]:
+    - generic [ref=f19e3]:
+      - link "StudyCircle" [ref=f19e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f19e11]:
+        - navigation "Main" [ref=f19e12]:
+          - link "Dashboard" [ref=f19e13] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Chords" [ref=f19e14] [cursor=pointer]:
+            - /url: /chords
+          - link "Moderate" [ref=f19e15] [cursor=pointer]:
+            - /url: /moderator
+          - link "Profile" [ref=f19e16] [cursor=pointer]:
+            - /url: /profile
+        - link "Maya Chen" [ref=f19e17] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [aria-hidden] [ref=f19e18]: MC
+        - button "Sign out" [ref=f19e21]
+  - main [ref=f19e22]:
+    - generic [ref=f19e23]:
+      - link "All chords" [ref=f19e24] [cursor=pointer]:
+        - /url: /chords
+        - generic [aria-hidden] [ref=f19e25]: ←
+        - text: All chords
+      - generic [ref=f19e26]:
+        - generic [ref=f19e27]:
+          - heading "Biology" [level=1] [ref=f19e30]
+          - paragraph [ref=f19e31]: Cells, genetics, ecology and the living world.
+          - generic [ref=f19e32]:
+            - generic [ref=f19e33]: All students
+            - paragraph [ref=f19e34]: 4 members · 1 active point
+        - generic [ref=f19e35]:
+          - generic [ref=f19e36]: You're a member
+          - link "Start a point" [ref=f19e37] [cursor=pointer]:
+            - /url: "#start-a-point"
+      - generic [ref=f19e38]:
+        - generic [ref=f19e39]:
+          - region [ref=f19e40]:
+            - generic [ref=f19e41]:
+              - generic [ref=f19e42]:
+                - heading "Points" [level=2] [ref=f19e43]
+                - paragraph [ref=f19e44]: Weekly groups inside this chord. Each one has a moderator and a fixed meeting time.
+              - group "Filter by education level" [ref=f19e45]:
+                - button "All students" [pressed] [ref=f19e46]
+                - button "High school" [ref=f19e47]
+                - button "College (18+)" [ref=f19e48]
+            - generic [ref=f19e50]:
+              - generic [ref=f19e51]:
+                - paragraph [ref=f19e52]:
+                  - generic [ref=f19e54]: Biology
+                - generic [ref=f19e55]: Active
+              - heading "AP Biology Genetics Point" [level=3] [ref=f19e56]
+              - paragraph [ref=f19e57]: Weekly session on Mendelian genetics, pedigrees, and practice problems.
+              - generic [ref=f19e58]:
+                - generic [ref=f19e59]:
+                  - term [ref=f19e60]: Meets
+                  - definition [ref=f19e61]:
+                    - text: Sunday · 7:00 PM
+                    - generic [ref=f19e62]: New York time
+                - generic [ref=f19e63]:
+                  - term [ref=f19e64]: Next
+                  - definition [ref=f19e65]: Sun, Oct 25, 7:00 PM
+                - generic [ref=f19e66]:
+                  - term [ref=f19e67]: Moderator
+                  - definition [ref=f19e68]:
+                    - generic [aria-hidden] [ref=f19e69]: MC
+                    - generic [ref=f19e70]: Maya Chen
+              - generic [ref=f19e71]:
+                - generic [ref=f19e72]:
+                  - generic [ref=f19e73]:
+                    - generic [aria-hidden] [ref=f19e74]: BM
+                    - generic [aria-hidden] [ref=f19e75]: SK
+                    - generic [aria-hidden] [ref=f19e76]: JO
+                  - generic [ref=f19e77]: 3 members
+                - generic "Finish Biology Chapter 5" [ref=f19e78]: Working on Finish Biology Chapter 5
+              - link "Open the AP Biology Genetics Point point" [ref=f19e79] [cursor=pointer]:
+                - /url: /points/ap-bio-genetics
+          - region [ref=f19e81]:
+            - heading "How a point works" [level=2] [ref=f19e82]
+            - paragraph [ref=f19e83]: A point is one weekly hour with the same small group. Everyone sets goals, reports their own progress, and asks for help in the point chat.
+            - generic [ref=f19e84]:
+              - generic [ref=f19e85]:
+                - term [ref=f19e86]: Meet
+                - definition [ref=f19e87]: Show up at the same time each week.
+              - generic [ref=f19e88]:
+                - term [ref=f19e89]: Track
+                - definition [ref=f19e90]: Update your progress on the point's goals.
+              - generic [ref=f19e91]:
+                - term [ref=f19e92]: Ask
+                - definition [ref=f19e93]: Use the point chat or ask for support.
+        - complementary [ref=f19e94]:
+          - generic [ref=f19e95]:
+            - generic [ref=f19e96]:
+              - heading "Members" [level=2] [ref=f19e97]
+              - generic [ref=f19e98]: "4"
+            - list [ref=f19e99]:
+              - listitem [ref=f19e100]:
+                - generic [aria-hidden] [ref=f19e101]: MC
+                - generic [ref=f19e102]:
+                  - paragraph [ref=f19e104]: Maya Chen
+                  - paragraph [ref=f19e105]: Graduate student · Expert
+                  - paragraph [ref=f19e106]: No goals yet
+              - listitem [ref=f19e107]:
+                - generic [aria-hidden] [ref=f19e108]: BM
+                - generic [ref=f19e109]:
+                  - generic [ref=f19e110]:
+                    - paragraph [ref=f19e111]: Bob Martinez
+                    - generic [ref=f19e112]: 55%
+                  - paragraph [ref=f19e113]: Sophomore · Intermediate
+                  - progressbar "Bob Martinez average progress" [ref=f19e115]
+              - listitem [ref=f19e117]:
+                - generic [aria-hidden] [ref=f19e118]: SK
+                - generic [ref=f19e119]:
+                  - generic [ref=f19e120]:
+                    - paragraph [ref=f19e121]: Sarah Kim
+                    - generic [ref=f19e122]: 80%
+                  - paragraph [ref=f19e123]: Grade 12 · Intermediate
+                  - progressbar "Sarah Kim average progress" [ref=f19e125]
+              - listitem [ref=f19e127]:
+                - generic [aria-hidden] [ref=f19e128]: JO
+                - generic [ref=f19e129]:
+                  - generic [ref=f19e130]:
+                    - paragraph [ref=f19e131]: John Okafor
+                    - generic [ref=f19e132]: 10%
+                  - paragraph [ref=f19e133]: Grade 11 · Beginner
+                  - progressbar "John Okafor average progress" [ref=f19e135]
+                  - paragraph [ref=f19e137]: Needs a hand this week
+          - generic [ref=f19e138]:
+            - heading "Point moderators" [level=2] [ref=f19e139]
+            - paragraph [ref=f19e140]: Each point has one moderator, chosen for subject fit, experience, and reliability.
+            - list [ref=f19e141]:
+              - listitem [ref=f19e142]:
+                - generic [aria-hidden] [ref=f19e143]: MC
+                - generic [ref=f19e144]:
+                  - paragraph [ref=f19e145]: Maya Chen
+                  - paragraph [ref=f19e146]: Runs AP Biology Genetics Point
+          - generic [ref=f19e147]:
+            - heading "Deadlines" [level=2] [ref=f19e148]
+            - list [ref=f19e149]:
+              - listitem [ref=f19e150]:
+                - link [ref=f19e151] [cursor=pointer]:
+                  - /url: /points/ap-bio-genetics
+                  - paragraph [ref=f19e152]: Finish Biology Chapter 5
+                  - paragraph [ref=f19e153]: Wed, Oct 28, 5:54 PM
+              - listitem [ref=f19e154]:
+                - link [ref=f19e155] [cursor=pointer]:
+                  - /url: /points/ap-bio-genetics
+                  - paragraph [ref=f19e156]: Complete practice problems
+                  - paragraph [ref=f19e157]: Fri, Oct 30, 5:54 PM
+          - generic [ref=f19e159]:
+            - heading "Start a point" [level=2] [ref=f19e160]
+            - paragraph [ref=f19e161]: Pick a weekly time. A moderator is chosen from the chord's members.
+            - generic [ref=f19e163]:
+              - generic [ref=f19e164]:
+                - generic [ref=f19e165]: Point title
+                - textbox "Point title" [ref=f19e166]:
+                  - /placeholder: AP Biology Genetics Point
+              - generic [ref=f19e167]:
+                - generic [ref=f19e168]: What is this group about?
+                - textbox "What is this group about?" [ref=f19e169]:
+                  - /placeholder: Weekly session on …
+              - generic [ref=f19e170]:
+                - generic [ref=f19e171]:
+                  - generic [ref=f19e172]: Meets on
+                  - combobox "Meets on" [ref=f19e173]:
+                    - option "Sunday" [selected]
+                    - option "Monday"
+                    - option "Tuesday"
+                    - option "Wednesday"
+                    - option "Thursday"
+                    - option "Friday"
+                    - option "Saturday"
+                - generic [ref=f19e174]:
+                  - generic [ref=f19e175]: At
+                  - textbox "At In your timezone." [ref=f19e176]: 19:00
+                  - generic [ref=f19e177]: In your timezone.
+              - generic [ref=f19e178]:
+                - generic [ref=f19e179]: Who can join
+                - combobox "Who can join" [ref=f19e180]:
+                  - option "All students" [selected]
+                  - option "High school"
+                  - option "College (18+)"
+              - button "Create point" [ref=f19e181]
+  - contentinfo [ref=f19e182]:
+    - generic [ref=f19e183]:
+      - link "StudyCircle" [ref=f19e184] [cursor=pointer]:
+        - /url: /
+      - paragraph [ref=f19e191]: "Built the way our points run: slowly, together, every week."

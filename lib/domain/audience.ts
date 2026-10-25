@@ -27,7 +27,9 @@ export function matchesAudience(entity: Audience, filter: Audience): boolean {
 }
 
 export function matchesUserAudience(user: User, filter: Audience): boolean {
-  return filter === "all" || educationAudience(user.educationLevel) === filter;
+  // Same rule as joining: a college filter also requires the 18+ minimum, so member
+  // search can never show an under-age "college" profile.
+  return canJoinAudience(user, filter).ok;
 }
 
 /** Join check: a student may join a group only if their education level matches its audience. */

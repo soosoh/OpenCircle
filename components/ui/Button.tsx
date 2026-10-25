@@ -1,21 +1,31 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 
+/**
+ * Action language for the whole app.
+ *
+ * primary  the yellow school-bus button: one per view, on white or pale surfaces
+ * ink      the same weight on a yellow field, where yellow would disappear
+ * secondary a quiet bordered action that sits beside a primary
+ * ghost    inline / icon actions inside dense UI
+ * danger   only for destructive or urgent actions
+ */
 const VARIANTS = {
-  primary: "bg-brand text-white hover:bg-[#3f38c9] shadow-sm",
-  secondary: "bg-surface text-ink border border-line hover:border-brand/40 hover:bg-brand/5",
-  ghost: "text-muted hover:text-ink hover:bg-ink/5",
-  danger: "bg-coral text-white hover:bg-[#c94878] shadow-sm",
+  primary: "bg-sun text-ink hover:bg-sun-deep",
+  ink: "bg-ink text-white hover:bg-[#3A4452]",
+  secondary: "bg-surface text-ink border border-line hover:border-ink/25 hover:bg-sun-wash",
+  ghost: "text-muted hover:bg-mist hover:text-ink",
+  danger: "bg-coral text-white hover:bg-[#A93A21]",
 } as const;
 
 const SIZES = {
   sm: "px-3 py-1.5 text-sm",
-  md: "px-4 py-2 text-sm",
-  lg: "px-5 py-2.5 text-base",
+  md: "px-4 py-2.5 text-sm",
+  lg: "px-5 py-3 text-base",
 } as const;
 
 const BASE =
-  "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50";
 
 type Variant = keyof typeof VARIANTS;
 type Size = keyof typeof SIZES;

@@ -33,7 +33,7 @@ export function RiskPanel({ pointId, action }: { pointId: string; action: RiskAc
   return (
     <Card className="space-y-3" data-risk={pointId}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="font-semibold tracking-tight">Who may need a check-in</h3>
+        <h3 className="font-display text-lg font-bold tracking-tight text-ink">Who may need a check-in</h3>
         {state.live === undefined ? null : state.live ? (
           <Badge tone="brand">Live model</Badge>
         ) : (
@@ -50,7 +50,7 @@ export function RiskPanel({ pointId, action }: { pointId: string; action: RiskAc
       </form>
 
       {state.error ? (
-        <p role="alert" className="rounded-xl border border-coral/40 bg-coral/8 px-3 py-2 text-sm text-coral">
+        <p role="alert" className="rounded-xl border border-coral/30 bg-coral/10 px-3 py-2 text-sm text-coral">
           {state.error}
         </p>
       ) : null}
@@ -58,9 +58,9 @@ export function RiskPanel({ pointId, action }: { pointId: string; action: RiskAc
       {state.risks ? (
         <ul className="space-y-2">
           {state.risks.map((entry) => (
-            <li key={entry.userId} className="rounded-xl border border-line p-3">
+            <li key={entry.userId} className="rounded-xl border border-line bg-paper p-3">
               <div className="flex items-center justify-between gap-3">
-                <p className="truncate text-sm font-medium">{entry.name}</p>
+                <p className="truncate text-sm font-semibold text-ink">{entry.name}</p>
                 <Badge tone={TONES[entry.risk]}>{entry.risk} risk</Badge>
               </div>
               {entry.notes ? <p className="mt-1 text-sm text-muted">{entry.notes}</p> : null}

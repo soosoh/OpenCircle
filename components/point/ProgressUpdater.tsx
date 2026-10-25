@@ -2,8 +2,10 @@
 
 import { useFormStatus } from "react-dom";
 import { SubmitButton } from "@/components/ui/Button";
-import { ProgressBar } from "@/components/ui/ProgressBar";
 import type { Goal } from "@/types";
+
+const INPUT =
+  "h-10 w-full rounded-xl border border-line bg-surface px-3 text-sm text-ink transition-colors hover:border-ink/25 focus:border-ink/40 focus:outline-none focus:ring-2 focus:ring-sun/50";
 
 /** Lets an assigned member report progress on a goal. */
 export function ProgressUpdater({
@@ -20,32 +22,26 @@ export function ProgressUpdater({
   if (!assignment) return null;
 
   return (
-    <form action={action} className="flex flex-wrap items-center gap-2 rounded-xl border border-line p-3">
-      <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium">Your progress</p>
-        <div className="mt-1.5">
-          <ProgressBar value={assignment.progress} label="Your progress" />
-        </div>
-      </div>
-      <input
-        type="number"
-        name="progress"
-        min={0}
-        max={100}
-        defaultValue={assignment.progress}
-        className="w-20 rounded-lg border border-line bg-surface px-2 py-1 text-sm"
-        aria-label="Progress percent"
-      />
-      <select
-        name="status"
-        defaultValue={assignment.status}
-        className="rounded-lg border border-line bg-surface px-2 py-1 text-sm"
-        aria-label="Status"
-      >
-        <option>On track</option>
-        <option>Needs assistance</option>
-        <option>Completed</option>
-      </select>
+    <form action={action} className="grid gap-3 sm:grid-cols-[6rem_minmax(0,1fr)_auto] sm:items-end">
+      <label>
+        <span className="mb-1.5 block text-xs text-muted">Set progress</span>
+        <input
+          type="number"
+          name="progress"
+          min={0}
+          max={100}
+          defaultValue={assignment.progress}
+          className={INPUT}
+        />
+      </label>
+      <label>
+        <span className="mb-1.5 block text-xs text-muted">Status</span>
+        <select name="status" defaultValue={assignment.status} className={INPUT}>
+          <option>On track</option>
+          <option>Needs assistance</option>
+          <option>Completed</option>
+        </select>
+      </label>
       <ProgressSubmit />
     </form>
   );
@@ -54,7 +50,11 @@ export function ProgressUpdater({
 function ProgressSubmit() {
   const { pending } = useFormStatus();
   return (
-    <SubmitButton size="sm" pending={pending}>
+    <SubmitButton
+      pending={pending}
+      pendingLabel="Saving…"
+      className="min-h-10 w-full justify-self-start sm:w-auto sm:justify-self-end"
+    >
       Save
     </SubmitButton>
   );

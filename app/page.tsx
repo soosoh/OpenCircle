@@ -115,7 +115,7 @@ function buildPanel(
       const sender = userById.get(message.senderId);
       return {
         name: sender?.name ?? "Member",
-        color: sender?.avatarColor ?? "#4f46e5",
+        color: sender?.avatarColor ?? "#F0502C",
         text: message.content,
         kind: message.kind,
       };
@@ -130,7 +130,7 @@ function buildPanel(
         return {
           title: point.title,
           chord: chord?.name ?? featuredChord?.name ?? "Circle",
-          chordColor: chord?.color ?? "#8b7ff7",
+          chordColor: chord?.color ?? "#FFC300",
           meets: whenLabel(point),
           members: point.memberIds.slice(0, 3).map(avatarOf),
         };

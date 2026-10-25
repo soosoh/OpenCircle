@@ -50,10 +50,9 @@ export function AssistantPanel({
 }) {
   const [state, formAction, pending] = useActionState(action, {});
   const [transcript, setTranscript] = useState("");
-  const [deadline, setDeadline] = useState(() => {
+  const [deadline] = useState(() => {
     // Default new goals to one week out. Client component mounted once, so seeding
     // from the clock in the initializer is intentional.
-    // eslint-disable-next-line react-hooks/purity
     const date = new Date();
     date.setDate(date.getDate() + 7);
     return date.toISOString().slice(0, 10);
@@ -62,7 +61,7 @@ export function AssistantPanel({
   return (
     <Card className="space-y-4" data-assistant={pointId}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="font-semibold tracking-tight">AI meeting assistant</h3>
+        <h3 className="font-display text-lg font-bold tracking-tight text-ink">AI meeting assistant</h3>
         {state.live === undefined ? (
           <Badge tone="muted">AI proposals</Badge>
         ) : state.live ? (
@@ -84,10 +83,10 @@ export function AssistantPanel({
           onChange={(event) => setTranscript(event.target.value)}
           rows={6}
           placeholder="We finished chapters 1-3. Priya got stuck on genetics and wants a walkthrough…"
-          className="w-full resize-y rounded-xl border border-line bg-surface px-3 py-2 text-sm"
+          className="w-full resize-y rounded-xl border border-line bg-paper px-3 py-2 text-sm text-ink placeholder:text-muted/70"
         />
         <label className="inline-flex items-center gap-2 text-sm text-muted">
-          <input type="checkbox" name="useRecording" className="size-4 accent-[#4f46e5]" />
+          <input type="checkbox" name="useRecording" className="size-4 accent-ink" />
           Use the meeting recording instead of pasting
         </label>
         <div className="flex items-center gap-3">
@@ -97,7 +96,7 @@ export function AssistantPanel({
       </form>
 
       {state.error ? (
-        <p role="alert" className="rounded-xl border border-coral/40 bg-coral/8 px-3 py-2 text-sm text-coral">
+        <p role="alert" className="rounded-xl border border-coral/30 bg-coral/10 px-3 py-2 text-sm text-coral">
           {state.error}
         </p>
       ) : null}
@@ -105,16 +104,16 @@ export function AssistantPanel({
       {state.summary ? (
         <div className="space-y-4 border-t border-line pt-4">
           <div className="flex flex-wrap items-center gap-2">
-            <h4 className="text-sm font-semibold tracking-tight">Summary</h4>
+            <h4 className="text-sm font-semibold text-ink">Summary</h4>
             <Badge tone="muted">
               {state.source === "recording" ? "From the recording" : "From your notes"}
             </Badge>
           </div>
-          <p className="text-sm">{state.summary.summary}</p>
+          <p className="text-sm text-ink">{state.summary.summary}</p>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <h4 className="mb-1 text-sm font-semibold tracking-tight">Completed</h4>
+              <h4 className="mb-1 text-sm font-semibold text-ink">Completed</h4>
               {state.summary.completed.length === 0 ? (
                 <p className="text-sm text-muted">Nothing recorded.</p>
               ) : (
@@ -129,7 +128,7 @@ export function AssistantPanel({
               )}
             </div>
             <div>
-              <h4 className="mb-1 text-sm font-semibold tracking-tight">Needs support</h4>
+              <h4 className="mb-1 text-sm font-semibold text-ink">Needs support</h4>
               {state.summary.needsSupport.length === 0 ? (
                 <p className="text-sm text-muted">No one flagged a blocker.</p>
               ) : (
@@ -147,18 +146,18 @@ export function AssistantPanel({
 
           {state.summary.suggestedGoals.length > 0 || (state.goals?.length ?? 0) > 0 ? (
             <div className="space-y-2">
-              <h4 className="text-sm font-semibold tracking-tight">Suggested goals</h4>
+              <h4 className="text-sm font-semibold text-ink">Suggested goals</h4>
               <p className="text-xs text-muted">Nothing is recorded until you press the button.</p>
               {state.summary.suggestedGoals.map((goal, index) => (
                 <form
                   key={`${pointId}-suggested-${index}`}
                   action={recordGoalAction}
-                  className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line p-3"
+                  className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line bg-paper p-3"
                 >
                   <input type="hidden" name="title" value={goal} />
                   <input type="hidden" name="description" value={state.goals?.[index]?.description ?? ""} />
                   <input type="hidden" name="deadline" value={deadline} />
-                  <p className="min-w-0 flex-1 text-sm">{goal}</p>
+                  <p className="min-w-0 flex-1 text-sm text-ink">{goal}</p>
                   <RecordButtonPending />
                 </form>
               ))}

@@ -1,4 +1,5 @@
 import { CHORD_CATALOG } from "@/config/chords";
+import { canJoinAudience } from "@/lib/domain/audience";
 import type { Goal, HelpRequest, Message, Point, PrivateMessage, User } from "@/types";
 import type { RowWithId, TableName } from "./store";
 
@@ -18,45 +19,45 @@ export function buildSeed(now: Date = new Date()): SeedData {
   const users: User[] = [
     {
       id: "maya", name: "Maya Chen", age: 24, educationLevel: "College", gradeLevel: "Graduate student",
-      school: "State University", bio: "Biology TA. Happy to review genetics problems.", avatarColor: "#22a58a",
+      school: "State University", bio: "Biology TA. Happy to review genetics problems.", avatarColor: "#2E7D5B",
       subjects: ["biology", "chemistry", "sat-prep"], experienceLevel: "Expert", timezone: "America/New_York",
       availability: [{ weekday: 0, start: "17:00", end: "21:00" }, { weekday: 2, start: "18:00", end: "21:00" }],
       reputation: 96, groupSuccessRate: 0.92, isCreator: true,
     },
     {
       id: "dev", name: "Dev Patel", age: 22, educationLevel: "College", gradeLevel: "Senior",
-      school: "State University", bio: "Builds things, teaches Python on weekends.", avatarColor: "#4f7cf0",
+      school: "State University", bio: "Builds things, teaches Python on weekends.", avatarColor: "#B85C1E",
       subjects: ["computer-science", "physics", "mathematics"], experienceLevel: "Advanced", timezone: "America/Chicago",
       availability: [{ weekday: 2, start: "19:00", end: "22:00" }, { weekday: 6, start: "09:00", end: "13:00" }],
       reputation: 94, groupSuccessRate: 0.9, isCreator: true,
     },
     {
       id: "bob", name: "Bob Martinez", age: 19, educationLevel: "College", gradeLevel: "Sophomore",
-      school: "City College", avatarColor: "#f08a4b", subjects: ["biology", "chemistry"],
+      school: "City College", avatarColor: "#8C3A22", subjects: ["biology", "chemistry"],
       experienceLevel: "Intermediate", timezone: "America/New_York",
       availability: [{ weekday: 0, start: "18:00", end: "22:00" }], reputation: 70, groupSuccessRate: 0.75, isCreator: false,
     },
     {
       id: "sarah", name: "Sarah Kim", age: 18, educationLevel: "High School", gradeLevel: "Grade 12",
-      school: "Lincoln High", avatarColor: "#e2578a", subjects: ["biology", "sat-prep"],
+      school: "Lincoln High", avatarColor: "#A83A50", subjects: ["biology", "sat-prep"],
       experienceLevel: "Intermediate", timezone: "America/New_York",
       availability: [{ weekday: 4, start: "16:00", end: "19:00" }], reputation: 65, groupSuccessRate: 0.8, isCreator: false,
     },
     {
       id: "john", name: "John Okafor", age: 17, educationLevel: "High School", gradeLevel: "Grade 11",
-      school: "Lincoln High", avatarColor: "#8b5cf6", subjects: ["biology", "mathematics"],
+      school: "Lincoln High", avatarColor: "#2D6A73", subjects: ["biology", "mathematics"],
       experienceLevel: "Beginner", timezone: "America/New_York",
       availability: [{ weekday: 0, start: "17:00", end: "20:00" }], reputation: 50, groupSuccessRate: 0.5, isCreator: false,
     },
     {
       id: "priya", name: "Priya Nair", age: 16, educationLevel: "High School", gradeLevel: "Grade 10",
-      school: "Westfield High", avatarColor: "#0ea5b7", subjects: ["computer-science", "robotics"],
+      school: "Westfield High", avatarColor: "#5A4632", subjects: ["computer-science", "robotics"],
       experienceLevel: "Beginner", timezone: "America/Los_Angeles",
       availability: [{ weekday: 2, start: "17:00", end: "20:00" }], reputation: 40, groupSuccessRate: 0.6, isCreator: false,
     },
     {
       id: "alex", name: "Alex Rivera", age: 20, educationLevel: "College", gradeLevel: "Junior",
-      school: "City College", avatarColor: "#84a31a", subjects: ["physics", "engineering"],
+      school: "City College", avatarColor: "#4F6B2A", subjects: ["physics", "engineering"],
       experienceLevel: "Intermediate", timezone: "America/Denver",
       availability: [{ weekday: 6, start: "09:00", end: "12:00" }], reputation: 68, groupSuccessRate: 0.7, isCreator: false,
     },
@@ -64,7 +65,11 @@ export function buildSeed(now: Date = new Date()): SeedData {
 
   const chords = CHORD_CATALOG.map((chord) => ({
     ...chord,
-    memberIds: users.filter((u) => u.subjects.includes(chord.id)).map((u) => u.id),
+    // A seeded membership must obey the same audience rule as joinChord(): never put a
+    // college student inside a high-school chord, or vice versa.
+    memberIds: users
+      .filter((u) => u.subjects.includes(chord.id) && canJoinAudience(u, chord.audience).ok)
+      .map((u) => u.id),
   }));
 
   const points: Point[] = ([
@@ -86,14 +91,16 @@ export function buildSeed(now: Date = new Date()): SeedData {
     {
       id: "python-study", chordId: "computer-science", title: "Python Study Group",
       description: "Beginner-friendly Python. We build one small project each week.", audience: "all",
-      moderatorId: "dev", memberIds: ["priya"], schedule: { weekday: 2, time: "20:00", timezone: "America/Chicago" },
+      moderatorId: "dev", memberIds: ["priya", "alex"], schedule: { weekday: 2, time: "20:00", timezone: "America/Chicago" },
       status: "Recruiting", meeting: { provider: "demo", meetingId: "python-room", meetingUrl: "", meetingPassword: "code" },
       createdAt: daysFromNow(-10, now),
     },
     {
       id: "sat-math", chordId: "sat-prep", title: "SAT Math Drills",
       description: "Timed algebra and data-analysis sets with a debrief.", audience: "high-school",
-      moderatorId: "maya", memberIds: ["sarah"], schedule: { weekday: 4, time: "17:00", timezone: "America/New_York" },
+      // Sarah is the highest-scoring high-school member for this chord, and a college
+      // moderator could not join a high-school point.
+      moderatorId: "sarah", memberIds: ["sarah"], schedule: { weekday: 4, time: "17:00", timezone: "America/New_York" },
       status: "Active", meeting: { provider: "demo", meetingId: "sat-math-room", meetingUrl: "", meetingPassword: "score" },
       createdAt: daysFromNow(-15, now),
     },
@@ -104,8 +111,11 @@ export function buildSeed(now: Date = new Date()): SeedData {
       status: "Paused", meeting: { provider: "demo", meetingId: "physics-room", meetingUrl: "", meetingPassword: "force" },
       createdAt: daysFromNow(-40, now),
     },
-  ] satisfies Point[]).map((point) => ({
+  ] satisfies Point[]).map((point): Point => ({
     ...point,
+    // The moderator is a participant, so the stored membership is explicit: every
+    // moderatorId also appears in memberIds.
+    memberIds: [...new Set([...point.memberIds, point.moderatorId])],
     meeting: { ...point.meeting, meetingUrl: `/points/${point.id}/meeting` },
   }));
 
@@ -124,7 +134,7 @@ export function buildSeed(now: Date = new Date()): SeedData {
     {
       id: "goal-practice", pointId: "ap-bio-genetics", title: "Complete practice problems",
       description: "Work through the Punnett square and pedigree sets.", deadline: daysFromNow(5, now),
-      status: "On track", resources: ["Practice set 3 (handout)"],
+      status: "Needs assistance", resources: ["Practice set 3 (handout)"],
       assignments: [
         { userId: "bob", progress: 40, status: "On track" },
         { userId: "sarah", progress: 60, status: "On track" },
@@ -140,7 +150,19 @@ export function buildSeed(now: Date = new Date()): SeedData {
     {
       id: "goal-csv", pointId: "python-study", title: "Parse a CSV file",
       description: "Write a function that reads a CSV and prints totals.", deadline: daysFromNow(6, now), status: "On track",
-      resources: [], assignments: [{ userId: "priya", progress: 10, status: "On track" }], createdAt: daysFromNow(-1, now),
+      resources: [], assignments: [
+        { userId: "priya", progress: 10, status: "On track" },
+        { userId: "dev", progress: 35, status: "On track" },
+        { userId: "alex", progress: 15, status: "On track" },
+      ], createdAt: daysFromNow(-1, now),
+    },
+    {
+      id: "goal-reading-list", pointId: "python-study", title: "Ship the reading-list script",
+      description: "Settle on the data shape, then get one end-to-end run working.", deadline: daysFromNow(4, now),
+      status: "On track", resources: ["Starter repo (shared in chat)"], assignments: [
+        { userId: "dev", progress: 60, status: "On track" },
+        { userId: "priya", progress: 20, status: "On track" },
+      ], createdAt: daysFromNow(-5, now),
     },
     {
       id: "goal-algebra", pointId: "sat-math", title: "Finish 30 algebra questions",
@@ -158,10 +180,13 @@ export function buildSeed(now: Date = new Date()): SeedData {
     { id: "msg-1", pointId: "ap-bio-genetics", senderId: "maya", content: "Welcome to Genetics! Post questions here anytime.", kind: "message", timestamp: minutesAgo(600, now) },
     { id: "msg-2", pointId: "ap-bio-genetics", senderId: "bob", content: "Does anyone have the Punnett square worksheet?", kind: "question", timestamp: minutesAgo(240, now) },
     { id: "msg-3", pointId: "ap-bio-genetics", senderId: "sarah", content: "Here is my summary of Mendelian ratios.", kind: "resource", timestamp: minutesAgo(90, now) },
+    { id: "msg-4", pointId: "python-study", senderId: "dev", content: "Tuesday is the CSV check-in. Bring whatever runs, even if it breaks.", kind: "message", timestamp: minutesAgo(320, now) },
+    { id: "msg-5", pointId: "python-study", senderId: "priya", content: "My loop reads the header row as data. Is that normal?", kind: "question", timestamp: minutesAgo(120, now) },
   ];
 
   const helpRequests: HelpRequest[] = [
     { id: "help-1", pointId: "ap-bio-genetics", userId: "john", reason: "Need help understanding Hardy-Weinberg equations.", status: "open", createdAt: minutesAgo(45, now) },
+    { id: "help-2", pointId: "python-study", userId: "priya", reason: "Stuck on the CSV parsing loop and would like to talk it through.", status: "open", createdAt: minutesAgo(70, now) },
   ];
 
   const privateMessages: PrivateMessage[] = [
@@ -170,5 +195,5 @@ export function buildSeed(now: Date = new Date()): SeedData {
 
   return {
     users, chords, points, goals, messages, help_requests: helpRequests, private_messages: privateMessages,
-  } as unknown as SeedData;
+  };
 }

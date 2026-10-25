@@ -1,0 +1,24 @@
+$ eslint
+
+C:\Users\tanis\OpenCircle\app\profile\page.tsx
+   5:10  warning  'ProgressBar' is defined but never used          @typescript-eslint/no-unused-vars
+  20:9   warning  'userChords' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\tanis\OpenCircle\components\assistant\AssistantPanel.tsx
+  53:20  warning  'setDeadline' is assigned a value but never used                                       @typescript-eslint/no-unused-vars
+  56:5   warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/purity')
+
+C:\Users\tanis\OpenCircle\lib\api\actions.ts
+   20:10  warning  'nextWeeklyOccurrence' is defined but never used  @typescript-eslint/no-unused-vars
+  369:3   warning  '_prev' is defined but never used                 @typescript-eslint/no-unused-vars
+  370:3   warning  '_formData' is defined but never used             @typescript-eslint/no-unused-vars
+  396:3   warning  '_prev' is defined but never used                 @typescript-eslint/no-unused-vars
+  397:3   warning  '_formData' is defined but never used             @typescript-eslint/no-unused-vars
+  453:61  warning  'prev' is defined but never used                  @typescript-eslint/no-unused-vars
+  453:78  warning  'formData' is defined but never used              @typescript-eslint/no-unused-vars
+  489:37  warning  'prev' is defined but never used                  @typescript-eslint/no-unused-vars
+  489:60  warning  'formData' is defined but never used              @typescript-eslint/no-unused-vars
+
+✖ 13 problems (0 errors, 13 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+

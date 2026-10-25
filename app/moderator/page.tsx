@@ -4,7 +4,8 @@ import { ModeratorPanel } from "@/components/moderator/ModeratorPanel";
 import { UserCard } from "@/components/moderator/UserCard";
 import { SupportChat } from "@/components/chat/SupportChat";
 import { Badge } from "@/components/ui/Badge";
-import { EmptyState, SectionHeading } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Card, SectionHeading } from "@/components/ui/Card";
 import { FEATURES } from "@/config/features";
 import {
   analyzePointStudents,
@@ -42,6 +43,7 @@ export default async function ModeratorPage({ searchParams }: PageProps<"/modera
   ]);
 
   const userById = new Map(users.map((user) => [user.id, user]));
+  const chordById = new Map(chords.map((chord) => [chord.id, chord]));
   const moderated = points.filter((point) => point.moderatorId === viewer.id);
 
   const entries = moderated.map((point) => {
@@ -62,6 +64,7 @@ export default async function ModeratorPage({ searchParams }: PageProps<"/modera
 
     return {
       point,
+      chordName: chordById.get(point.chordId)?.name ?? "Chord",
       members,
       goals: pointGoals,
       helpRequests: pointRequests,
@@ -102,50 +105,89 @@ export default async function ModeratorPage({ searchParams }: PageProps<"/modera
   });
 
   const memberSearch = users.filter((user) => matchesUserAudience(user, audience) && user.id !== viewer.id);
+  const moderatedMemberIds = new Set(moderated.flatMap((point) => [...point.memberIds, point.moderatorId]));
+  const openRequestCount = helpRequests.filter(
+    (request) => request.status === "open" && moderated.some((point) => point.id === request.pointId),
+  ).length;
 
   return (
     <div className="space-y-8">
-      <section className="space-y-2">
+      <section className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="text-2xl font-semibold tracking-tight">Moderator dashboard</h1>
+          <h1 className="font-display text-3xl font-bold tracking-tight text-ink">Moderator dashboard</h1>
           {FEATURES.ENABLE_AI_MODERATOR ? <Badge tone="brand">AI moderator on</Badge> : <Badge tone="muted">Human moderators only</Badge>}
         </div>
-        <p className="max-w-2xl text-muted">
-          Record goals, watch progress, and give one-on-one support. Every action here is checked against
-          the points you actually moderate.
+        <p className="max-w-2xl text-sm leading-relaxed text-muted">
+          Record goals, watch progress, and give one-on-one support. Every action here is checked
+          against the points you actually moderate.
         </p>
       </section>
 
       {moderated.length === 0 ? (
-        <EmptyState
-          title="You do not moderate any points"
-          hint="Points created in a chord you moderate will appear here. Creators moderate by default."
-        />
-      ) : null}
+        <Card>
+          <h2 className="font-display text-xl font-bold tracking-tight text-ink">You don&rsquo;t moderate a point yet</h2>
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
+            Goal recording, member progress, resources and one-to-one messages appear only on points
+            you moderate. Points created in a chord you moderate show up here; creators moderate by
+            default.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Button href="/chords" variant="secondary" size="sm" className="min-h-10">
+              Browse chords
+            </Button>
+            <Button href="/dashboard" variant="ghost" size="sm" className="min-h-10">
+              Back to dashboard
+            </Button>
+          </div>
+        </Card>
+      ) : (
+        <>
+          <section aria-label="Moderation at a glance" className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-line bg-mist p-4">
+              <p className="text-xs text-muted">Points you moderate</p>
+              <p className="tnum mt-1 font-display text-2xl font-semibold leading-none text-ink">
+                {moderated.length}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-line bg-mist p-4">
+              <p className="text-xs text-muted">Members across them</p>
+              <p className="tnum mt-1 font-display text-2xl font-semibold leading-none text-ink">
+                {moderatedMemberIds.size}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-line bg-mist p-4">
+              <p className="text-xs text-muted">Open support requests</p>
+              <p className="tnum mt-1 font-display text-2xl font-semibold leading-none text-ink">
+                {openRequestCount}
+              </p>
+            </div>
+          </section>
 
-      <ModeratorPanel
-        entries={entries.map((entry) => ({
-          ...entry,
-          requesters: new Map(
-            entry.helpRequests
-              .map((request) => {
-                const user = userById.get(request.userId);
-                return user ? ([request.userId, user] as const) : null;
-              })
-              .filter((pair): pair is readonly [string, (typeof users)[number]] => pair !== null),
-          ),
-        }))}
-        timeZone={viewer.timezone}
-        createGoalAction={createGoal}
-        updateProgressAction={updateGoalProgress}
-        resolveAction={resolveHelpRequest}
-      />
+          <ModeratorPanel
+            entries={entries.map((entry) => ({
+              ...entry,
+              requesters: new Map(
+                entry.helpRequests
+                  .map((request) => {
+                    const user = userById.get(request.userId);
+                    return user ? ([request.userId, user] as const) : null;
+                  })
+                  .filter((pair): pair is readonly [string, (typeof users)[number]] => pair !== null),
+              ),
+            }))}
+            timeZone={viewer.timezone}
+            createGoalAction={createGoal}
+            updateProgressAction={updateGoalProgress}
+            resolveAction={resolveHelpRequest}
+          />
+        </>
+      )}
 
       {threads.some((thread) => thread.students.length > 0) ? (
         <section className="space-y-4">
           <SectionHeading
             title="One-on-one support"
-            hint="Private messages. Members see replies on their point page."
+            hint="Private threads with the members of your points. Replies show on their point page."
           />
           <div className="grid gap-4 lg:grid-cols-2">
             {threads.flatMap((thread) =>
@@ -166,7 +208,10 @@ export default async function ModeratorPage({ searchParams }: PageProps<"/modera
       ) : null}
 
       <section className="space-y-3">
-        <SectionHeading title="Find a student" hint="Searchable by education level, using the same age filter as chords and points." />
+        <SectionHeading
+          title="Find a student"
+          hint="Searchable by education level, using the same age filter as chords and points."
+        />
         {memberSearch.length === 0 ? (
           <p className="text-sm text-muted">No students match this filter.</p>
         ) : (
@@ -176,9 +221,9 @@ export default async function ModeratorPage({ searchParams }: PageProps<"/modera
             ))}
           </div>
         )}
-        <p className="text-xs text-muted">
-          {chords.length} chords in the circle. Moderators are chosen from subject familiarity, experience,
-          group success, and community reputation.
+        <p className="text-xs leading-relaxed text-muted">
+          {chords.length} chords in the circle. Moderators are chosen from subject familiarity,
+          experience, group success, and community reputation.
         </p>
       </section>
     </div>

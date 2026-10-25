@@ -15,9 +15,17 @@ export function scoreModerator(user: User, chordId: string): number {
   return 0.35 * familiarity + 0.2 * experience + 0.25 * success + 0.2 * reputation;
 }
 
-/** Picks the highest-scoring eligible user for a chord. Returns undefined when nobody qualifies. */
+/**
+ * Picks exactly one moderator: the highest composite score above the reputation floor.
+ * Ties break on reputation, then user id, so a point never depends on array order.
+ */
 export function selectModerator(users: User[], chordId: string): User | undefined {
   return users
     .filter((u) => u.reputation >= MIN_MODERATOR_REPUTATION)
-    .sort((a, b) => scoreModerator(b, chordId) - scoreModerator(a, chordId))[0];
+    .sort(
+      (a, b) =>
+        scoreModerator(b, chordId) - scoreModerator(a, chordId) ||
+        b.reputation - a.reputation ||
+        a.id.localeCompare(b.id),
+    )[0];
 }

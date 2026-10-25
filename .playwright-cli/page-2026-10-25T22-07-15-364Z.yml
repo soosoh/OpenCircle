@@ -1,0 +1,256 @@
+- generic [active] [ref=f10e1]:
+  - banner [ref=f10e2]:
+    - generic [ref=f10e3]:
+      - link "StudyCircle" [ref=f10e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f10e11]:
+        - navigation "Main" [ref=f10e12]:
+          - link "Dashboard" [ref=f10e13] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Chords" [ref=f10e14] [cursor=pointer]:
+            - /url: /chords
+          - link "Profile" [ref=f10e15] [cursor=pointer]:
+            - /url: /profile
+        - link "Bob Martinez" [ref=f10e16] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [aria-hidden] [ref=f10e17]: BM
+        - button "Sign out" [ref=f10e20]
+  - main [ref=f10e21]:
+    - generic [ref=f10e22]:
+      - generic [ref=f10e23]:
+        - link "Biology chord" [ref=f10e24] [cursor=pointer]:
+          - /url: /chords/biology
+          - generic [aria-hidden] [ref=f10e25]: ←
+          - text: Biology chord
+        - generic [ref=f10e26]:
+          - generic [ref=f10e27]:
+            - generic [ref=f10e28]:
+              - heading "AP Biology Genetics Point" [level=1] [ref=f10e29]
+              - generic [ref=f10e30]: Active
+            - paragraph [ref=f10e31]: Weekly session on Mendelian genetics, pedigrees, and practice problems.
+            - generic [ref=f10e32]:
+              - generic [ref=f10e33]: All students
+              - generic [ref=f10e34]: 4 members
+          - generic [ref=f10e35]:
+            - paragraph [ref=f10e36]: You're a member of this point.
+            - link "Open point chat" [ref=f10e37] [cursor=pointer]:
+              - /url: "#chat"
+        - region "Schedule and membership" [ref=f10e38]:
+          - generic [ref=f10e39]:
+            - generic [ref=f10e40]:
+              - paragraph [ref=f10e41]: Meets
+              - paragraph [ref=f10e42]: Sunday · 7:00 PM
+              - paragraph [ref=f10e43]: Repeats weekly · New York time
+            - generic [ref=f10e44]:
+              - paragraph [ref=f10e45]: Next session
+              - paragraph [ref=f10e46]: Sun, Oct 25, 7:00 PM
+              - paragraph [ref=f10e47]: In your timezone
+            - generic [ref=f10e48]:
+              - paragraph [ref=f10e49]: Moderator
+              - paragraph [ref=f10e50]:
+                - generic [aria-hidden] [ref=f10e51]: MC
+                - text: Maya Chen
+              - paragraph [ref=f10e52]: Runs this point
+          - generic [ref=f10e53]:
+            - generic [ref=f10e54]:
+              - generic [ref=f10e55]:
+                - generic [aria-hidden] [ref=f10e56]: BM
+                - generic [aria-hidden] [ref=f10e57]: SK
+                - generic [aria-hidden] [ref=f10e58]: JO
+                - generic [aria-hidden] [ref=f10e59]: MC
+              - generic [ref=f10e60]: The people you meet every week
+            - link "Visit meeting room" [ref=f10e61] [cursor=pointer]:
+              - /url: /points/ap-bio-genetics/meeting
+      - status [ref=f10e63]:
+        - generic [aria-hidden] [ref=f10e64]: JO
+        - generic [ref=f10e65]:
+          - paragraph [ref=f10e66]: John Okafor needs a hand.
+          - paragraph [ref=f10e67]: Need help understanding Hardy-Weinberg equations.
+          - paragraph [ref=f10e68]: Reply in the point chat or check in with them.
+      - generic [ref=f10e69]:
+        - generic [ref=f10e70]:
+          - region [ref=f10e71]:
+            - generic [ref=f10e72]:
+              - heading "Goals" [level=2] [ref=f10e73]
+              - paragraph [ref=f10e74]: Recorded by Maya Chen.
+            - generic [ref=f10e75]:
+              - generic [ref=f10e76]:
+                - generic [ref=f10e77]:
+                  - generic [ref=f10e78]:
+                    - heading "Finish Biology Chapter 5" [level=3] [ref=f10e79]
+                    - paragraph [ref=f10e80]: Due Wed, Oct 28, 5:54 PM
+                  - generic [ref=f10e81]: Needs assistance
+                - paragraph [ref=f10e82]: Read Chapter 5 and answer the end-of-chapter questions.
+                - generic [ref=f10e83]:
+                  - generic [ref=f10e84]:
+                    - paragraph [ref=f10e85]: Your progress
+                    - paragraph [ref=f10e86]: 70%
+                  - progressbar "Finish Biology Chapter 5 your progress" [ref=f10e88]
+                - paragraph [ref=f10e90]: Resources · Chapter 5 PDF (shared in chat)
+                - generic [ref=f10e92]:
+                  - generic [ref=f10e93]:
+                    - generic [aria-hidden] [ref=f10e94]: BM
+                    - generic [aria-hidden] [ref=f10e95]: SK
+                    - generic [aria-hidden] [ref=f10e96]: JO
+                  - generic [ref=f10e97]: 3 assigned · 1 completed
+                - generic [ref=f10e99]:
+                  - generic [ref=f10e100]:
+                    - generic [ref=f10e101]: Your progress
+                    - spinbutton "Your progress" [ref=f10e102]: "70"
+                  - generic [ref=f10e103]:
+                    - generic [ref=f10e104]: Status
+                    - combobox "Status" [ref=f10e105]:
+                      - option "On track" [selected]
+                      - option "Needs assistance"
+                      - option "Completed"
+                  - button "Save" [ref=f10e106]
+              - generic [ref=f10e107]:
+                - generic [ref=f10e108]:
+                  - generic [ref=f10e109]:
+                    - heading "Complete practice problems" [level=3] [ref=f10e110]
+                    - paragraph [ref=f10e111]: Due Fri, Oct 30, 5:54 PM
+                  - generic [ref=f10e112]: On track
+                - paragraph [ref=f10e113]: Work through the Punnett square and pedigree sets.
+                - generic [ref=f10e114]:
+                  - generic [ref=f10e115]:
+                    - paragraph [ref=f10e116]: Your progress
+                    - paragraph [ref=f10e117]: 40%
+                  - progressbar "Complete practice problems your progress" [ref=f10e119]
+                - paragraph [ref=f10e121]: Resources · Practice set 3 (handout)
+                - generic [ref=f10e123]:
+                  - generic [ref=f10e124]:
+                    - generic [aria-hidden] [ref=f10e125]: BM
+                    - generic [aria-hidden] [ref=f10e126]: SK
+                    - generic [aria-hidden] [ref=f10e127]: JO
+                  - generic [ref=f10e128]: 3 assigned · 0 completed
+                - generic [ref=f10e130]:
+                  - generic [ref=f10e131]:
+                    - generic [ref=f10e132]: Your progress
+                    - spinbutton "Your progress" [ref=f10e133]: "40"
+                  - generic [ref=f10e134]:
+                    - generic [ref=f10e135]: Status
+                    - combobox "Status" [ref=f10e136]:
+                      - option "On track" [selected]
+                      - option "Needs assistance"
+                      - option "Completed"
+                  - button "Save" [ref=f10e137]
+          - generic [ref=f10e139]:
+            - generic [ref=f10e140]:
+              - generic [ref=f10e141]:
+                - heading "Point chat" [level=2] [ref=f10e142]
+                - paragraph [ref=f10e143]: Questions and resources stay with the point.
+              - generic [ref=f10e144]: 3 messages
+            - log "Point chat messages" [ref=f10e145]:
+              - article [ref=f10e146]:
+                - generic [aria-hidden] [ref=f10e147]: MC
+                - generic [ref=f10e148]:
+                  - generic [ref=f10e149]:
+                    - generic [ref=f10e150]: Maya Chen
+                    - time [ref=f10e151]: 7:54 AM
+                  - paragraph [ref=f10e153]: Welcome to Genetics! Post questions here anytime.
+              - article [ref=f10e154]:
+                - generic [ref=f10e155]:
+                  - generic [ref=f10e156]:
+                    - generic [ref=f10e157]: You
+                    - time [ref=f10e158]: 1:54 PM
+                    - generic [ref=f10e159]: Question
+                  - paragraph [ref=f10e161]: Does anyone have the Punnett square worksheet?
+              - article [ref=f10e162]:
+                - generic [aria-hidden] [ref=f10e163]: SK
+                - generic [ref=f10e164]:
+                  - generic [ref=f10e165]:
+                    - generic [ref=f10e166]: Sarah Kim
+                    - time [ref=f10e167]: 4:24 PM
+                    - generic [ref=f10e168]: Resource
+                  - paragraph [ref=f10e170]: Here is my summary of Mendelian ratios.
+            - generic [ref=f10e172]:
+              - textbox "Message your point…" [ref=f10e173]
+              - generic [ref=f10e174]:
+                - generic [ref=f10e175]:
+                  - generic [ref=f10e176]:
+                    - text: Type
+                    - combobox "Type" [ref=f10e177]:
+                      - option "Message" [selected]
+                      - option "Question"
+                      - option "Resource"
+                  - generic [ref=f10e178]: Enter to send · Shift + Enter for a new line
+                - button "Send" [ref=f10e179]
+          - region [ref=f10e180]:
+            - generic [ref=f10e181]:
+              - generic [ref=f10e182]:
+                - heading "Need a hand with this point?" [level=2] [ref=f10e183]
+                - paragraph [ref=f10e184]: Say what you are stuck on. Everyone in this point sees your note, and your moderator can mark it resolved.
+                - paragraph [ref=f10e185]: 1 open request in this point.
+              - button "Ask for support" [ref=f10e186]
+        - complementary [ref=f10e187]:
+          - generic [ref=f10e188]:
+            - heading "Session details" [level=2] [ref=f10e189]
+            - generic [ref=f10e190]:
+              - generic [ref=f10e191]:
+                - term [ref=f10e192]: Room
+                - definition [ref=f10e193]: Demo room
+              - generic [ref=f10e194]:
+                - term [ref=f10e195]: Room ID
+                - definition [ref=f10e196]: bio-genetics-room
+              - generic [ref=f10e197]:
+                - term [ref=f10e198]: Passcode
+                - definition [ref=f10e199]: study
+              - generic [ref=f10e200]:
+                - term [ref=f10e201]: Schedule
+                - definition [ref=f10e202]: Weekly
+            - link "Open meeting room" [ref=f10e203] [cursor=pointer]:
+              - /url: /points/ap-bio-genetics/meeting
+          - complementary [ref=f10e204]:
+            - generic [ref=f10e205]:
+              - heading "In this point" [level=2] [ref=f10e206]
+              - generic [ref=f10e207]: "4"
+            - list [ref=f10e208]:
+              - listitem [ref=f10e209]:
+                - generic [ref=f10e210]:
+                  - generic [aria-hidden] [ref=f10e211]: BM
+                  - generic [ref=f10e212]:
+                    - paragraph [ref=f10e213]: Bob Martinez (you)
+                    - paragraph [ref=f10e214]: College
+                  - generic [ref=f10e215]: 55%
+                - progressbar "Bob Martinez average progress" [ref=f10e217]
+              - listitem [ref=f10e219]:
+                - generic [ref=f10e220]:
+                  - generic [aria-hidden] [ref=f10e221]: SK
+                  - generic [ref=f10e222]:
+                    - paragraph [ref=f10e223]: Sarah Kim
+                    - paragraph [ref=f10e224]: High School
+                  - generic [ref=f10e225]: 80%
+                - progressbar "Sarah Kim average progress" [ref=f10e227]
+              - listitem [ref=f10e229]:
+                - generic [ref=f10e230]:
+                  - generic [aria-hidden] [ref=f10e231]: JO
+                  - generic [ref=f10e232]:
+                    - paragraph [ref=f10e233]: John Okafor
+                    - paragraph [ref=f10e234]: High School
+                  - generic [ref=f10e235]: 10%
+                - progressbar "John Okafor average progress" [ref=f10e237]
+                - paragraph [ref=f10e239]: Needs a hand this week
+              - listitem [ref=f10e240]:
+                - generic [ref=f10e241]:
+                  - generic [aria-hidden] [ref=f10e242]: MC
+                  - generic [ref=f10e243]:
+                    - paragraph [ref=f10e244]: Maya Chen
+                    - paragraph [ref=f10e245]: College
+                - paragraph [ref=f10e246]: No goals yet
+          - generic [ref=f10e247]:
+            - generic [ref=f10e248]:
+              - heading "Support requests" [level=2] [ref=f10e249]
+              - generic [ref=f10e250]: "1"
+            - generic [ref=f10e252]:
+              - generic [aria-hidden] [ref=f10e253]: JO
+              - generic [ref=f10e254]:
+                - generic [ref=f10e255]:
+                  - paragraph [ref=f10e256]: John Okafor
+                  - generic [ref=f10e257]: Open
+                - paragraph [ref=f10e258]: Need help understanding Hardy-Weinberg equations.
+                - paragraph [ref=f10e259]: Sun, Oct 25, 5:09 PM
+  - contentinfo [ref=f10e260]:
+    - generic [ref=f10e261]:
+      - link "StudyCircle" [ref=f10e262] [cursor=pointer]:
+        - /url: /
+      - paragraph [ref=f10e269]: "Built the way our points run: slowly, together, every week."
