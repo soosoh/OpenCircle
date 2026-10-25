@@ -4,8 +4,11 @@ import "./globals.css";
 <<<<<<< HEAD
 import { Avatar } from "@/components/ui/Avatar";
 import { getCurrentUser } from "@/lib/api/session";
+<<<<<<< HEAD
 =======
 >>>>>>> 8be7c72bcf6a96fec9e8822f759af3297e10fd22
+=======
+>>>>>>> parent of 63fa6c4 (Merge ui1 into main (#2))
 
 export const metadata: Metadata = {
   title: "StudyCircle",
@@ -35,6 +38,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
               <span className="inline-flex size-7 items-center justify-center rounded-full border-2 border-ink text-[11px]">
                 ◎
+<<<<<<< HEAD
 =======
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -52,6 +56,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                   <circle cx="23.5" cy="10" r="2" fill="#121017" />
                 </svg>
 >>>>>>> 8be7c72bcf6a96fec9e8822f759af3297e10fd22
+=======
+>>>>>>> parent of 63fa6c4 (Merge ui1 into main (#2))
               </span>
               StudyCircle
             </Link>
@@ -104,12 +110,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         <footer className="border-t border-line py-6 text-center text-sm text-muted">
           StudyCircle · study groups that hold you accountable
 =======
         <footer className="border-t border-white/10 bg-[#0f0d15] py-6 text-center text-sm text-white/45">
           StudyCircle — built the way our points run: slowly, together, every week.
 >>>>>>> 8be7c72bcf6a96fec9e8822f759af3297e10fd22
+=======
+        <footer className="border-t border-line py-6 text-center text-sm text-muted">
+          StudyCircle · study groups that hold you accountable
+>>>>>>> parent of 63fa6c4 (Merge ui1 into main (#2))
         </footer>
       </body>
     </html>

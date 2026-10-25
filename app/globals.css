@@ -12,11 +12,14 @@
   --color-coral: #e2578a;
   --color-surface: #ffffff;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   --color-duo-green: #58cc02;
   --color-duo-dark: #0b1d36;
   --color-duo-light: #f4f2e8;
 >>>>>>> 8be7c72bcf6a96fec9e8822f759af3297e10fd22
+=======
+>>>>>>> parent of 63fa6c4 (Merge ui1 into main (#2))
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
@@ -167,10 +170,14 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 63fa6c4 (Merge ui1 into main (#2))
 }
 
 ::selection {
   background-color: #ddd9ff;
+<<<<<<< HEAD
 =======
   overflow-x: clip;
 }
@@ -230,6 +237,8 @@ body {
   background-color: #3b3466;
   color: #f4f2e8;
 >>>>>>> 8be7c72bcf6a96fec9e8822f759af3297e10fd22
+=======
+>>>>>>> parent of 63fa6c4 (Merge ui1 into main (#2))
 }
 
 /* Consistent focus ring for keyboard users. */
