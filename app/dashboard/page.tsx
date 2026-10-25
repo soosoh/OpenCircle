@@ -14,7 +14,6 @@ import { listChords, listGoals, listHelpRequests, listPoints, listUsers } from "
 import { buildScheduleItems } from "@/lib/domain/schedule";
 import { nextWeeklyOccurrence } from "@/lib/domain/time";
 
-export const instant = false;
 export const metadata = { title: "Dashboard · StudyCircle" };
 
 export default async function DashboardPage() {

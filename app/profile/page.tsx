@@ -6,16 +6,13 @@ import { Field, Select, TextInput, Textarea } from "@/components/ui/Field";
 import { CHORD_CATALOG } from "@/config/chords";
 import { TIMEZONES } from "@/config/timezones";
 import { signOut, updateProfile } from "@/lib/api/actions";
-import { connection } from "next/server";
 import { requireUser } from "@/lib/api/session";
 import { listChords, listPoints } from "@/lib/database/repository";
 import { WEEKDAY_NAMES, formatTime } from "@/lib/domain/time";
 
-export const instant = false;
 export const metadata = { title: "Profile · StudyCircle" };
 
 export default async function ProfilePage() {
-  await connection();
   const user = await requireUser();
   const [chords, points] = await Promise.all([listChords(), listPoints()]);
 

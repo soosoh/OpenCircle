@@ -1,19 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #fafaf7;
-  --color-ink: #0a0a0a;
-  --color-muted: #737373;
-  --color-line: #e3e3e0;
-  --color-brand: #c87a3d;
-  --color-mint: #4b8f7a;
-  --color-sun: #eec870;
-  --color-coral: #e07a5f;
-  --color-surface: #f4f4f0;
+  --color-paper: #fbf8f4;
+  --color-ink: #1e2030;
+  --color-muted: #6b6f83;
+  --color-line: #e8e2d9;
+  --color-brand: #4f46e5;
+  --color-mint: #22a58a;
+  --color-sun: #f0a03c;
+  --color-coral: #e2578a;
+  --color-surface: #ffffff;
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: ui-serif, Georgia, "Times New Roman", serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
   --animate-fade-up: fade-up 0.35s ease-out both;
   --animate-float: float 6s ease-in-out infinite;
@@ -44,12 +42,10 @@ body {
   background-color: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background-color: rgba(200, 122, 61, 0.16);
+  background-color: #ddd9ff;
 }
 
 /* Consistent focus ring for keyboard users. */

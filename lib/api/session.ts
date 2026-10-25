@@ -1,5 +1,4 @@
 import { cookies } from "next/headers";
-import { unstable_noStore } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import { createServerClient } from "@supabase/ssr";
@@ -67,7 +66,6 @@ function supabaseAdmin() {
 }
 
 export async function getSessionUserId(): Promise<string | null> {
-  unstable_noStore();
   if (isSupabaseAuthEnabled()) {
     const { data } = await (await supabaseAuth()).getSession();
     return data.session?.user.id ?? null;
