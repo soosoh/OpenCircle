@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Link from "next/link";
 import { StudyCircle } from "@/components/circle/StudyCircle";
 import { ChordCard } from "@/components/chord/ChordCard";
@@ -5,9 +6,16 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { listChords, listPoints, listUsers } from "@/lib/database/repository";
 import { parseAudience } from "@/lib/domain/audience";
+=======
+import { LandingTabs } from "@/components/landing/LandingTabs";
+import { CHORD_CATALOG } from "@/config/chords";
+>>>>>>> 8be7c72bcf6a96fec9e8822f759af3297e10fd22
 
+// The landing page reads its chord list from the static catalog; the layout
+// still resolves the session, so nothing can prerender.
 export const instant = false;
 
+<<<<<<< HEAD
 export default async function HomePage({ searchParams }: PageProps<"/">) {
   const params = await searchParams;
   const audience = parseAudience(typeof params.audience === "string" ? params.audience : null);
@@ -102,4 +110,8 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
       </Card>
     </div>
   );
+=======
+export default function HomePage() {
+  return <LandingTabs chords={CHORD_CATALOG} />;
+>>>>>>> 8be7c72bcf6a96fec9e8822f759af3297e10fd22
 }

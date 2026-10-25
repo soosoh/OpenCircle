@@ -1,4 +1,5 @@
 @import "tailwindcss";
+/* Landing page motion system lives in @theme below. */
 
 @theme {
   --color-paper: #fbf8f4;
@@ -10,31 +11,154 @@
   --color-sun: #f0a03c;
   --color-coral: #e2578a;
   --color-surface: #ffffff;
+<<<<<<< HEAD
+=======
+  --color-duo-green: #58cc02;
+  --color-duo-dark: #0b1d36;
+  --color-duo-light: #f4f2e8;
+>>>>>>> 8be7c72bcf6a96fec9e8822f759af3297e10fd22
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   --animate-fade-up: fade-up 0.35s ease-out both;
   --animate-float: float 6s ease-in-out infinite;
-}
+  --animate-drift: drift 10s ease-in-out infinite;
+  --animate-bob: bob 4.2s ease-in-out infinite;
+  --animate-blink: blink 3.6s ease-in-out infinite;
+  --animate-rise: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-grow: grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-draw: draw 0.9s cubic-bezier(0.45, 0, 0.2, 1) both;
+  --animate-pop: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-twinkle: twinkle 7s ease-in-out infinite;
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-equalize: equalize 1.6s ease-in-out infinite;
 
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
+  /* Keyframes live inside @theme so Tailwind ships them with the utilities.
+     Idle motions use the standalone `translate` / `scale` properties so they
+     compose with Tailwind's transform utilities (-translate-x-1/2 etc.)
+     instead of clobbering them. Base element states are final/visible, so the
+     global reduced-motion floor leaves everything intact. */
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
   }
-  50% {
-    transform: translateY(-6px);
+
+  @keyframes drift {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes bob {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -6px;
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    91%,
+    100% {
+      scale: 1 1;
+    }
+    94.5% {
+      scale: 1 0.08;
+    }
+    98% {
+      scale: 1 1;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      scale: 1 0;
+    }
+    to {
+      scale: 1 1;
+    }
+  }
+
+  @keyframes grow {
+    from {
+      scale: 0 1;
+    }
+    to {
+      scale: 1 1;
+    }
+  }
+
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes pop {
+    from {
+      scale: 0;
+    }
+    to {
+      scale: 1;
+    }
+  }
+
+  /* A tiny equalizer: the streak's mini-bars never sit still. */
+  @keyframes equalize {
+    0%,
+    100% {
+      scale: 1 1;
+    }
+    50% {
+      scale: 1 0.55;
+    }
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* The chord band: one seamless loop — the track holds two identical
+     copies, each with the same trailing gap (pr-3), so -50% is exact. */
+  @keyframes marquee {
+    from {
+      translate: 0 0;
+    }
+    to {
+      translate: -50% 0;
+    }
   }
 }
 
@@ -42,10 +166,70 @@ body {
   background-color: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
+<<<<<<< HEAD
 }
 
 ::selection {
   background-color: #ddd9ff;
+=======
+  overflow-x: clip;
+}
+
+/* Landing-page bands: escape the max-w container and span the full viewport. */
+.full-bleed {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+/* Subtle "stars in the night sky" texture for dark hero bands. */
+.starfield {
+  background-image:
+    radial-gradient(1px 1px at 22% 30%, rgba(244, 242, 232, 0.35) 0, transparent 2px),
+    radial-gradient(1.5px 1.5px at 68% 58%, rgba(244, 242, 232, 0.28) 0, transparent 2px),
+    radial-gradient(1px 1px at 42% 78%, rgba(244, 242, 232, 0.22) 0, transparent 2px),
+    radial-gradient(1.2px 1.2px at 85% 18%, rgba(244, 242, 232, 0.2) 0, transparent 2px);
+  background-size: 220px 220px, 320px 320px, 280px 280px, 360px 360px;
+}
+
+/* Landing canvas: the cozy night field the lit panels float on. One dominant
+   indigo glow (top right), fading to near-black; grain keeps it photographic. */
+.dream {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(55rem 34rem at 80% -6%, rgba(124, 106, 255, 0.22), transparent 62%),
+    radial-gradient(30rem 20rem at 90% 34%, rgba(58, 78, 150, 0.35), transparent 72%),
+    radial-gradient(36rem 24rem at 4% 20%, rgba(226, 87, 138, 0.09), transparent 70%),
+    radial-gradient(44rem 30rem at 46% 112%, rgba(34, 165, 138, 0.09), transparent 70%),
+    linear-gradient(180deg, #171324 0%, #121017 55%, #0e0c14 100%);
+}
+.dream::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.28;
+}
+
+.subtle-grid {
+  background-image:
+    linear-gradient(to right, rgba(30, 32, 48, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 32, 48, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+::selection {
+  background-color: #3b3466;
+  color: #f4f2e8;
+>>>>>>> 8be7c72bcf6a96fec9e8822f759af3297e10fd22
 }
 
 /* Consistent focus ring for keyboard users. */
