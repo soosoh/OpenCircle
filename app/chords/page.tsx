@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { AudienceFilter } from "@/components/chord/AudienceFilter";
 import { ChordCard } from "@/components/chord/ChordCard";
 import { SectionHeading } from "@/components/ui/Card";
@@ -8,6 +9,8 @@ import type { Audience } from "@/types";
 export const metadata = { title: "Chords · StudyCircle" };
 
 export default async function ChordsPage({ searchParams }: PageProps<"/chords">) {
+  // The audience filter reads searchParams; the render is explicitly dynamic.
+  await connection();
   const params = await searchParams;
   const raw = typeof params.audience === "string" ? params.audience : null;
   const audience = raw === "high-school" || raw === "college" ? raw : "all";

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { AudienceFilter } from "@/components/chord/AudienceFilter";
 import { CreatePointForm } from "@/components/chord/CreatePointForm";
 import { MemberPanel } from "@/components/chord/MemberPanel";
@@ -23,6 +24,8 @@ export async function generateMetadata({ params }: PageProps<"/chords/[chordId]"
 }
 
 export default async function ChordPage({ params, searchParams }: PageProps<"/chords/[chordId]">) {
+  // Upcoming meetings are computed against "now"; the render is dynamic.
+  await connection();
   const { chordId } = await params;
   const query = await searchParams;
   const audience = parseAudience(typeof query.audience === "string" ? query.audience : null);
