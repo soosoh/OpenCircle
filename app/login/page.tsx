@@ -16,7 +16,7 @@ export default async function LoginPage() {
   // Bounce only when a profile actually resolves. Gating on the raw session cookie
   // instead would ping-pong with requireUser() forever whenever the cookie and the
   // profile disagree (stale cookie after a store reset, or an auth user without a profile).
-  if (await getCurrentUser()) redirect("/dashboard");
+  if (await getCurrentUser()) redirect("/");
   const passwordAuth = isSupabaseAuthEnabled();
   const users = passwordAuth ? [] : await listUsers();
 
