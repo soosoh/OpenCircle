@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Avatar } from "@/components/ui/Avatar";
+import { signOut } from "@/lib/api/actions";
+import { getCurrentUser } from "@/lib/api/session";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,7 +14,10 @@ export const metadata: Metadata = {
 // prerendered into a static shell. Revisit per route if adopting Suspense boundaries.
 export const instant = false;
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+// The header reads the session so the chrome tells the truth: signed-out visitors
+// see "Sign in"; signed-in members see their avatar with a way back out.
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const user = await getCurrentUser();
   return (
     <html lang="en" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
@@ -30,14 +36,29 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               StudyCircle
             </Link>
 
-            <div className="flex items-center gap-2">
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="flex items-center gap-2 text-sm font-medium text-paper">
+                  <Avatar name={user.name} color={user.avatarColor} size={26} />
+                  <span className="hidden sm:inline">{user.name}</span>
+                </span>
+                <form action={signOut}>
+                  <button
+                    type="submit"
+                    className="rounded-full border border-white/15 px-3.5 py-1.5 text-sm font-medium text-paper transition-colors hover:border-[#22a58a] hover:text-[#39d3a8]"
+                  >
+                    Sign out
+                  </button>
+                </form>
+              </div>
+            ) : (
               <Link
                 href="/login"
                 className="rounded-full bg-[#8b7ff7] px-3.5 py-1.5 text-sm font-medium text-[#141126] transition-colors hover:bg-[#a99ffc]"
               >
                 Sign in
               </Link>
-            </div>
+            )}
           </div>
         </header>
 
