@@ -1,191 +1,237 @@
-import type { ReactNode } from "react";
+import { Mascot } from "@/components/landing/mascot";
 
 /**
  * THE page background — and each slide gets its own evening:
  *
- *   circle   the lit schoolhouse, trail and the study walk (the canonical night)
- *   chords   an open pavilion with string lights, pennants, readers beneath
- *   points   a fire ring: tents in an arc, the storyteller, three seated friends
- *   progress dawn over the summit: moon, banner run, milestone flags, cheering
+ *   circle   the lit schoolhouse, trail and the walk of friends (the canonical night)
+ *   chords   an open pavilion with string lights, pennants and the Crowd beneath
+ *   points   a fire ring: tents in an arc, a breathing flame, friends around it
+ *   progress dawn over the summit: moon, a rope of milestone pennants, cheering
  *
  * One shared ridge skeleton (far ranges, mist, treeline, ground, grain) keeps
  * the four scenes reading as one world; the centerpiece band, glow tint and sky
- * change per scene. Every character is drawn from the same parametric anatomy
- * (head with ears, blinking eyes, scarf and backpack gear, stride poses) so the
- * cast is consistent — no ad-hoc stick figures anywhere.
+ * change per scene.
  *
- * Fixed to the viewport, layered above the night gradient, below the grain and
- * every panel; pointer-transparent throughout.
+ * The figures are the page's real characters: `Mascot` components nested into
+ * the scene, so every face, pupil, blush, smile and chord-foot is identical to
+ * the hero's cast — a scene of circles with eyes and smiles, not stick figures.
+ * The dog (no mascot exists for him) borrows the same face language, and his
+ * blink group carries the transform-box/origin pair the keyframe needs.
+ *
+ * Fixed to the viewport above the night gradient, below grain and panels;
+ * pointer-transparent throughout.
  */
 
 type Scene = "circle" | "chords" | "points" | "progress";
 
-/* ------------------------------------------------------------------ */
-/* characters                                                          */
-/* ------------------------------------------------------------------ */
-
-const INK = "#07060c";
-const INK_LIT = "#0b0817";
+/* palette shared with the rest of the page */
 const CREAM = "#f4f2e8";
+const INK = "#07060c";
+const INK_SOFT = "#0b0817";
 const MINT = "#22a58a";
 const VIOLET = "#b7aaff";
+const CORAL = "#e2578a";
+const INDIGO = "#4f46e5";
+const LILAC = "#8b7ff7";
 
-/** A round head with ears, face turned toward the walk direction. */
-function Head({ lit = INK_LIT }: { lit?: string }) {
+/* ------------------------------------------------------------------ */
+/* buildings and books — real architecture, real objects               */
+/* ------------------------------------------------------------------ */
+
+const WALL = "#2a2450";
+const ROOF = "#141021";
+const PLINTH = "#1a1533";
+
+/** One framed window: glass + frame + a mullion, so rows read as glazing. */
+function Window({
+  x,
+  y,
+  w = 14,
+  h = 18,
+  mint = false,
+  delay = "0s",
+}: {
+  x: number;
+  y: number;
+  w?: number;
+  h?: number;
+  mint?: boolean;
+  delay?: string;
+}) {
   return (
-    <g fill={lit}>
-      <circle cx="0" cy="-39.5" r="5.6" />
-      <circle cx="-4.4" cy="-44.4" r="2.1" />
-      <circle cx="4.4" cy="-44.4" r="2.1" />
-      <g transform="translate(0.9 -40)">
-        <g className="animate-blink" fill={CREAM}>
-          <circle cx="1.6" cy="0" r="1.05" />
-          <circle cx="4.4" cy="0" r="1.05" />
+    <g>
+      <rect x={x} y={y} width={w} height={h} rx={2} stroke={ROOF} strokeWidth={1.4} fill={mint ? MINT : CREAM} opacity={mint ? 0.75 : 0.6} className={mint ? "animate-twinkle" : undefined} style={mint ? { animationDelay: delay } : undefined} />
+      <line x1={x + w / 2} y1={y + 1.5} x2={x + w / 2} y2={y + h - 1.5} stroke={ROOF} strokeWidth={1.1} opacity={0.7} />
+      <line x1={x + 1} y1={y + h / 2} x2={x + w - 1} y2={y + h / 2} stroke={ROOF} strokeWidth={1.1} opacity={0.7} />
+    </g>
+  );
+}
+
+/** The schoolhouse cluster: overhanging roofs, framed glazing, clock tower. */
+function SchoolCluster() {
+  return (
+    <g>
+      {/* main hall wall + plinth */}
+      <rect x="612" y="550" width="252" height="102" fill={WALL} />
+      <rect x="600" y="650" width="276" height="12" fill={PLINTH} />
+      {/* right wing */}
+      <rect x="864" y="592" width="70" height="60" fill={WALL} />
+      <path d="M856 596 L899 574 L942 596 Z" fill={ROOF} />
+      <rect x="906" y="566" width="9" height="20" fill={ROOF} />
+      <rect x="902" y="562" width="17" height="5" rx="1.5" fill={PLINTH} />
+      {/* tower */}
+      <rect x="706" y="474" width="56" height="178" fill={WALL} />
+      {/* barn */}
+      <rect x="486" y="626" width="84" height="38" fill={WALL} />
+      {/* roofs — outer gable, eave shadow, ridge light */}
+      <path d="M570 552 L738 486 L906 552 Z" fill={ROOF} />
+      <path d="M570 552 L906 552 L888 562 L588 562 Z" fill={INK_SOFT} />
+      <path d="M578 550 L738 492 L898 550" stroke={VIOLET} strokeWidth="2" strokeLinecap="round" opacity="0.34" fill="none" />
+      <path d="M696 474 L734 436 L772 474 Z" fill={ROOF} />
+      <path d="M700 472 L734 440 L768 472" stroke={VIOLET} strokeWidth="2" strokeLinecap="round" opacity="0.34" fill="none" />
+      <path d="M478 628 L528 606 L578 628" stroke={VIOLET} strokeWidth="1.8" strokeLinecap="round" opacity="0.26" fill="none" />
+      <path d="M856 595 L899 575 L940 594" stroke={VIOLET} strokeWidth="1.8" strokeLinecap="round" opacity="0.26" fill="none" />
+      {/* barn doors, two panels */}
+      <rect x="512" y="640" width="32" height="24" fill={INK_SOFT} stroke={PLINTH} strokeWidth="1.4" />
+      <line x1="528" y1="640" x2="528" y2="664" stroke={PLINTH} strokeWidth="1.4" />
+      <circle cx="524" cy="652" r="1.4" fill={CREAM} opacity="0.5" />
+
+      {/* the glazing: upper row, lower row, all framed */}
+      <Window x={630} y={588} />
+      <Window x={662} y={588} />
+      <Window x={764} y={588} />
+      <Window x={796} y={588} />
+      <Window x={720} y={588} mint delay="-2.5s" />
+      <Window x={630} y={628} />
+      <Window x={664} y={628} />
+      <Window x={778} y={628} />
+      <Window x={812} y={628} />
+      <Window x={884} y={608} w={11} h={14} />
+      <Window x={911} y={608} w={11} h={14} mint delay="-4.2s" />
+
+      {/* the arched front door, steps catching the porch light */}
+      <path d="M718 662 L718 634 Q733 622 748 634 L748 662 Z" fill={INK_SOFT} />
+      <path d="M716 663 L716 633 Q733 619 750 633 L750 663" stroke={CREAM} strokeWidth="1.5" opacity="0.4" fill="none" />
+      <rect x="712" y="662" width="42" height="5" fill={PLINTH} />
+
+      {/* tower: belfry, clock with ticks, finial pennant */}
+      <path d="M723 500 Q734 492 745 500 L745 514 L723 514 Z" fill={INK_SOFT} />
+      <circle cx="734" cy="548" r="14" fill={CREAM} opacity="0.92" className="animate-twinkle" />
+      <line x1="734" y1="536" x2="734" y2="538.5" stroke={WALL} strokeWidth="1.6" strokeLinecap="round" />
+      <line x1="734" y1="560" x2="734" y2="557.5" stroke={WALL} strokeWidth="1.6" strokeLinecap="round" />
+      <line x1="722" y1="548" x2="724.5" y2="548" stroke={WALL} strokeWidth="1.6" strokeLinecap="round" />
+      <line x1="746" y1="548" x2="743.5" y2="548" stroke={WALL} strokeWidth="1.6" strokeLinecap="round" />
+      <line x1="734" y1="548" x2="734" y2="540.5" stroke={WALL} strokeWidth="2" strokeLinecap="round" />
+      <line x1="734" y1="548" x2="740.5" y2="550.5" stroke={WALL} strokeWidth="2" strokeLinecap="round" />
+      <line x1="734" y1="436" x2="734" y2="408" stroke={WALL} strokeWidth="3" />
+      <path d="M736 408 L762 415 L736 423 Z" fill={VIOLET} />
+    </g>
+  );
+}
+
+/** A stack of real books: ink blocks, cream fore-edges, colored title bands. */
+function BookStack({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
+  const bands = [MINT, VIOLET, CORAL, CREAM];
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`}>
+      {/* upright leaning book */}
+      <g transform="rotate(-68 -40 0)">
+        <rect x="-46" y="8" width="11" height="40" rx="2" fill={INK} />
+        <rect x="-46" y="8" width="11" height="40" rx="2" fill="none" stroke={PLINTH} strokeWidth="1" />
+      </g>
+      {[0, 1, 2].map((i) => (
+        <g key={i} transform={`rotate(${i === 0 ? -5 : i === 2 ? 4 : 0})`}>
+          <rect x="-34" y={-14 - i * 13.4} width={64 - i * 6} height="12.4" rx="2.4" fill={INK} />
+          <rect x={26 - i * 6} y={-13 - i * 13.4} width="3.6" height="10.4" fill={CREAM} opacity={0.4} />
+          <rect x="-22" y={-14 - i * 13.4} width="9" height="12.4" fill={bands[i]} opacity="0.55" />
         </g>
-      </g>
+      ))}
     </g>
   );
 }
 
-function Scarf({ gear }: { gear: string }) {
-  return <rect x="-4.2" y="-34.2" width="9" height="3.4" rx="1.7" fill={gear} />;
+/** The open book at the trailhead, with a page seam and fore-edge. */
+function BookAt({ x, y }: { x: number; y: number }) {
+  return (
+    <g>
+      <path
+        d={`M${x - 46} ${y + 12} Q${x - 24} ${y} ${x} ${y + 6} Q${x + 24} ${y + 12} ${x + 46} ${y + 6} L${x + 46} ${y + 18} Q${x + 24} ${y + 24} ${x} ${y + 18} Q${x - 24} ${y + 12} ${x - 46} ${y + 24} Z`}
+        fill={INK}
+      />
+      <line x1={x} y1={y + 6} x2={x} y2={y + 18} stroke={CREAM} strokeWidth="1.4" opacity="0.45" />
+      <line x1={x - 26} y1={y + 5} x2={x - 8} y2={y + 10} stroke={CREAM} strokeWidth="1" opacity="0.28" />
+      <line x1={x + 8} y1={y + 10} x2={x + 26} y2={y + 5} stroke={CREAM} strokeWidth="1" opacity="0.28" />
+    </g>
+  );
 }
 
-function Backpack({ gear }: { gear: string }) {
-  return <rect x="-12" y="-31.5" width="9" height="11.5" rx="3.4" fill={gear} />;
-}
+/* ------------------------------------------------------------------ */
+/* the cast: real mascots nested into the scene, plus the dog          */
+/* ------------------------------------------------------------------ */
 
-/** Mid-stride walker: same anatomy every time, gear colors vary. Origin = feet. */
-function Walker({
+const FOOT = 0.947; // feet bottom within the mascot box (y=60.6 of 64)
+
+function SceneMascot({
   x,
-  y,
-  gear = MINT,
-  flip = false,
-  delay = 0,
-  lit = INK_LIT,
-  item,
+  ground,
+  size = 10,
+  mood = "happy",
+  color = MINT,
+  tilt = 0,
+  bob,
 }: {
+  /** scene x of the character's center */
   x: number;
-  y: number;
-  gear?: string;
-  flip?: boolean;
-  delay?: number;
-  lit?: string;
-  item?: ReactNode;
+  /** scene y of the ground under the feet */
+  ground: number;
+  /** rendered box in scene units: 9/10/11 → 36/40/44 */
+  size?: 9 | 10 | 11;
+  mood?: "happy" | "cheer" | "peek" | "wink";
+  color?: string;
+  tilt?: number;
+  bob?: string;
 }) {
+  const box = size * 4;
+  const ax = x - box / 2; // content centers on 32/64 of the box
+  const by = ground - FOOT * box;
   return (
-    <g transform={`translate(${x} ${y}) ${flip ? "scale(-1 1)" : ""}`}>
-      {/* far-side leg + arm, tucked behind the torso */}
-      <line x1="-0.5" y1="-16" x2="-6" y2="1.2" stroke={lit} strokeWidth="3.4" strokeLinecap="round" />
-      <line x1="-1.5" y1="-29" x2="-5.5" y2="-22.5" stroke={lit} strokeWidth="2.6" strokeLinecap="round" />
-      <Backpack gear={gear} />
-      {/* near-side leg, mid-stride */}
-      <line x1="1" y1="-16" x2="6.5" y2="0" stroke={lit} strokeWidth="3.4" strokeLinecap="round" />
-      {/* torso, head, gear */}
-      <rect x="-6.3" y="-33" width="13.4" height="17.5" rx="6.6" fill={lit} />
-      <Scarf gear={gear} />
-      <Head lit={lit} />
-      {/* near-side arm + held item */}
-      <line x1="2" y1="-29.5" x2="5.8" y2="-22.8" stroke={lit} strokeWidth="2.6" strokeLinecap="round" />
-      {item}
+    <g
+      transform={`translate(${ax} ${by}) rotate(${tilt} ${box / 2} ${FOOT * box - 2})`}
+      className={bob ? "animate-bob" : undefined}
+      style={bob ? { animationDelay: bob } : undefined}
+    >
+      <Mascot mood={mood} color={color} width={box} height={box} />
     </g>
   );
 }
 
-/** Standing, cheering or pointing — planted feet, no stride. */
-function StandingFigure({
-  x,
-  y,
-  pose = "down",
-  gear = VIOLET,
-  flip = false,
-  delay = 0,
-  lit = INK_LIT,
-}: {
-  x: number;
-  y: number;
-  pose?: "down" | "cheer" | "point";
-  gear?: string;
-  flip?: boolean;
-  delay?: number;
-  lit?: string;
-}) {
-  const arms =
-    pose === "cheer" ? (
-      <>
-        <line x1="-2.5" y1="-29" x2="-7.5" y2="-40" stroke={lit} strokeWidth="2.6" strokeLinecap="round" />
-        <line x1="2.5" y1="-29" x2="7.5" y2="-40" stroke={lit} strokeWidth="2.6" strokeLinecap="round" />
-      </>
-    ) : pose === "point" ? (
-      <>
-        <line x1="-2" y1="-29" x2="-5.5" y2="-22" stroke={lit} strokeWidth="2.6" strokeLinecap="round" />
-        <line x1="2" y1="-29" x2="8.5" y2="-34" stroke={lit} strokeWidth="2.6" strokeLinecap="round" />
-      </>
-    ) : (
-      <>
-        <line x1="-2.5" y1="-29" x2="-5.5" y2="-21" stroke={lit} strokeWidth="2.6" strokeLinecap="round" />
-        <line x1="2.5" y1="-29" x2="5.5" y2="-21" stroke={lit} strokeWidth="2.6" strokeLinecap="round" />
-      </>
-    );
-  return (
-    <g transform={`translate(${x} ${y}) ${flip ? "scale(-1 1)" : ""}`} className="animate-bob" style={{ animationDelay: `${delay}s` }}>
-      <line x1="-2.8" y1="-16" x2="-2.8" y2="0" stroke={lit} strokeWidth="3.4" strokeLinecap="round" />
-      <line x1="2.8" y1="-16" x2="2.8" y2="0" stroke={lit} strokeWidth="3.4" strokeLinecap="round" />
-      <Backpack gear={gear} />
-      <rect x="-6.3" y="-33" width="13.4" height="17.5" rx="6.6" fill={lit} />
-      <Scarf gear={gear} />
-      <Head lit={lit} />
-      {arms}
-    </g>
-  );
-}
-
-/** Seated by the fire, legs folded under, face tilted up. */
-function SeatedFigure({ x, y, gear = MINT, lit = INK_LIT }: { x: number; y: number; gear?: string; lit?: string }) {
-  return (
-    <g transform={`translate(${x} ${y})`}>
-      <path d="M-7 0 Q0 -7.5 7 0 Z" fill={lit} />
-      <rect x="-5.8" y="-27.5" width="12" height="15.5" rx="6" fill={lit} />
-      <Scarf gear={gear} />
-      <g fill={lit}>
-        <circle cx="0" cy="-33.5" r="5.4" />
-        <circle cx="-4.3" cy="-38.2" r="2" />
-        <circle cx="4.3" cy="-38.2" r="2" />
-      </g>
-      <g transform="translate(0.9 -34)" className="animate-blink" fill={CREAM}>
-        <circle cx="1.3" cy="0" r="1" />
-        <circle cx="3.9" cy="0" r="1" />
-      </g>
-      <line x1="4.5" y1="-24" x2="8.5" y2="-19" stroke={lit} strokeWidth="2.4" strokeLinecap="round" />
-    </g>
-  );
-}
-
-/** The dog, walking or curled. */
+/** The dog, walking or curled — same face language as the mascots. */
 function Dog({
   x,
   y,
   pose = "walk",
-  flip = false,
 }: {
   x: number;
   y: number;
   pose?: "walk" | "curled";
-  flip?: boolean;
 }) {
   if (pose === "curled") {
     return (
-      <g transform={`translate(${x} ${y}) ${flip ? "scale(-1 1)" : ""}`}>
+      <g transform={`translate(${x} ${y})`}>
         <path d="M-9 0 Q-10 -7.5 0 -8.5 Q9 -8 9.5 0 Z" fill={INK} />
         <circle cx="6.8" cy="-6.4" r="3.9" fill={INK} />
         <circle cx="5" cy="-9.6" r="1.5" fill={INK} />
-        <circle cx="4.4" cy="-6" r="0.9" fill={CREAM} className="animate-blink" />
+        <g className="animate-blink [transform-box:fill-box] [transform-origin:center]">
+          <circle cx="4.2" cy="-6.1" r="1.1" fill={CREAM} />
+          <circle cx="4.2" cy="-6.1" r="0.5" fill={INK_SOFT} />
+        </g>
+        <path d="M3.2 -4.4 q1.8 1.3 3.6 0.3" stroke={CREAM} strokeWidth="0.9" strokeLinecap="round" fill="none" opacity="0.8" />
         <path d="M-9 0 Q-12.5 -3 -11 -6.5" stroke={INK} strokeWidth="2.4" strokeLinecap="round" fill="none" />
       </g>
     );
   }
   return (
-    <g transform={`translate(${x} ${y}) ${flip ? "scale(-1 1)" : ""}`}>
+    <g transform={`translate(${x} ${y})`}>
       <rect x="-9" y="-9" width="17.5" height="8.4" rx="4.2" fill={INK} />
       <line x1="-5.5" y1="-1.5" x2="-5.5" y2="0.5" stroke={INK} strokeWidth="2.2" strokeLinecap="round" />
       <line x1="-1.5" y1="-1.5" x2="-1.5" y2="1" stroke={INK} strokeWidth="2.2" strokeLinecap="round" />
@@ -194,7 +240,11 @@ function Dog({
       <path d="M6 -7.5 Q10.5 -8.5 11.5 -4.5" stroke={INK} strokeWidth="4.4" strokeLinecap="round" fill="none" />
       <circle cx="11.5" cy="-11.5" r="4.1" fill={INK} />
       <circle cx="9.2" cy="-14.8" r="1.7" fill={INK} />
-      <circle cx="12.6" cy="-10.9" r="0.95" fill={CREAM} className="animate-blink" />
+      <g className="animate-blink [transform-box:fill-box] [transform-origin:center]" transform="translate(12.8 -11.1)">
+        <circle cx="0" cy="0" r="1.25" fill={CREAM} />
+        <circle cx="0.35" cy="0.15" r="0.6" fill={INK_SOFT} />
+      </g>
+      <path d="M13.6 -8 q2.2 1.8 4 0" stroke={CREAM} strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.85" />
       <path d="M-8.5 -8.5 Q-12.5 -12 -11 -16" stroke={INK} strokeWidth="2.4" strokeLinecap="round" fill="none" />
     </g>
   );
@@ -209,10 +259,7 @@ function FarRange() {
     <g>
       <path d="M-60 560 Q90 420 200 392 Q300 368 380 430 Q470 500 560 545" fill="#221d47" />
       <path d="M560 545 L640 460 L760 545" fill="#221d47" />
-      <path
-        d="M700 545 Q820 420 920 380 Q1030 340 1120 410 Q1300 520 1440 470 L1440 620 L-60 620 Z"
-        fill="#221d47"
-      />
+      <path d="M700 545 Q820 420 920 380 Q1030 340 1120 410 Q1300 520 1440 470 L1440 620 L-60 620 Z" fill="#221d47" />
       <path d="M920 382 Q1006 348 1090 402" stroke="#a5b4fc" strokeWidth="2.2" strokeLinecap="round" opacity="0.24" fill="none" />
       <path d="M300 369 Q350 372 396 402" stroke="#a5b4fc" strokeWidth="2.2" strokeLinecap="round" opacity="0.22" fill="none" />
       <path d="M-40 480 Q260 430 560 466 Q860 500 1180 456 Q1330 440 1440 462 V640 H-40 Z" fill="#1c1840" />
@@ -247,20 +294,17 @@ function SecondRange({ dorm = true }: { dorm?: boolean }) {
       </g>
       {dorm && (
         <g>
-          <g fill="#191430">
-            <rect x="1030" y="488" width="132" height="76" rx="2" />
-            <path d="M1202 566 L1202 488 L1096 444 L1040 488 L1022 488 L1022 566 Z" />
-            <rect x="1080" y="420" width="10" height="30" />
-          </g>
-          <path d="M1022 489 L1096 445 L1180 492" stroke="#8b7ff7" strokeWidth="1.8" strokeLinecap="round" opacity="0.3" fill="none" />
-          <g fill={CREAM}>
-            <rect x="1049" y="510" width="12" height="15" rx="2" opacity="0.5" />
-            <rect x="1077" y="510" width="12" height="15" rx="2" opacity="0.34" />
-            <rect x="1133" y="510" width="12" height="15" rx="2" opacity="0.5" />
-            <rect x="1161" y="510" width="12" height="15" rx="2" opacity="0.3" />
-            <rect x="1049" y="540" width="12" height="15" rx="2" opacity="0.3" />
-            <rect x="1133" y="540" width="12" height="15" rx="2" opacity="0.42" className="animate-twinkle [animation-delay:-1.8s]" />
-          </g>
+          <rect x="1030" y="490" width="132" height="74" fill="#241e48" />
+          <path d="M1018 492 L1096 446 L1178 494 L1202 494 L1202 566 L1018 566 Z" fill={ROOF} />
+          <rect x="1080" y="420" width="10" height="30" fill={ROOF} />
+          <rect x="1076" y="416" width="18" height="5" rx="1.5" fill={PLINTH} />
+          <path d="M1020 492 L1096 447 L1176 493" stroke={VIOLET} strokeWidth="1.8" strokeLinecap="round" opacity="0.3" fill="none" />
+          <Window x={1052} y={512} w={12} h={15} />
+          <Window x={1080} y={512} w={12} h={15} />
+          <Window x={1140} y={512} w={12} h={15} />
+          <Window x={1168} y={512} w={12} h={15} mint delay="-1.8s" />
+          <Window x={1052} y={540} w={12} h={15} />
+          <Window x={1140} y={540} w={12} h={15} />
         </g>
       )}
     </g>
@@ -318,106 +362,6 @@ function RidgePines() {
 /* scene bands                                                         */
 /* ------------------------------------------------------------------ */
 
-function SchoolCluster() {
-  return (
-    <g>
-      <g fill="#1c1734">
-        <rect x="486" y="628" width="84" height="36" />
-        <path d="M478 630 L528 608 L578 630 Z" />
-        <rect x="612" y="546" width="252" height="114" />
-        <path d="M588 548 L738 498 L888 548 Z" />
-        <rect x="864" y="586" width="66" height="74" />
-        <path d="M858 588 L897 568 L936 588 Z" />
-        <rect x="910" y="556" width="12" height="26" />
-        <rect x="706" y="480" width="56" height="180" />
-        <path d="M698 482 L734 448 L770 482 Z" />
-      </g>
-      <g stroke={VIOLET} strokeLinecap="round" fill="none" opacity="0.34" strokeWidth="2">
-        <path d="M592 546 L738 500 L884 546" />
-        <path d="M706 480 L734 450 L762 480" />
-      </g>
-      <g stroke={VIOLET} strokeLinecap="round" fill="none" opacity="0.26" strokeWidth="1.8">
-        <path d="M478 629 L528 609 L578 629" />
-        <path d="M858 587 L897 569 L936 587" />
-      </g>
-      <line x1="734" y1="448" x2="734" y2="416" stroke="#1c1734" strokeWidth="3.2" />
-      <path d="M736 416 L760 423 L736 431 Z" fill={VIOLET} />
-      <g fill={CREAM} opacity="0.55">
-        <rect x="652" y="590" width="14" height="18" rx="2.5" />
-        <rect x="686" y="590" width="14" height="18" rx="2.5" />
-        <rect x="766" y="590" width="14" height="18" rx="2.5" />
-        <rect x="800" y="590" width="14" height="18" rx="2.5" />
-        <rect x="652" y="632" width="14" height="18" rx="2.5" />
-        <rect x="686" y="632" width="14" height="18" rx="2.5" />
-        <rect x="766" y="632" width="14" height="18" rx="2.5" />
-        <rect x="800" y="632" width="14" height="18" rx="2.5" />
-      </g>
-      <rect x="720" y="590" width="14" height="18" rx="2.5" fill={MINT} className="animate-twinkle [animation-delay:-2.5s]" />
-      <rect x="720" y="632" width="14" height="18" rx="2.5" fill={CREAM} opacity="0.4" />
-      <path d="M726 660 L726 640 Q733 634 740 640 L740 660 Z" fill="#0b0817" />
-      <path d="M724 661 L724 639 Q733 631 742 639 L742 661" stroke={CREAM} strokeWidth="1.4" opacity="0.35" fill="none" />
-      <rect x="727" y="512" width="14" height="18" rx="4" fill={CREAM} opacity="0.5" />
-      <circle cx="734" cy="556" r="12" fill={CREAM} opacity="0.92" className="animate-twinkle" />
-      <line x1="734" y1="556" x2="734" y2="549" stroke="#1c1734" strokeWidth="2" strokeLinecap="round" />
-      <line x1="734" y1="556" x2="740" y2="556" stroke="#1c1734" strokeWidth="2" strokeLinecap="round" />
-      <circle cx="518" cy="646" r="3" fill={CREAM} opacity="0.4" />
-    </g>
-  );
-}
-
-function BookStack({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
-  return (
-    <g transform={`translate(${x} ${y}) scale(${s})`}>
-      <g fill={INK}>
-        <rect x="-31" y="-24" width="62" height="12" rx="2" transform="rotate(-6)" />
-        <rect x="-23" y="-12" width="78" height="13" rx="2" />
-      </g>
-      <rect x="-18" y="-11" width="3" height="11" fill={CREAM} opacity="0.32" />
-    </g>
-  );
-}
-
-function BookAt({ x, y }: { x: number; y: number }) {
-  return (
-    <g>
-      <path d={`M${x - 46} ${y + 12} Q${x - 24} ${y} ${x} ${y + 6} Q${x + 24} ${y + 12} ${x + 46} ${y + 6} L${x + 46} ${y + 18} Q${x + 24} ${y + 24} ${x} ${y + 18} Q${x - 24} ${y + 12} ${x - 46} ${y + 24} Z`} fill={INK} />
-      <line x1={x} y1={y + 6} x2={x} y2={y + 18} stroke={CREAM} strokeWidth="1.4" opacity="0.4" />
-    </g>
-  );
-}
-
-/** Scene 1 — circle: the canonical study walk. */
-function CircleScene() {
-  return (
-    <>
-      <SecondRange dorm />
-      <MainRidge />
-      <SchoolCluster />
-      <RidgePines />
-      <TreelineBand />
-      <Ground />
-      <ellipse cx="700" cy="672" rx="230" ry="30" fill="#8b7ff7" opacity="0.08" />
-      <path d="M580 712 Q636 690 664 678 Q706 660 726 648" stroke="#1a1626" strokeWidth="7" strokeLinecap="round" fill="none" />
-      <BookStack x={586} y={700} s={0.9} />
-      <BookAt x={554} y={694} />
-      <BookStack x={352} y={680} />
-      <BookStack x={1252} y={662} s={1.05} />
-      <Walker x={652} y={702} gear={MINT} delay={-0.5} />
-      <Walker x={690} y={684} gear={VIOLET} delay={-1.7} />
-      <Walker
-        x={720}
-        y={666}
-        gear={CREAM}
-        delay={-2.9}
-        item={<rect x="6.5" y="-26" width="13" height="8" rx="1.5" fill={INK} />}
-      />
-      <Walker x={764} y={648} gear={MINT} delay={-3.6} />
-      <Dog x={802} y={662} pose="walk" />
-      <FramePines />
-    </>
-  );
-}
-
 function StringLights({ a, b, sag, lights }: { a: [number, number]; b: [number, number]; sag: number; lights: { x: number; y: number; mint?: boolean; delay?: string }[] }) {
   const [ax, ay] = a;
   const [bx, by] = b;
@@ -442,6 +386,33 @@ function StringLights({ a, b, sag, lights }: { a: [number, number]; b: [number, 
   );
 }
 
+/** Scene 1 — circle: the canonical study walk. */
+function CircleScene() {
+  return (
+    <>
+      <SecondRange dorm />
+      <MainRidge />
+      <SchoolCluster />
+      <RidgePines />
+      <TreelineBand />
+      <Ground />
+      <ellipse cx="700" cy="672" rx="230" ry="30" fill="#8b7ff7" opacity="0.08" />
+      <path d="M580 712 Q636 690 664 678 Q706 660 726 648" stroke="#1a1626" strokeWidth="7" strokeLinecap="round" fill="none" />
+      <BookStack x={566} y={706} s={0.95} />
+      <BookAt x={554} y={694} />
+      <BookStack x={352} y={680} />
+      <BookStack x={1252} y={662} s={1.05} />
+      {/* the walk of friends heading to the evening session */}
+      <SceneMascot x={652} ground={708} size={9} mood="peek" color={MINT} tilt={-4} />
+      <SceneMascot x={690} ground={690} size={10} mood="happy" color={CORAL} tilt={3} />
+      <SceneMascot x={724} ground={672} size={10} mood="wink" color={INDIGO} />
+      <SceneMascot x={760} ground={654} size={11} mood="cheer" color={MINT} bob="-1.6s" />
+      <Dog x={802} y={668} />
+      <FramePines />
+    </>
+  );
+}
+
 /** Scene 2 — chords: the open pavilion, strung with lights. */
 function ChordsScene() {
   return (
@@ -449,7 +420,6 @@ function ChordsScene() {
       <SecondRange dorm />
       <MainRidge />
       <g>
-        {/* pavilion: platform, poles, wide open roof */}
         <g fill="#1c1734">
           <rect x="600" y="556" width="280" height="14" />
           <rect x="624" y="470" width="7" height="88" />
@@ -459,13 +429,11 @@ function ChordsScene() {
           <rect x="866" y="472" width="18" height="10" />
         </g>
         <path d="M584 472 L738 426 L892 472" stroke={VIOLET} strokeWidth="2" strokeLinecap="round" opacity="0.32" fill="none" />
-        {/* pennants strung under the roof edge */}
         <path d="M596 484 Q738 502 880 484" stroke={CREAM} strokeWidth="1" opacity="0.22" fill="none" />
         <path d="M636 490 L636 506 L648 498 Z" fill={VIOLET} />
         <path d="M700 495 L700 511 L712 503 Z" fill={MINT} />
         <path d="M764 495 L764 511 L776 503 Z" fill={VIOLET} />
         <path d="M824 490 L824 506 L836 502 Z" fill={MINT} />
-        {/* string lights: the chord itself, hung between the poles */}
         <StringLights
           a={[628, 474]}
           b={[738, 500]}
@@ -495,29 +463,24 @@ function ChordsScene() {
             { x: 908, y: 518 },
           ]}
         />
-        {/* lamplight pool on the platform */}
         <ellipse cx="738" cy="610" rx="200" ry="26" fill="#8b7ff7" opacity="0.07" />
       </g>
-      {/* a second, smaller kiosk on the left */}
       <g fill="#1c1734">
         <rect x="470" y="616" width="74" height="48" />
         <path d="M462 618 L507 592 L552 618 Z" />
       </g>
       <path d="M464 617 L507 594 L548 616" stroke={VIOLET} strokeWidth="1.8" strokeLinecap="round" opacity="0.3" fill="none" />
-      <rect x="484" y="632" width="11" height="14" rx="2" fill={CREAM} opacity="0.42" className="animate-twinkle [animation-delay:-2s]" />
+      <Window x={484} y={632} w={11} h={14} mint delay="-2s" />
       <RidgePines />
       <TreelineBand />
       <Ground />
       <ellipse cx="700" cy="682" rx="180" ry="24" fill="#8b7ff7" opacity="0.07" />
-      {/* readers and a wanderer beneath the strings */}
-      <Walker x={592} y={706} gear={VIOLET} flip delay={-1.1} />
-      <g>
-        {/* seated reader with an open book */}
-        <SeatedFigure x={708} y={700} gear={CREAM} />
-        <path d="M672 690 Q684 682 698 687 Q712 692 724 687 L724 695 Q712 700 698 695 Q684 690 672 702 Z" transform="translate(24 24) scale(0.62)" fill={CREAM} opacity="0.85" />
-      </g>
-      <StandingFigure x={776} y={692} pose="point" gear={MINT} delay={-2.4} />
-      <Dog x={838} y={700} pose="curled" />
+      {/* friends gathered beneath the strings */}
+      <SceneMascot x={618} ground={706} size={9} mood="happy" color={CORAL} tilt={5} />
+      <SceneMascot x={702} ground={702} size={10} mood="wink" color={LILAC} bob="-2.4s" />
+      <SceneMascot x={764} ground={696} size={11} mood="cheer" color={INDIGO} />
+      <BookStack x={842} y={690} s={0.8} />
+      <Dog x={886} y={704} pose="curled" />
       <FramePines />
     </>
   );
@@ -530,7 +493,6 @@ function PointsScene() {
       <SecondRange dorm={false} />
       <MainRidge />
       <g>
-        {/* five tents in a loose arc */}
         {[
           [572, 630],
           [636, 612],
@@ -538,9 +500,12 @@ function PointsScene() {
           [788, 606],
           [862, 622],
         ].map(([tx, ty], i) => (
-          <g key={i} fill="#1c1734">
-            <path d={`M${tx - 30} ${ty + 34} L${tx} ${ty} L${tx + 30} ${ty + 34} Z`} />
+          <g key={i}>
+            <path d={`M${tx - 30} ${ty + 34} L${tx} ${ty} L${tx + 30} ${ty + 34} Z`} fill="#1c1734" />
+            <path d={`M${tx - 30} ${ty + 34} L${tx} ${ty} L${tx + 30} ${ty + 34}`} stroke={VIOLET} strokeWidth="1.4" strokeLinecap="round" opacity="0.2" fill="none" />
             <rect x={tx - 4} y={ty + 14} width="8" height="20" rx="3" fill={CREAM} opacity="0.18" />
+            {i === 0 && <path d={`M${tx + 6} ${ty - 2} L${tx + 6} ${ty - 16} L${tx + 20} ${ty - 12} L${tx + 6} ${ty - 9} Z`} fill={MINT} />}
+            {i === 3 && <path d={`M${tx - 8} ${ty - 2} L${tx - 8} ${ty - 16} L${tx - 22} ${ty - 12} L${tx - 8} ${ty - 9} Z`} fill={VIOLET} />}
           </g>
         ))}
         {/* the fire on its stone ring */}
@@ -549,7 +514,7 @@ function PointsScene() {
         <circle cx="724" cy="654" r="30" fill={CREAM} opacity="0.07" />
         <g>
           {[-14, -7, 0, 7, 14].map((dx, i) => (
-            <circle key={i} cx={724 + dx} cy={660 + (i % 2 ? 2 : 0)} r={2.4} fill={INK_LIT} />
+            <circle key={i} cx={724 + dx} cy={660 + (i % 2 ? 2 : 0)} r={2.4} fill={INK_SOFT} />
           ))}
         </g>
         <g className="animate-twinkle [animation-delay:-1.2s]">
@@ -561,12 +526,12 @@ function PointsScene() {
       <TreelineBand />
       <Ground />
       <ellipse cx="724" cy="690" rx="200" ry="26" fill={CREAM} opacity="0.07" />
-      {/* three friends seated around the fire, one telling the story */}
-      <SeatedFigure x={640} y={706} gear={MINT} />
-      <SeatedFigure x={812} y={702} gear={CREAM} />
-      <Dog x={856} y={712} pose="curled" />
-      <StandingFigure x={748} y={676} pose="cheer" gear={VIOLET} delay={-2.8} />
-      <SeatedFigure x={588} y={712} gear={VIOLET} />
+      {/* the fire ring: tellers and listeners, the storyteller mid-gesture */}
+      <SceneMascot x={606} ground={714} size={9} mood="peek" color={VIOLET} tilt={-5} />
+      <SceneMascot x={662} ground={706} size={9} mood="happy" color={MINT} />
+      <SceneMascot x={812} ground={700} size={10} mood="happy" color={CORAL} tilt={4} />
+      <SceneMascot x={752} ground={666} size={11} mood="cheer" color={INDIGO} bob="-2.8s" />
+      <Dog x={866} y={716} pose="curled" />
       <FramePines />
     </>
   );
@@ -576,14 +541,12 @@ function PointsScene() {
 function ProgressScene() {
   return (
     <>
-      {/* dawn wash + crescent moon */}
       <ellipse cx="300" cy="470" rx="420" ry="140" fill="#e2578a" opacity="0.09" />
       <ellipse cx="1180" cy="430" rx="380" ry="130" fill="#8b7ff7" opacity="0.07" />
       <path d="M1130 120 A26 26 0 1 0 1152 168 A20 20 0 1 1 1130 120 Z" fill={CREAM} opacity="0.75" />
       <SecondRange dorm />
       <MainRidge />
       <SchoolCluster />
-      {/* the banner run: a rope of milestone pennants between the summits */}
       <g>
         <line x1="392" y1="560" x2="1060" y2="536" stroke={CREAM} strokeWidth="1" opacity="0.22" />
         {(
@@ -610,31 +573,14 @@ function ProgressScene() {
       <TreelineBand />
       <Ground />
       <ellipse cx="720" cy="682" rx="220" ry="28" fill="#e2d9ff" opacity="0.07" />
-      {/* the cast at the top: one planted the pennant on the tower, two cheer, one arrives */}
-      <Walker x={600} y={706} gear={MINT} delay={-2.2} />
-      <StandingFigure x={664} y={694} pose="cheer" gear={VIOLET} delay={-1.4} />
-      <StandingFigure x={806} y={688} pose="cheer" gear={CREAM} delay={-3.1} />
-      <g transform="translate(734 448)">
-        {/* the summit mascot with a planted pennant */}
-        <g className="animate-bob" style={{ animationDelay: "-2s" }}>
-          <line x1="-2.8" y1="-16" x2="-2.8" y2="0" stroke={INK} strokeWidth="3.2" strokeLinecap="round" />
-          <line x1="2.8" y1="-16" x2="2.8" y2="0" stroke={INK} strokeWidth="3.2" strokeLinecap="round" />
-          <rect x="-6" y="-31" width="12.6" height="16.5" rx="6.2" fill={INK} />
-          <rect x="-8.4" y="-29" width="8.4" height="10.5" rx="3.2" fill={MINT} />
-          <line x1="-2.4" y1="-29.5" x2="-7" y2="-21" stroke={INK} strokeWidth="2.4" strokeLinecap="round" />
-          <line x1="2.6" y1="-29.5" x2="8.2" y2="-36" stroke={INK} strokeWidth="2.4" strokeLinecap="round" />
-          <line x1="8.2" y1="-36" x2="8.2" y2="-46" stroke={INK} strokeWidth="2.2" strokeLinecap="round" />
-          <path d="M9.4 -46 L22 -41 L9.4 -37 Z" fill={MINT} />
-          <circle cx="0.6" cy="-36.5" r="5.3" fill={INK} />
-          <circle cx="-3.6" cy="-41" r="2" fill={INK} />
-          <circle cx="4.4" cy="-41" r="2" fill={INK} />
-          <g transform="translate(1.4 -37)" className="animate-blink" fill={CREAM}>
-            <circle cx="1.4" cy="0" r="0.95" />
-            <circle cx="4" cy="0" r="0.95" />
-          </g>
-        </g>
-      </g>
-      <Dog x={866} y={704} pose="walk" />
+      {/* the summit has been reached: one planted the pennant, two cheer, one arrives */}
+      <path d="M752 444 L752 430 L768 434 L752 439 Z" fill={MINT} />
+      <line x1="751" y1="444" x2="751" y2="426" stroke={PLINTH} strokeWidth="2" />
+      <SceneMascot x={732} ground={448} size={9} mood="cheer" color={INDIGO} bob="-2s" />
+      <SceneMascot x={664} ground={698} size={10} mood="wink" color={MINT} bob="-1.2s" />
+      <SceneMascot x={806} ground={690} size={10} mood="happy" color={CORAL} />
+      <SceneMascot x={604} ground={710} size={9} mood="peek" color={LILAC} tilt={-4} />
+      <Dog x={868} y={702} />
       <FramePines />
     </>
   );
