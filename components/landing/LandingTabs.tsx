@@ -21,6 +21,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { ChordCarousel } from "@/components/landing/ChordCarousel";
+import { CampusHorizon } from "@/components/landing/campus";
 import { ChordsMockup, DashboardMockup, DotDigits, PointMockup } from "@/components/landing/mockups";
 import { FACTS, AVERAGE_GOAL } from "@/components/landing/facts";
 import { Mascot, MascotCrowd } from "@/components/landing/mascot";
@@ -644,6 +645,11 @@ export function LandingTabs({ chords }: { chords: ChordDefinition[] }) {
           )}
         </div>
       </div>
+
+      {/* The finale, on every slide: the campus at night — the schoolhouse
+          lit for the evening session, books stacked on the ridge, and the
+          last walkers heading up. */}
+      <CampusHorizon />
     </div>
   );
 }
