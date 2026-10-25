@@ -7,6 +7,8 @@ import type { Audience } from "@/types";
 
 export const metadata = { title: "Chords · StudyCircle" };
 
+export const instant = false;
+
 export default async function ChordsPage({ searchParams }: PageProps<"/chords">) {
   const params = await searchParams;
   const raw = typeof params.audience === "string" ? params.audience : null;

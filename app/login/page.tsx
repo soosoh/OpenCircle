@@ -5,8 +5,14 @@ import { redirect } from "next/navigation";
 import { DEMO_PASSWORD, getCurrentUser, isSupabaseAuthEnabled } from "@/lib/api/session";
 import { listUsers } from "@/lib/database/repository";
 import { AuthForm } from "./AuthForm";
+import { connection } from "next/server";
+import { unstable_noStore } from "next/cache";
+
+export const instant = false;
 
 export default async function LoginPage() {
+  unstable_noStore();
+  await connection();
   // Bounce only when a profile actually resolves. Gating on the raw session cookie
   // instead would ping-pong with requireUser() forever whenever the cookie and the
   // profile disagree (stale cookie after a store reset, or an auth user without a profile).
