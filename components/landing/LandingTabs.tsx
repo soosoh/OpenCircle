@@ -248,6 +248,9 @@ export function LandingTabs({ chords }: { chords: ChordDefinition[] }) {
 
   return (
     <div className="full-bleed -my-8 dream px-3 pb-10 sm:px-5">
+      {/* The campus at night — the page's entire background, behind every panel. */}
+      <CampusHorizon />
+
       {/* Floating tab bar */}
       <div className="sticky top-[52px] z-30 py-2.5">
         <div role="tablist" aria-label="Landing page sections" className="mx-auto flex w-fit max-w-full justify-center gap-1 overflow-x-auto rounded-full border border-white/10 bg-white/[0.06] p-1.5 shadow-[0_14px_34px_-16px_rgba(0,0,0,0.65)] backdrop-blur no-scrollbar">
@@ -645,11 +648,6 @@ export function LandingTabs({ chords }: { chords: ChordDefinition[] }) {
           )}
         </div>
       </div>
-
-      {/* The finale, on every slide: the campus at night — the schoolhouse
-          lit for the evening session, books stacked on the ridge, and the
-          last walkers heading up. */}
-      <CampusHorizon />
     </div>
   );
 }

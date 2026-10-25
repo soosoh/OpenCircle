@@ -1,23 +1,30 @@
 /**
- * The finale, on every slide: the campus at night, built like a real
- * landscape illustration — four depth layers with atmospheric lightness
- * (far ridges palest and hazier, near ground darkest), moonlit rim light
- * on the tall summits, pennant flags on the peaks, pine clusters at a
- * range of scales, and mist resting between the layers. The schoolhouse
- * with its clock tower is the centerpiece; stacks of books and a short
- * line of students (with their dog) climb the near trail toward it. The
- * near ground is the exact page footer color, so the campus becomes the
- * ground the page stands on. Pure inline SVG — crisp at any width.
+ * THE page background, on every slide: the campus at night as a full-viewport
+ * wallpaper — fixed to the window so the panels scroll across it, like a
+ * landscape illustration behind frosted glass. Composed bottom-anchored so
+ * the scene always meets the ground:
+ *
+ * - four depth layers in tight atmospheric steps: a curved far range, a
+ *   steeper second range, the main ridge carrying the school, and the
+ *   footer-dark ground;
+ * - the schoolhouse cluster is complete architecture: hall with two rows of
+ *   lit rectangular windows, a wing and a barn, and the tall clock tower
+ *   with its pennant — every roofline carrying a thin lit edge;
+ * - mist rests between the ranges; a light pool lifts the near trail, where
+ *   four students and their dog climb past stacks of books toward the door;
+ * - the told details stay inside the center band so the xMidYMax slice keeps
+ *   them on phones.
+ *
+ * Pure inline SVG; the layer above the page content never captures a pointer.
  */
 export function CampusHorizon() {
   return (
-    <div aria-hidden="true" className="-mx-3 -mb-10 mt-1 sm:-mx-5">
-      <svg viewBox="0 0 1440 480" preserveAspectRatio="xMidYMax slice" className="block h-80 w-full sm:h-[460px]">
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10">
+      <svg viewBox="0 0 1440 720" preserveAspectRatio="xMidYMax slice" className="block h-full w-full">
         <defs>
-          {/* the indigo horizon glow sitting behind the whole range */}
-          <radialGradient id="campus-glow" gradientUnits="userSpaceOnUse" cx="735" cy="300" r="360">
-            <stop offset="0%" stopColor="#6f5ffb" stopOpacity="0.20" />
-            <stop offset="55%" stopColor="#3a4e96" stopOpacity="0.12" />
+          <radialGradient id="campus-glow" gradientUnits="userSpaceOnUse" cx="735" cy="470" r="380">
+            <stop offset="0%" stopColor="#6f5ffb" stopOpacity="0.18" />
+            <stop offset="55%" stopColor="#3a4e96" stopOpacity="0.1" />
             <stop offset="100%" stopColor="#3a4e96" stopOpacity="0" />
           </radialGradient>
           <filter id="campus-grain" x="0" y="0" width="100%" height="100%">
@@ -26,249 +33,246 @@ export function CampusHorizon() {
           </filter>
         </defs>
 
-        {/* glow behind everything */}
-        <ellipse cx="735" cy="310" rx="380" ry="180" fill="url(#campus-glow)" />
+        {/* the horizon glow behind the whole range */}
+        <ellipse cx="735" cy="480" rx="400" ry="200" fill="url(#campus-glow)" />
 
-        {/* a handful of stars above the range */}
+        {/* sparse stars */}
         <g fill="#b7aaff">
-          <circle cx="200" cy="70" r="1.6" opacity="0.5" className="animate-twinkle" />
-          <circle cx="420" cy="50" r="1.3" opacity="0.4" />
-          <circle cx="980" cy="60" r="1.5" opacity="0.5" className="animate-twinkle [animation-delay:-3s]" />
-          <circle cx="1240" cy="90" r="1.7" opacity="0.45" />
-          <circle cx="560" cy="105" r="1.2" opacity="0.35" />
+          <circle cx="210" cy="120" r="1.6" opacity="0.5" className="animate-twinkle" />
+          <circle cx="430" cy="90" r="1.3" opacity="0.4" />
+          <circle cx="970" cy="110" r="1.5" opacity="0.5" className="animate-twinkle [animation-delay:-3s]" />
+          <circle cx="1230" cy="150" r="1.7" opacity="0.45" />
+          <circle cx="620" cy="200" r="1.2" opacity="0.35" />
+          <circle cx="1050" cy="70" r="1.2" opacity="0.4" />
         </g>
 
         {/*
-         * LAYER 1 — the far range. Palest of the four layers, big and hazy,
-         * with moonlit rim light along the tallest summits (the "snow caps").
+         * LAYER 1 — the far range: long, curved, staggered landforms in a
+         * tone close to the sky, so distance reads as haze, not as a purple
+         * triangle parade. Rim light only on the two tallest near-summits,
+         * drawn along the actual slope lines.
          */}
         <g>
-          <path d="M-60 320 L180 148 L330 226 L470 130 L610 320 Z" fill="#2c2560" />
-          <path d="M470 130 L520 156 L470 164 L430 152 Z" fill="#4d46a0" opacity="0.5" />
-          <path d="M470 132 L602 318" stroke="#a5b4fc" strokeWidth="2.4" strokeLinecap="round" opacity="0.3" />
-          <path d="M180 150 L308 221" stroke="#a5b4fc" strokeWidth="2.4" strokeLinecap="round" opacity="0.26" />
-          <path d="M560 320 L820 190 L1040 320 Z" fill="#2c2560" opacity="0.9" />
-          <path d="M820 192 L1016 314" stroke="#a5b4fc" strokeWidth="2.4" strokeLinecap="round" opacity="0.24" />
-          <path d="M940 320 L1150 140 L1440 320 Z" fill="#2c2560" opacity="0.95" />
-          <path d="M1150 142 L1282 214 L1355 252" stroke="#7ee0c4" strokeWidth="2.4" strokeLinecap="round" opacity="0.3" />
-          <path d="M1150 144 L1310 260 L1440 348 L1440 330 Z" fill="#352c68" opacity="0.8" />
-          {/* haziest far ridge, almost dissolved into the sky */}
-          <path d="M-40 330 Q240 260 520 306 Q700 336 940 300 Q1180 264 1440 314 V420 H-40 Z" fill="#231d4d" />
+          <path
+            d="M-60 560 Q90 420 200 392 Q300 368 380 430 Q470 500 560 545"
+            fill="#221d47"
+          />
+          <path d="M560 545 L640 460 L760 545" fill="#221d47" />
+          <path
+            d="M700 545 Q820 420 920 380 Q1030 340 1120 410 Q1300 520 1440 470 L1440 620 L-60 620 Z"
+            fill="#221d47"
+          />
+          <path d="M920 382 Q1006 348 1090 402" stroke="#a5b4fc" strokeWidth="2.2" strokeLinecap="round" opacity="0.24" fill="none" />
+          <path d="M300 369 Q350 372 396 402" stroke="#a5b4fc" strokeWidth="2.2" strokeLinecap="round" opacity="0.22" fill="none" />
+          {/* hazier most-distant ridge, almost part of the sky */}
+          <path d="M-40 480 Q260 430 560 466 Q860 500 1180 456 Q1330 440 1440 462 V640 H-40 Z" fill="#1c1840" />
         </g>
 
-        {/* mist resting on the far shoulders */}
-        <rect x="120" y="296" width="420" height="16" rx="8" fill="#8b7ff7" opacity="0.06" />
-        <rect x="220" y="302" width="300" height="10" rx="5" fill="#8b7ff7" opacity="0.05" />
-        <rect x="820" y="308" width="480" height="14" rx="7" fill="#8b7ff7" opacity="0.05" />
+        {/* mist on the far shoulders */}
+        <rect x="120" y="500" width="460" height="16" rx="8" fill="#8b7ff7" opacity="0.055" />
+        <rect x="260" y="512" width="300" height="10" rx="5" fill="#8b7ff7" opacity="0.045" />
+        <rect x="840" y="470" width="480" height="14" rx="7" fill="#8b7ff7" opacity="0.05" />
 
         {/*
-         * LAYER 2 — the second range: steeper, darker, with its own little
-         * pine treeline in the saddle, and pennant flags on the two most
-         * climbable summits (milestones on the way up).
+         * LAYER 2 — the second range, steeper, one step darker; school-less
+         * but with a dorm on its right shoulder, a flag on the left summit,
+         * and pines in the saddle.
          */}
         <g>
-          <path d="M-80 400 L160 252 L340 330 L520 400 Z" fill="#241e4a" />
-          <path d="M160 254 L318 330" stroke="#8b7ff7" strokeWidth="2" strokeLinecap="round" opacity="0.22" />
-          {/* left summit flag */}
-          <line x1="160" y1="252" x2="160" y2="228" stroke="#241e4a" strokeWidth="2.6" />
-          <path d="M162 228 L184 234 L162 241 Z" fill="#b7aaff" />
-          <path d="M490 400 L720 240 L980 400 Z" fill="#241e4a" />
-          <path d="M720 242 L960 396" stroke="#8b7ff7" strokeWidth="2" strokeLinecap="round" opacity="0.2" />
+          <path d="M-60 640 Q80 520 190 472 Q320 420 470 640 Z" fill="#1c1739" />
+          <path d="M190 474 Q330 440 430 560" stroke="#8b7ff7" strokeWidth="1.8" strokeLinecap="round" opacity="0.2" fill="none" />
+          <path d="M400 640 Q600 470 760 430 Q900 396 1060 560 Q1180 620 1280 640 Z" fill="#1c1739" />
+          {/* left summit flag — one of the climb's milestones */}
+          <line x1="190" y1="472" x2="190" y2="448" stroke="#1c1739" strokeWidth="2.6" />
+          <path d="M192 448 L214 454 L192 461 Z" fill="#b7aaff" />
           {/* right summit flag */}
-          <line x1="720" y1="240" x2="720" y2="216" stroke="#241e4a" strokeWidth="2.6" />
-          <path d="M722 216 L744 222 L722 229 Z" fill="#22a58a" />
-          {/* pines tucked into the saddle */}
-          <g fill="#241e4a">
-            <path d="M356 352 L366 384 L346 384 Z" />
-            <path d="M380 344 L392 382 L368 382 Z" />
-            <path d="M406 350 L415 384 L396 384 Z" />
+          <line x1="900" y1="396" x2="900" y2="372" stroke="#1c1739" strokeWidth="2.6" />
+          <path d="M902 372 L924 378 L902 385 Z" fill="#22a58a" />
+
+          {/* the dorm on the right shoulder: full building, reliably lit */}
+          <g fill="#191430">
+            <rect x="1030" y="488" width="132" height="76" rx="2" />
+            <path d="M1202 566 L1202 488 L1096 444 L1040 488 L1022 488 L1022 566 Z" />
+            <rect x="1080" y="420" width="10" height="30" />
+          </g>
+          <path d="M1022 489 L1096 445 L1180 492" stroke="#8b7ff7" strokeWidth="1.8" strokeLinecap="round" opacity="0.3" fill="none" />
+          <g fill="#f4f2e8">
+            <rect x="1049" y="510" width="12" height="15" rx="2" opacity="0.5" />
+            <rect x="1077" y="510" width="12" height="15" rx="2" opacity="0.34" />
+            <rect x="1133" y="510" width="12" height="15" rx="2" opacity="0.5" />
+            <rect x="1161" y="510" width="12" height="15" rx="2" opacity="0.3" />
+            <rect x="1049" y="540" width="12" height="15" rx="2" opacity="0.3" />
+            <rect x="1133" y="540" width="12" height="15" rx="2" opacity="0.42" className="animate-twinkle [animation-delay:-1.8s]" />
           </g>
         </g>
 
         {/*
-         * LAYER 3 — the main ridge, and on it the schoolhouse cluster:
-         * the wide hall with two rooflines and rows of lit windows, side
-         * wings, and the tall clock tower with its pennant.
+         * LAYER 3 — the main ridge, flat enough to build on, and the school
+         * cluster: hall + wing + barn + clock tower. Buildings draw after the
+         * ridge so strokes never dissolve into it.
          */}
-        <path d="M0 356 Q220 344 420 352 Q560 356 640 344 Q720 332 880 340 Q1120 350 1440 322 V480 H0 Z" fill="#1c1734" />
+        <path d="M0 600 Q220 584 420 592 Q560 596 640 586 Q760 570 900 580 Q1140 592 1440 566 V720 H0 Z" fill="#1c1734" />
 
         <g fill="#1c1734">
-          {/* left barn, low */}
-          <rect x="486" y="382" width="86" height="42" />
-          <path d="M478 384 L529 362 L580 384 Z" />
+          {/* barn, left */}
+          <rect x="486" y="628" width="84" height="36" />
+          <path d="M478 630 L528 608 L578 630 Z" />
           {/* main hall */}
-          <rect x="620" y="300" width="252" height="96" />
-          <path d="M596 302 L736 254 L896 302 Z" />
-          <rect x="588" y="302" width="20" height="12" />
-          <rect x="884" y="302" width="22" height="12" />
+          <rect x="612" y="546" width="252" height="114" />
+          <path d="M588 548 L738 498 L888 548 Z" />
           {/* right wing */}
-          <rect x="872" y="322" width="70" height="74" />
-          <path d="M866 324 L907 306 L948 324 Z" />
-          <rect x="918" y="296" width="12" height="26" />
+          <rect x="864" y="586" width="66" height="74" />
+          <path d="M858 588 L897 568 L936 588 Z" />
+          <rect x="910" y="556" width="12" height="26" />
           {/* clock tower */}
-          <rect x="700" y="180" width="58" height="122" />
-          <path d="M692 182 L729 148 L766 182 Z" />
-          <line x1="729" y1="148" x2="729" y2="118" stroke="#1c1734" strokeWidth="3.4" />
-          <path d="M731 118 L758 125 L731 133 Z" fill="#b7aaff" />
+          <rect x="706" y="480" width="56" height="180" />
+          <path d="M698 482 L734 448 L770 482 Z" />
         </g>
 
-        {/* the lit school: halos first, then warm windows, mint outliers twinkle */}
-        <g fill="#f4f2e8" opacity="0.07">
-          <circle cx="648" cy="322" r="9" />
-          <circle cx="688" cy="322" r="9" />
-          <circle cx="768" cy="322" r="9" />
-          <circle cx="808" cy="322" r="9" />
-          <circle cx="648" cy="362" r="9" />
-          <circle cx="708" cy="362" r="9" />
-          <circle cx="768" cy="362" r="9" />
-          <circle cx="828" cy="362" r="9" />
+        {/* lit edges on every roof — architecture, not silhouette mush */}
+        <g stroke="#b7aaff" strokeLinecap="round" fill="none" opacity="0.34" strokeWidth="2">
+          <path d="M592 546 L738 500 L884 546" />
+          <path d="M706 480 L734 450 L762 480" />
         </g>
-        <g fill="#f4f2e8" opacity="0.6">
-          <circle cx="648" cy="322" r="3.4" />
-          <circle cx="768" cy="322" r="3.4" />
-          <circle cx="688" cy="362" r="3.4" />
-          <circle cx="808" cy="362" r="3.4" />
+        <g stroke="#b7aaff" strokeLinecap="round" fill="none" opacity="0.26" strokeWidth="1.8">
+          <path d="M478 629 L528 609 L578 629" />
+          <path d="M858 587 L897 569 L936 587" />
         </g>
-        <circle cx="688" cy="322" r="3.6" fill="#22a58a" className="animate-twinkle [animation-delay:-2.5s]" />
-        <circle cx="808" cy="322" r="3.6" fill="#f4f2e8" opacity="0.5" />
-        <circle cx="648" cy="362" r="3.4" fill="#f4f2e8" opacity="0.45" />
-        <circle cx="768" cy="362" r="3.6" fill="#22a58a" className="animate-twinkle [animation-delay:-4.2s]" />
-        {/* tower window + the clock, keeping the evening */}
-        <rect x="724" y="212" width="10" height="16" rx="4" fill="#f4f2e8" opacity="0.5" />
-        <circle cx="729" cy="252" r="12" fill="#f4f2e8" opacity="0.9" className="animate-twinkle" />
-        <line x1="729" y1="252" x2="729" y2="245" stroke="#1c1734" strokeWidth="2" strokeLinecap="round" />
-        <line x1="729" y1="252" x2="735" y2="252" stroke="#1c1734" strokeWidth="2" strokeLinecap="round" />
-        {/* barn and wing windows, sparingly lit */}
-        <circle cx="512" cy="398" r="3" fill="#f4f2e8" opacity="0.4" />
-        <circle cx="894" cy="348" r="3" fill="#f4f2e8" opacity="0.42" />
-        <circle cx="920" cy="348" r="3" fill="#f4f2e8" opacity="0.34" />
 
-        {/* dorm on the right shoulder */}
-        <g fill="#1c1734">
-          <rect x="1078" y="234" width="128" height="88" />
-          <path d="M1068 236 L1142 200 L1216 236 Z" />
-          <rect x="1136" y="174" width="10" height="26" />
+        {/* tower mast + pennant */}
+        <line x1="734" y1="448" x2="734" y2="416" stroke="#1c1734" strokeWidth="3.2" />
+        <path d="M736 416 L760 423 L736 431 Z" fill="#b7aaff" />
+
+        {/* the lit school: rows of real windows */}
+        <g fill="#f4f2e8" opacity="0.55">
+          <rect x="652" y="590" width="14" height="18" rx="2.5" />
+          <rect x="686" y="590" width="14" height="18" rx="2.5" />
+          <rect x="766" y="590" width="14" height="18" rx="2.5" />
+          <rect x="800" y="590" width="14" height="18" rx="2.5" />
+          <rect x="652" y="632" width="14" height="18" rx="2.5" />
+          <rect x="686" y="632" width="14" height="18" rx="2.5" />
+          <rect x="766" y="632" width="14" height="18" rx="2.5" />
+          <rect x="800" y="632" width="14" height="18" rx="2.5" />
         </g>
-        <g fill="#f4f2e8">
-          <circle cx="1102" cy="258" r="3" opacity="0.4" />
-          <circle cx="1132" cy="258" r="3" opacity="0.32" />
-          <circle cx="1162" cy="258" r="3.2" opacity="0.42" className="animate-twinkle [animation-delay:-1.8s]" />
-          <circle cx="1186" cy="258" r="3" opacity="0.3" />
-          <circle cx="1102" cy="292" r="3" opacity="0.3" />
-          <circle cx="1162" cy="292" r="3" opacity="0.4" />
-        </g>
+        <rect x="720" y="590" width="14" height="18" rx="2.5" fill="#22a58a" className="animate-twinkle [animation-delay:-2.5s]" />
+        <rect x="720" y="632" width="14" height="18" rx="2.5" fill="#f4f2e8" opacity="0.4" />
+        {/* the arched front door, open for the evening session */}
+        <path d="M726 660 L726 640 Q733 634 740 640 L740 660 Z" fill="#0b0817" />
+        <path d="M724 661 L724 639 Q733 631 742 639 L742 661" stroke="#f4f2e8" strokeWidth="1.4" opacity="0.35" fill="none" />
+        {/* tower window + the clock */}
+        <rect x="727" y="512" width="14" height="18" rx="4" fill="#f4f2e8" opacity="0.5" />
+        <circle cx="734" cy="556" r="12" fill="#f4f2e8" opacity="0.92" className="animate-twinkle" />
+        <line x1="734" y1="556" x2="734" y2="549" stroke="#1c1734" strokeWidth="2" strokeLinecap="round" />
+        <line x1="734" y1="556" x2="740" y2="556" stroke="#1c1734" strokeWidth="2" strokeLinecap="round" />
+        {/* the barn's one lamp */}
+        <circle cx="518" cy="646" r="3" fill="#f4f2e8" opacity="0.4" />
 
         {/* pines along the main ridge */}
         <g fill="#1c1734">
-          <path d="M434 372 L446 410 L420 410 Z" />
-          <path d="M462 364 L474 410 L450 410 Z" />
-          <path d="M962 366 L975 412 L949 412 Z" />
-          <path d="M992 358 L1006 412 L978 412 Z" />
-          <path d="M1022 368 L1033 410 L1010 410 Z" />
+          <path d="M436 612 L448 652 L422 652 Z" />
+          <path d="M462 604 L474 652 L450 652 Z" />
+          <path d="M952 606 L965 656 L939 656 Z" />
+          <path d="M982 598 L996 654 L968 654 Z" />
+          <path d="M1010 608 L1021 650 L999 650 Z" />
         </g>
 
         {/*
-         * LAYER 3.5 — a recessed band between ridge and ground, with the
-         * mid-scale treeline, so the eye has one more step of distance.
+         * LAYER 3.5 — a recessed treeline band between ridge and ground so
+         * the eye gets one more step of distance before the foreground.
          */}
-        <path d="M0 420 Q240 404 480 414 Q760 424 1000 412 Q1240 402 1440 410 V480 H0 Z" fill="#171226" />
+        <path d="M0 660 Q240 646 480 654 Q760 664 1000 652 Q1240 644 1440 650 V720 H0 Z" fill="#171226" />
         <g fill="#171226">
-          <path d="M248 404 L262 452 L232 452 Z" />
-          <path d="M286 396 L302 452 L270 452 Z" />
-          <path d="M322 404 L334 450 L308 450 Z" />
-          <path d="M1044 402 L1058 450 L1028 450 Z" />
-          <path d="M1082 394 L1098 450 L1066 450 Z" />
-          <path d="M1118 404 L1131 448 L1104 448 Z" />
+          <path d="M248 646 L262 694 L232 694 Z" />
+          <path d="M286 638 L302 694 L270 694 Z" />
+          <path d="M322 646 L334 692 L308 692 Z" />
+          <path d="M1104 646 L1118 694 L1090 694 Z" />
+          <path d="M1142 638 L1158 694 L1126 694 Z" />
         </g>
 
         {/*
-         * LAYER 4 — near ground, the exact footer color: stacks of books,
-         * the trail up, the four students and their dog, and the tallest
-         * pines for foreground scale.
+         * LAYER 4 — near ground. Footer color, a light pool around the
+         * trail so the climbers stay legible, book stacks with page edges,
+         * and the tallest pines at the frame edges.
          */}
-        <path d="M0 436 Q200 424 420 432 Q640 440 860 428 Q1160 416 1440 430 V480 H0 Z" fill="#0f0d15" />
+        <path d="M0 690 Q200 678 420 686 Q640 694 860 682 Q1160 672 1440 684 V720 H0 Z" fill="#0f0d15" />
 
-        {/* the trail, catching a little light */}
-        <path
-          d="M560 470 Q620 452 648 444 Q690 432 706 420"
-          stroke="#161321"
-          strokeWidth="7"
-          strokeLinecap="round"
-          fill="none"
-        />
+        {/* light pool around the trailhead */}
+        <ellipse cx="700" cy="672" rx="230" ry="30" fill="#8b7ff7" opacity="0.08" />
 
-        {/* trailhead book stack (mobile-safe), plus the desktop-side stacks */}
-        <g fill="#0b0913">
-          <rect x="540" y="428" width="62" height="12" rx="2" transform="rotate(-6 570 434)" />
-          <rect x="548" y="440" width="78" height="13" rx="2" />
-          <rect x="542" y="453" width="86" height="13" rx="2" />
-          <rect x="300" y="422" width="58" height="12" rx="2" transform="rotate(6 330 428)" />
-          <rect x="296" y="434" width="80" height="13" rx="2" />
-          <rect x="1180" y="410" width="66" height="12" rx="2" transform="rotate(5 1213 416)" />
-          <rect x="1176" y="422" width="88" height="13" rx="2" />
-          <rect x="1184" y="435" width="78" height="13" rx="2" />
+        {/* the trail */}
+        <path d="M580 712 Q636 690 664 678 Q706 660 726 648" stroke="#1a1626" strokeWidth="7" strokeLinecap="round" fill="none" />
+
+        {/* books at the trailhead (center-safe), plus flanking stacks */}
+        <g fill="#07060c">
+          <rect x="548" y="676" width="62" height="12" rx="2" transform="rotate(-6 578 682)" />
+          <rect x="556" y="688" width="78" height="13" rx="2" />
+          {/* the open book */}
+          <path d="M508 700 Q530 688 554 694 Q578 700 600 694 L600 706 Q578 712 554 706 Q530 700 508 712 Z" />
         </g>
-        {/* hairline page edges so the stacks read as books */}
-        <g fill="#f4f2e8" opacity="0.3">
-          <rect x="552" y="441" width="3" height="11" />
-          <rect x="546" y="454" width="3" height="11" />
-          <rect x="1180" y="423" width="3" height="11" />
-          <rect x="300" y="435" width="3" height="11" />
+        <line x1="554" y1="694" x2="554" y2="706" stroke="#f4f2e8" strokeWidth="1.4" opacity="0.4" />
+        <g fill="#07060c">
+          <rect x="308" y="662" width="58" height="12" rx="2" transform="rotate(6 338 668)" />
+          <rect x="304" y="674" width="80" height="13" rx="2" />
+          <rect x="1218" y="648" width="66" height="12" rx="2" transform="rotate(5 1251 654)" />
+          <rect x="1214" y="660" width="88" height="13" rx="2" />
         </g>
-        {/* the open book at the trailhead */}
-        <path d="M508 452 Q530 440 554 446 Q578 452 600 446 L600 458 Q578 464 554 458 Q530 452 508 464 Z" fill="#0b0913" />
-        <line x1="554" y1="446" x2="554" y2="458" stroke="#f4f2e8" strokeWidth="1.4" opacity="0.35" />
+        <g fill="#f4f2e8" opacity="0.32">
+          <rect x="560" y="689" width="3" height="11" />
+          <rect x="554" y="702" width="3" height="10" />
+          <rect x="1218" y="661" width="3" height="11" />
+          <rect x="308" y="675" width="3" height="11" />
+        </g>
 
         {/* students climbing toward the evening session */}
-        <g fill="#0b0913" stroke="#0b0913" strokeLinecap="round">
+        <g fill="#07060c" stroke="#07060c" strokeLinecap="round">
           {/* 1st: heavy backpack, leading */}
-          <line x1="640" y1="430" x2="637" y2="448" strokeWidth="4.4" />
-          <line x1="637" y1="448" x2="629" y2="462" strokeWidth="2.8" />
-          <line x1="637" y1="448" x2="647" y2="461" strokeWidth="2.8" />
-          <line x1="641" y1="436" x2="651" y2="428" strokeWidth="2.2" />
-          <circle cx="643" cy="422" r="4.8" stroke="none" />
-          <rect x="626" y="427" width="10" height="13" rx="3" stroke="none" />
+          <line x1="648" y1="668" x2="645" y2="688" strokeWidth="4.6" />
+          <line x1="645" y1="688" x2="636" y2="704" strokeWidth="3" />
+          <line x1="645" y1="688" x2="656" y2="703" strokeWidth="3" />
+          <line x1="649" y1="674" x2="660" y2="666" strokeWidth="2.2" />
+          <circle cx="651" cy="658" r="5" stroke="none" />
+          <rect x="633" y="664" width="11" height="14" rx="3" stroke="none" />
           {/* 2nd: mid-stride */}
-          <line x1="686" y1="424" x2="683" y2="441" strokeWidth="4.4" />
-          <line x1="683" y1="441" x2="675" y2="455" strokeWidth="2.8" />
-          <line x1="683" y1="441" x2="693" y2="454" strokeWidth="2.8" />
-          <line x1="687" y1="430" x2="697" y2="423" strokeWidth="2.2" />
-          <circle cx="689" cy="416" r="4.8" stroke="none" />
-          <rect x="672" y="421" width="10" height="13" rx="3" stroke="none" />
+          <line x1="688" y1="660" x2="685" y2="679" strokeWidth="4.6" />
+          <line x1="685" y1="679" x2="676" y2="695" strokeWidth="3" />
+          <line x1="685" y1="679" x2="696" y2="694" strokeWidth="3" />
+          <line x1="689" y1="666" x2="700" y2="659" strokeWidth="2.2" />
+          <circle cx="691" cy="650" r="5" stroke="none" />
+          <rect x="673" y="655" width="11" height="14" rx="3" stroke="none" />
           {/* 3rd: carrying a book */}
-          <line x1="712" y1="412" x2="709" y2="429" strokeWidth="4.4" />
-          <line x1="709" y1="429" x2="701" y2="443" strokeWidth="2.8" />
-          <line x1="709" y1="429" x2="719" y2="442" strokeWidth="2.8" />
-          <line x1="713" y1="418" x2="723" y2="411" strokeWidth="2.2" />
-          <circle cx="715" cy="404" r="4.8" stroke="none" />
-          <rect x="700" y="409" width="10" height="13" rx="3" stroke="none" />
-          <rect x="721" y="417" width="13" height="8" rx="1.5" stroke="none" />
+          <line x1="716" y1="646" x2="713" y2="665" strokeWidth="4.6" />
+          <line x1="713" y1="665" x2="704" y2="681" strokeWidth="3" />
+          <line x1="713" y1="665" x2="724" y2="680" strokeWidth="3" />
+          <line x1="717" y1="652" x2="728" y2="645" strokeWidth="2.2" />
+          <circle cx="719" cy="636" r="5" stroke="none" />
+          <rect x="703" y="641" width="11" height="14" rx="3" stroke="none" />
+          <rect x="726" y="651" width="14" height="8" rx="1.5" stroke="none" />
           {/* 4th: tallest, looking up at the tower */}
-          <line x1="758" y1="398" x2="754" y2="416" strokeWidth="4.4" />
-          <line x1="754" y1="416" x2="747" y2="430" strokeWidth="2.8" />
-          <line x1="754" y1="416" x2="764" y2="429" strokeWidth="2.8" />
-          <circle cx="757" cy="390" r="4.9" stroke="none" />
+          <line x1="762" y1="628" x2="758" y2="648" strokeWidth="4.6" />
+          <line x1="758" y1="648" x2="750" y2="664" strokeWidth="3" />
+          <line x1="758" y1="648" x2="769" y2="663" strokeWidth="3" />
+          <circle cx="761" cy="618" r="5.1" stroke="none" />
         </g>
         {/* the dog, bringing up the rear */}
-        <g fill="#0b0913" stroke="#0b0913">
-          <path d="M782 424 Q791 415 801 423 L801 429 L782 429 Z" strokeWidth="0" />
-          <line x1="780" y1="422" x2="774" y2="416" strokeWidth="2.8" />
-          <line x1="785" y1="429" x2="785" y2="436" strokeWidth="2.2" />
-          <line x1="798" y1="429" x2="798" y2="436" strokeWidth="2.2" />
-          <circle cx="803" cy="419" r="3.6" strokeWidth="0" />
+        <g fill="#07060c" stroke="#07060c">
+          <path d="M788 656 Q798 647 808 655 L808 661 L788 661 Z" strokeWidth="0" />
+          <line x1="786" y1="654" x2="780" y2="648" strokeWidth="2.8" />
+          <line x1="791" y1="661" x2="791" y2="668" strokeWidth="2.2" />
+          <line x1="805" y1="661" x2="805" y2="668" strokeWidth="2.2" />
+          <circle cx="810" cy="651" r="3.6" strokeWidth="0" />
         </g>
 
-        {/* foreground pines, tallest on the right */}
-        <g fill="#0b0913">
-          <path d="M1318 428 L1338 500 L1298 500 Z" />
-          <path d="M1362 446 L1378 500 L1346 500 Z" />
-          <path d="M1400 430 L1418 500 L1382 500 Z" />
-          <path d="M158 444 L172 500 L144 500 Z" />
-          <path d="M204 452 L216 500 L192 500 Z" />
+        {/* foreground pines, blackest and largest, at the frame edges */}
+        <g fill="#07060c">
+          <path d="M1310 664 L1334 720 L1286 720 Z" />
+          <path d="M1360 690 L1378 720 L1342 720 Z" />
+          <path d="M1404 668 L1424 720 L1384 720 Z" />
+          <path d="M120 690 L138 720 L102 720 Z" />
+          <path d="M64 674 L84 720 L44 720 Z" />
         </g>
 
-        {/* film grain over the whole scene */}
-        <rect width="1440" height="480" filter="url(#campus-grain)" opacity="0.08" />
+        {/* film grain over the scene */}
+        <rect width="1440" height="720" filter="url(#campus-grain)" opacity="0.08" />
       </svg>
     </div>
   );
