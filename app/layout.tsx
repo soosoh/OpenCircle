@@ -38,10 +38,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
 
             {user ? (
               <div className="flex items-center gap-3">
-                <span className="flex items-center gap-2 text-sm font-medium text-paper">
+                <Link href="/dashboard" className="flex items-center gap-2 text-sm font-medium text-paper">
                   <Avatar name={user.name} color={user.avatarColor} size={26} />
                   <span className="hidden sm:inline">{user.name}</span>
-                </span>
+                </Link>
                 <form action={signOut}>
                   <button
                     type="submit"
