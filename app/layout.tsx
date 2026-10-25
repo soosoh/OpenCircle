@@ -3,6 +3,8 @@ import Link from "next/link";
 import "./globals.css";
 import { Avatar } from "@/components/ui/Avatar";
 import { getCurrentUser } from "@/lib/api/session";
+import { connection } from "next/server";
+import { unstable_noStore } from "next/cache";
 
 export const metadata: Metadata = {
   title: "StudyCircle",
@@ -21,6 +23,8 @@ const NAV = [
 ];
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
+  unstable_noStore();
+  await connection();
   const user = await getCurrentUser();
 
   return (
