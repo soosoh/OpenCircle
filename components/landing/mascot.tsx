@@ -76,16 +76,23 @@ export function Mascot({
   color = "#4f46e5",
   className,
   label,
+  width,
+  height,
 }: {
   mood?: Mood;
   color?: string;
   className?: string;
   /** Set to make it meaningful to screen readers; otherwise it's decoration. */
   label?: string;
+  /** Explicit box size in svg user units — used when nesting into a scene. */
+  width?: number;
+  height?: number;
 }) {
   return (
     <svg
       viewBox="0 0 64 64"
+      width={width}
+      height={height}
       className={className}
       {...(label ? { role: "img", "aria-label": label } : { "aria-hidden": true })}
     >

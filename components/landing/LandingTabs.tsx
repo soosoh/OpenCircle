@@ -21,6 +21,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { ChordCarousel } from "@/components/landing/ChordCarousel";
+import { CampusHorizon } from "@/components/landing/campus";
 import { ChordsMockup, DashboardMockup, DotDigits, PointMockup } from "@/components/landing/mockups";
 import { FACTS, AVERAGE_GOAL } from "@/components/landing/facts";
 import { Mascot, MascotCrowd } from "@/components/landing/mascot";
@@ -241,12 +242,17 @@ const FLOAT_CARD_B = {
   color: "#a5b4fc",
 };
 
-export function LandingTabs({ chords }: { chords: ChordDefinition[] }) {
-  const [tab, setTab] = useState<TabId>("circle");
+export function LandingTabs({ chords, initialTab }: { chords: ChordDefinition[]; initialTab?: TabId }) {
+  // Deep-linkable tabs: /?tab=points shares, links, and restores a slide after
+  // a reload. The tab bar still animates every internal switch.
+  const [tab, setTab] = useState<TabId>(initialTab ?? "circle");
   const chemistry = chords.find((chord) => chord.id === "chemistry") ?? chords[0];
 
   return (
     <div className="full-bleed -my-8 dream px-3 pb-10 sm:px-5">
+      {/* The campus at night — its own scene per slide, behind every panel. */}
+      <CampusHorizon scene={tab} />
+
       {/* Floating tab bar */}
       <div className="sticky top-[52px] z-30 py-2.5">
         <div role="tablist" aria-label="Landing page sections" className="mx-auto flex w-fit max-w-full justify-center gap-1 overflow-x-auto rounded-full border border-white/10 bg-white/[0.06] p-1.5 shadow-[0_14px_34px_-16px_rgba(0,0,0,0.65)] backdrop-blur no-scrollbar">
