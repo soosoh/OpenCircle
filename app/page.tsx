@@ -3,6 +3,7 @@ import { StudyCircle } from "@/components/circle/StudyCircle";
 import { ChordCard } from "@/components/chord/ChordCard";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { TasteHeading } from "@/components/ui/Surface";
 import { listChords, listPoints, listUsers } from "@/lib/database/repository";
 import { parseAudience } from "@/lib/domain/audience";
 
@@ -19,52 +20,63 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
   const activePoints = (chordId: string) => points.filter((p) => p.chordId === chordId && p.status !== "Paused").length;
 
   return (
-    <div className="space-y-12">
-      <section className="animate-fade-up space-y-4 text-center">
-        <Badge tone="brand">{chords.length} chords · {points.length} points</Badge>
-        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-          Study with people who notice when you fall behind.
-        </h1>
-        <p className="mx-auto max-w-xl text-muted">
-          Each subject is a chord inside the circle. Inside each chord are points: small weekly groups that
-          meet, review goals, and help each other finish what they start.
-        </p>
+    <div className="space-y-20 md:space-y-28">
+      {/* Hero — editorial / taste */}
+      <section className="enter-anim relative space-y-8 text-center">
+        <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 px-4 py-1.5 text-xs font-medium tracking-wide text-muted shadow-[0_1px_2px_rgba(10,10,10,0.04)]">
+          <span className="h-1.5 w-1.5 rounded-full bg-mint animate-pulse" />
+          {chords.length} chords · {points.length} points
+        </div>
+        <div className="mx-auto max-w-4xl space-y-6">
+          <TasteHeading level={1} className="mx-auto leading-[0.95]">
+            Study with people<br />
+            <span className="italic text-brand">who notice</span> when you fall behind.
+          </TasteHeading>
+          <p className="mx-auto max-w-2xl text-lg sm:text-xl leading-relaxed text-muted font-[family-name:var(--font-body)]">
+            Each subject is a <span className="text-ink font-medium">chord</span> inside the circle. Inside each chord are points: small weekly groups that meet, review goals, and help each other finish what they start.
+          </p>
+        </div>
         <div className="flex justify-center gap-3 pt-2">
           <Link
             href="/login"
-            className="rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#3f38c9]"
+            className="rounded-full bg-brand px-7 py-3 text-sm font-medium text-white shadow-[0_4px_14px_rgba(200,122,61,0.3)] transition-all hover:bg-[#b96d32] hover:shadow-[0_8px_24px_rgba(200,122,61,0.4)] hover:-translate-y-0.5"
           >
             Join the circle
           </Link>
           <Link
             href="/chords"
-            className="rounded-full border border-line bg-surface px-5 py-2.5 text-sm font-medium transition-colors hover:border-brand/40"
+            className="rounded-full border border-line bg-surface px-7 py-3 text-sm font-medium text-ink transition-all hover:border-brand/40 hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(10,10,10,0.06)]"
           >
             Browse chords
           </Link>
         </div>
       </section>
 
-      <section>
+      {/* StudyCircle visualization */}
+      <section className="enter-anim space-y-4">
         <StudyCircle
           items={visibleChords.map((chord) => ({
             chord,
             href: `/chords/${chord.id}${audience === "all" ? "" : `?audience=${audience}`}`,
           }))}
         />
-        <p className="mt-6 text-center text-sm text-muted">
+        <p className="text-center text-sm text-muted font-[family-name:var(--font-body)]">
           Every chord is a subject. Click one to open its community and find a point to join.
         </p>
       </section>
 
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold tracking-tight">All chords</h2>
-          <Link href="/chords" className="text-sm font-medium text-brand hover:underline">
+      {/* All chords grid — impeccable spacing */}
+      <section className="enter-anim space-y-10">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <h2 className="font-[family-name:var(--font-display)] text-3xl tracking-tight">All chords</h2>
+            <p className="text-sm text-muted mt-1">Subjects with active study groups</p>
+          </div>
+          <Link href="/chords" className="rounded-full border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-all hover:border-brand/40 hover:-translate-y-px">
             See all →
           </Link>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {chords.map((chord) => (
             <ChordCard
               key={chord.id}
@@ -76,30 +88,28 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
         </div>
       </section>
 
-      <Card>
-        <h2 className="text-lg font-semibold tracking-tight">How a week works</h2>
-        <ol className="mt-4 grid gap-4 sm:grid-cols-3">
-          {[
-            {
-              title: "1. Review last goals",
-              body: "Say what you finished, what you struggled with, and where you need help.",
-            },
-            {
-              title: "2. Set next goals",
-              body: "Agree on one or two concrete objectives for the coming week.",
-            },
-            {
-              title: "3. Show up",
-              body: "The moderator records goals and checks in. Progress is visible to everyone.",
-            },
-          ].map((step) => (
-            <li key={step.title} className="rounded-xl bg-paper p-4">
-              <p className="font-medium">{step.title}</p>
-              <p className="mt-1 text-sm text-muted">{step.body}</p>
-            </li>
-          ))}
-        </ol>
-      </Card>
+      {/* Process — editorial cards */}
+      <section className="enter-anim">
+        <Card className="!bg-surface border-line/60 shadow-[0_1px_3px_rgba(10,10,10,0.05)]">
+          <div className="mb-6 flex items-center gap-3">
+            <span className="inline-flex size-10 items-center justify-center rounded-full bg-ink text-paper font-[family-name:var(--font-display)] text-xl shadow-sm">◈</span>
+            <h2 className="font-[family-name:var(--font-display)] text-2xl tracking-tight">How a week works</h2>
+          </div>
+          <ol className="grid gap-6 sm:grid-cols-3">
+            {[
+              { title: "Review last goals", body: "Say what you finished, what you struggled with, and where you need help." },
+              { title: "Set next goals", body: "Agree on one or two concrete objectives for the coming week." },
+              { title: "Show up", body: "The moderator records goals and checks in. Progress is visible to everyone." },
+            ].map((step, i) => (
+              <li key={step.title} className="rounded-xl bg-paper p-6 border border-line/40 shadow-[0_1px_2px_rgba(10,10,10,0.03)] hover:shadow-[0_4px_12px_rgba(10,10,10,0.05)] hover:-translate-y-0.5 transition-all duration-300">
+                <span className="font-[family-name:var(--font-display)] text-4xl text-brand/20 leading-none">0{i + 1}</span>
+                <h3 className="font-[family-name:var(--font-display)] text-xl mt-3 tracking-tight">{step.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted font-[family-name:var(--font-body)]">{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </Card>
+      </section>
     </div>
   );
 }

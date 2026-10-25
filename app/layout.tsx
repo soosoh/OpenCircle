@@ -26,12 +26,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
-        <header className="sticky top-0 z-40 border-b border-line bg-paper/85 backdrop-blur">
+        <header className="sticky top-0 z-40 border-b border-line bg-paper/80 backdrop-blur-md">
           <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3">
-            <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
-              <span className="inline-flex size-7 items-center justify-center rounded-full border-2 border-ink text-[11px]">
-                ◎
-              </span>
+            <Link href="/" className="flex items-center gap-2.5 font-[family-name:var(--font-display)] text-xl tracking-tight text-ink hover:text-brand transition-colors">
+              <span className="inline-flex size-8 items-center justify-center rounded-full border-2 border-ink/10 bg-ink text-paper text-base shadow-sm">◎</span>
               StudyCircle
             </Link>
 
@@ -40,7 +38,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:bg-ink/5 hover:text-ink"
+                  className="rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted transition-all hover:bg-ink/[0.06] hover:text-ink hover:-translate-y-px"
                 >
                   {item.label}
                 </Link>
@@ -61,7 +59,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               ) : (
                 <Link
                   href="/login"
-                  className="rounded-full bg-brand px-3.5 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#3f38c9]"
+                  className="rounded-full bg-brand px-4 py-1.5 text-sm font-medium text-white shadow-[0_1px_2px_rgba(200,122,61,0.25)] transition-all hover:bg-[#b96d32] hover:shadow-[0_4px_12px_rgba(200,122,61,0.3)] hover:-translate-y-px"
                 >
                   Sign in
                 </Link>
@@ -70,10 +68,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
+        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 md:py-14">{children}</main>
 
-        <footer className="border-t border-line py-6 text-center text-sm text-muted">
-          StudyCircle · study groups that hold you accountable
+        <footer className="border-t border-line bg-paper/50 backdrop-blur-sm py-8">
+          <div className="mx-auto max-w-6xl px-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-muted">
+            <span className="font-[family-name:var(--font-display)] text-base text-ink">StudyCircle</span>
+            <span>study groups that hold you accountable</span>
+          </div>
         </footer>
       </body>
     </html>
