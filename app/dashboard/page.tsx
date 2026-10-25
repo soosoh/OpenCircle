@@ -15,11 +15,6 @@ import { nextWeeklyOccurrence } from "@/lib/domain/time";
 
 export const metadata = { title: "Dashboard · StudyCircle" };
 
-// Chord and point detail pages are not part of the current product surface, so
-// dashboard links route back into the landing's tab views.
-const CHORDS_TAB = "/?tab=chords";
-const POINTS_TAB = "/?tab=points";
-
 export default async function DashboardPage() {
   const viewer = await requireUser();
 
@@ -70,7 +65,7 @@ export default async function DashboardPage() {
         <SectionHeading
           title="Your chords"
           action={
-            <Link href={CHORDS_TAB} className="text-sm font-medium text-brand hover:underline">
+            <Link href="/chords" className="text-sm font-medium text-brand hover:underline">
               Find more
             </Link>
           }
@@ -80,7 +75,7 @@ export default async function DashboardPage() {
             title="You haven't joined a chord yet"
             hint="Chords are subjects. Join one to find its points."
             action={
-              <Link href={CHORDS_TAB} className="rounded-full bg-brand px-4 py-2 text-sm font-medium text-white">
+              <Link href="/chords" className="rounded-full bg-brand px-4 py-2 text-sm font-medium text-white">
                 Browse chords
               </Link>
             }
@@ -90,7 +85,7 @@ export default async function DashboardPage() {
             {myChords.map((chord) => (
               <li key={chord.id}>
                 <Link
-                  href={CHORDS_TAB}
+                  href={`/chords/${chord.id}`}
                   className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-medium transition-colors hover:border-brand/40"
                 >
                   <span className="size-2 rounded-full" style={{ backgroundColor: chord.color }} />
@@ -114,7 +109,6 @@ export default async function DashboardPage() {
               return (
                 <PointCard
                   key={point.id}
-                  href={POINTS_TAB}
                   point={point}
                   chord={chord}
                   moderator={userById.get(point.moderatorId)}
@@ -135,7 +129,13 @@ export default async function DashboardPage() {
         ) : (
           <div className="space-y-2">
             {myOpenGoals.map((goal) => (
-              <DeadlineCard key={goal.id} title={goal.title} at={goal.deadline} timeZone={viewer.timezone} href={POINTS_TAB} />
+              <DeadlineCard
+                key={goal.id}
+                title={goal.title}
+                at={goal.deadline}
+                timeZone={viewer.timezone}
+                href={`/points/${goal.pointId}`}
+              />
             ))}
           </div>
         )}

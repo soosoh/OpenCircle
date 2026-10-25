@@ -15,9 +15,16 @@ export const metadata: Metadata = {
 export const instant = false;
 
 // The header reads the session so the chrome tells the truth: signed-out visitors
-// see "Sign in"; signed-in members see their avatar with a way back out.
+// see "Sign in"; signed-in members get an app nav plus their name and a way back out.
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const user = await getCurrentUser();
+
+  const NAV = user ? [
+    { href: "/chords", label: "Chords" },
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/moderator", label: "Moderate" },
+    { href: "/profile", label: "Profile" },
+  ] : [];
   return (
     <html lang="en" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
@@ -38,6 +45,17 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
 
             {user ? (
               <div className="flex items-center gap-3">
+                <nav className="hidden items-center gap-1 md:flex">
+                  {NAV.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:bg-white/5 hover:text-paper"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </nav>
                 <Link href="/dashboard" className="flex items-center gap-2 text-sm font-medium text-paper">
                   <Avatar name={user.name} color={user.avatarColor} size={26} />
                   <span className="hidden sm:inline">{user.name}</span>
