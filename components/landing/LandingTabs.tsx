@@ -22,8 +22,8 @@ import {
 } from "lucide-react";
 import { ChordCarousel } from "@/components/landing/ChordCarousel";
 import { CampusHorizon } from "@/components/landing/campus";
-import { ChordsMockup, DashboardMockup, DotDigits, PointMockup } from "@/components/landing/mockups";
-import { FACTS, AVERAGE_GOAL } from "@/components/landing/facts";
+import { ChordsMockup, DashboardHomeMockup, DashboardMockup, DotDigits, PointMockup, SpeechBubble, type LandingPanel } from "@/components/landing/mockups";
+import { FACTS } from "@/components/landing/facts";
 import { Mascot, MascotCrowd } from "@/components/landing/mascot";
 import type { ChordDefinition } from "@/config/chords";
 
@@ -233,20 +233,25 @@ const FLOAT_CARD_A = {
   icon: Flame,
   color: "#f0a03c",
 };
-const FLOAT_CARD_B = {
-  label: "Goal progress",
-  status: "set at the Sunday check-in",
-  value: String(AVERAGE_GOAL),
-  unit: "%",
-  icon: CalendarCheck,
-  color: "#a5b4fc",
-};
 
-export function LandingTabs({ chords, initialTab }: { chords: ChordDefinition[]; initialTab?: TabId }) {
+export function LandingTabs({
+  chords,
+  initialTab,
+  panel,
+}: {
+  chords: ChordDefinition[];
+  initialTab?: TabId;
+  /** The after-sign-in surfaces the windows preview, computed from the seed store. */
+  panel: LandingPanel;
+}) {
   // Deep-linkable tabs: /?tab=points shares, links, and restores a slide after
   // a reload. The tab bar still animates every internal switch.
   const [tab, setTab] = useState<TabId>(initialTab ?? "circle");
-  const chemistry = chords.find((chord) => chord.id === "chemistry") ?? chords[0];
+
+  // The float card tracks the goals the demo members actually recorded.
+  const averageGoal = Math.round(
+    panel.dashboard.goals.reduce((sum, goal) => sum + goal.value, 0) / panel.dashboard.goals.length,
+  );
 
   return (
     <div className="full-bleed -my-8 dream px-3 pb-10 sm:px-5">
@@ -307,8 +312,33 @@ export function LandingTabs({ chords, initialTab }: { chords: ChordDefinition[];
                     <FloatCard {...FLOAT_CARD_A} />
                   </div>
                   <div className="absolute -left-4 bottom-6 w-[44%] max-w-[200px] animate-bob [animation-delay:-3.6s] sm:-left-8">
-                    <FloatCard {...FLOAT_CARD_B} />
+                    <FloatCard label="Goal progress" status="set at the Sunday check-in" value={String(averageGoal)} unit="%" icon={CalendarCheck} color="#a5b4fc" />
                   </div>
+                </div>
+              </section>
+
+              {/* The after-sign-in shot: the dashboard window one more friend
+                  introduces while a second one peeks from the corner. */}
+              <section className="relative px-4 pb-2">
+                <div className="relative mx-auto max-w-4xl">
+                  <div className="absolute -top-10 right-2 z-10 hidden items-start gap-2.5 sm:flex lg:-top-12 lg:right-4">
+                    <SpeechBubble
+                      title="After sign in, this is your week."
+                      body="Your chords, your points, goals set together."
+                      side="left"
+                    />
+                    <Mascot
+                      mood="happy"
+                      color="#8b7ff7"
+                      className="size-12 animate-bob [animation-delay:-1.9s] drop-shadow-md"
+                    />
+                  </div>
+                  <Mascot
+                    mood="peek"
+                    color="#e2578a"
+                    className="absolute -bottom-4 -left-2 z-10 hidden size-11 -scale-x-100 animate-bob [animation-delay:-2.6s] sm:block"
+                  />
+                  <DashboardHomeMockup panel={panel.dashboard} />
                 </div>
               </section>
 
@@ -453,7 +483,7 @@ export function LandingTabs({ chords, initialTab }: { chords: ChordDefinition[];
                     color="#e2578a"
                     className="absolute -top-6 right-3 z-10 hidden size-10 animate-bob [animation-delay:-2.5s] sm:block"
                   />
-                  <ChordsMockup chords={chords} />
+                  <ChordsMockup panel={panel.chords} />
                 </div>
                 <div className="order-3 space-y-4 lg:order-none">
                   <Callout title="Age-appropriate by design" body="Each chord carries an audience. College chords stay 18+, and member search respects it everywhere." color="#f0a03c" icon={Shield} />
@@ -532,7 +562,7 @@ export function LandingTabs({ chords, initialTab }: { chords: ChordDefinition[];
                     color="#f0a03c"
                     className="absolute -top-7 right-2 z-10 hidden size-12 animate-bob [animation-delay:-3.4s] sm:block"
                   />
-                  <PointMockup chord={chemistry} />
+                  <PointMockup panel={panel.point} />
                 </div>
               </section>
 
@@ -616,7 +646,7 @@ export function LandingTabs({ chords, initialTab }: { chords: ChordDefinition[];
                       color="#22a58a"
                       className="absolute -top-6 right-4 z-10 hidden size-11 animate-bob [animation-delay:-4.1s] sm:block"
                     />
-                    <DashboardMockup />
+                    <DashboardMockup panel={panel.dashboard} />
                   </div>
                 </div>
               </div>

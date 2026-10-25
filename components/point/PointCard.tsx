@@ -15,15 +15,17 @@ export interface PointCardProps {
   currentGoal?: string;
   /** Timezone used to render the next meeting. Defaults to the point's own timezone. */
   timeZone?: string;
+  /** Optional link override (defaults to the point's detail page). */
+  href?: string;
 }
 
 /** Reusable point card. Never create subject-specific variants of this. */
-export function PointCard({ point, chord, moderator, members, currentGoal, timeZone }: PointCardProps) {
+export function PointCard({ point, chord, moderator, members, currentGoal, timeZone, href }: PointCardProps) {
   const next = nextWeeklyOccurrence(point.schedule);
   const zone = timeZone ?? point.schedule.timezone;
 
   return (
-    <Link href={`/points/${point.id}`} className="group block h-full">
+    <Link href={href ?? `/points/${point.id}`} className="group block h-full">
       <Card interactive className="flex h-full flex-col">
         <div className="flex items-start justify-between gap-2">
           <div>

@@ -83,7 +83,7 @@ export async function signIn(formData: FormData) {
   const user = await repo.getUser(String(formData.get("userId") ?? ""));
   if (!user) throw new Error("Unknown account.");
   await setSessionUser(user.id);
-  redirect("/");
+  redirect("/dashboard");
 }
 
 export async function signUp(_prev: AuthState, formData: FormData): Promise<AuthState> {
@@ -119,7 +119,7 @@ export async function signUp(_prev: AuthState, formData: FormData): Promise<Auth
   } catch (error) {
     return { error: error instanceof Error ? error.message : "Could not create the account." };
   }
-  redirect("/");
+  redirect("/dashboard");
 }
 
 /** Email + password sign-in (Supabase Auth backend only). */
@@ -132,7 +132,7 @@ export async function signInWithPassword(_prev: AuthState, formData: FormData): 
   }
   const id = await supabaseSignIn(email, password);
   if (!id) return { error: "Wrong email or password." };
-  redirect("/");
+  redirect("/dashboard");
 }
 
 export async function signOut() {
