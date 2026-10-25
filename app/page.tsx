@@ -5,6 +5,10 @@ import { CHORD_CATALOG } from "@/config/chords";
 // still resolves the session, so nothing can prerender.
 export const instant = false;
 
-export default function HomePage() {
-  return <LandingTabs chords={CHORD_CATALOG} />;
+const TAB_IDS = new Set(["circle", "chords", "points", "progress"]);
+
+export default async function HomePage({ searchParams }: PageProps<"/">) {
+  const { tab } = await searchParams;
+  const initialTab = typeof tab === "string" && TAB_IDS.has(tab) ? tab : undefined;
+  return <LandingTabs chords={CHORD_CATALOG} initialTab={initialTab as never} />;
 }

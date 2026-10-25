@@ -242,14 +242,16 @@ const FLOAT_CARD_B = {
   color: "#a5b4fc",
 };
 
-export function LandingTabs({ chords }: { chords: ChordDefinition[] }) {
-  const [tab, setTab] = useState<TabId>("circle");
+export function LandingTabs({ chords, initialTab }: { chords: ChordDefinition[]; initialTab?: TabId }) {
+  // Deep-linkable tabs: /?tab=points shares, links, and restores a slide after
+  // a reload. The tab bar still animates every internal switch.
+  const [tab, setTab] = useState<TabId>(initialTab ?? "circle");
   const chemistry = chords.find((chord) => chord.id === "chemistry") ?? chords[0];
 
   return (
     <div className="full-bleed -my-8 dream px-3 pb-10 sm:px-5">
-      {/* The campus at night — the page's entire background, behind every panel. */}
-      <CampusHorizon />
+      {/* The campus at night — its own scene per slide, behind every panel. */}
+      <CampusHorizon scene={tab} />
 
       {/* Floating tab bar */}
       <div className="sticky top-[52px] z-30 py-2.5">
