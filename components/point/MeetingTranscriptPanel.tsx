@@ -51,7 +51,7 @@ export function MeetingTranscriptPanel({ pointId }: { pointId: string }) {
       </div>
 
       {transcript ? (
-        <pre className="max-h-80 overflow-auto whitespace-pre-wrap rounded-xl border border-line bg-paper p-4 font-mono text-sm leading-6 text-ink/80">
+        <pre className="max-h-80 overflow-auto scroll-thin whitespace-pre-wrap rounded-xl border border-line bg-paper p-4 font-mono text-sm leading-6 text-ink/80">
           {transcript}
         </pre>
       ) : ended ? (

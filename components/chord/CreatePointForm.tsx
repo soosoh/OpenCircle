@@ -55,7 +55,7 @@ export function CreatePointForm({
         </Select>
       </Field>
       {chordAudience !== "all" ? (
-        <p className="text-xs leading-5 text-muted">
+        <p className="rounded-xl bg-sun-wash px-3 py-2 text-xs leading-5 text-ink">
           This chord is limited to {chordAudience === "college" ? "college students" : "high school students"}.
         </p>
       ) : null}
@@ -67,7 +67,7 @@ export function CreatePointForm({
 function CreateSubmit() {
   const { pending } = useFormStatus();
   return (
-    <SubmitButton pending={pending} pendingLabel="Creating…" className="min-h-10">
+    <SubmitButton variant="ink" pending={pending} pendingLabel="Creating…" className="min-h-11 w-full">
       Create point
     </SubmitButton>
   );

@@ -38,7 +38,7 @@ import type { Chord, Goal, GoalAssignment, GoalStatus, Point, User } from "@/typ
  * Invalid input throws an Error with a user-readable message.
  */
 
-const AVATAR_COLORS = ["#22a58a", "#f08a4b", "#4f7cf0", "#e2578a", "#8b5cf6", "#0ea5b7", "#84a31a"];
+const AVATAR_COLORS = ["#2E7D5B", "#B85C1E", "#2D6A73", "#8C3A22", "#4F6B2A", "#A83A50", "#5A4632"];
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
 
 const newId = (prefix: string) => `${prefix}-${crypto.randomUUID().slice(0, 8)}`;
@@ -361,6 +361,7 @@ export async function sendPrivateMessage(pointId: string, formData: FormData) {
   const recipientId = String(formData.get("recipientId") ?? "");
   const content = text(formData, "content", 1000);
   if (!content) return;
+  if (recipientId === user.id) throw new Error("You cannot message yourself.");
 
   // Moderators message their members. Members may only reply to the moderator.
   const moderatorSends = isModerator(point, user.id) && point.memberIds.includes(recipientId);

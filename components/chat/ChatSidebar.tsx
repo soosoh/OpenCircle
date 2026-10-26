@@ -17,10 +17,10 @@ export function ChatSidebar({
   assignments?: Map<string, GoalAssignment[]>;
 }) {
   return (
-    <aside className="rounded-2xl border border-line bg-surface">
-      <div className="flex items-baseline justify-between gap-2 border-b border-line px-4 py-3">
-        <h2 className="font-display text-base font-bold tracking-tight text-ink">In this point</h2>
-        <span className="tnum text-xs text-muted">{participants.length}</span>
+    <section aria-labelledby="in-this-point-heading" className="rounded-2xl border border-line bg-surface">
+      <div className="flex items-center justify-between gap-2 border-b border-line px-4 py-3">
+        <h2 id="in-this-point-heading" className="font-display text-lg font-bold tracking-tight text-ink">In this point</h2>
+        <span className="tnum rounded-full bg-sage px-2.5 py-0.5 text-xs font-bold text-mint">{participants.length}</span>
       </div>
       {participants.length === 0 ? (
         <p className="px-4 py-4 text-sm text-muted">No members yet.</p>
@@ -49,7 +49,7 @@ export function ChatSidebar({
                     <p className="truncate text-xs text-muted">{person.educationLevel}</p>
                   </div>
                   {personGoals.length > 0 ? (
-                    <span className="tnum shrink-0 text-xs text-muted">{average}%</span>
+                    <span className="tnum shrink-0 rounded-full bg-mist px-2 py-0.5 text-[11px] font-bold text-ink">{average}%</span>
                   ) : null}
                 </div>
                 {personGoals.length > 0 ? (
@@ -59,12 +59,12 @@ export function ChatSidebar({
                 ) : (
                   <p className="mt-1 pl-11 text-xs text-muted">No goals yet</p>
                 )}
-                {needsHelp ? <p className="mt-1.5 pl-11 text-[11px] text-coral">Needs a hand this week</p> : null}
+                {needsHelp ? <p className="mt-1.5 ml-11 inline-flex rounded-full bg-coral-soft px-2 py-0.5 text-[11px] font-semibold text-coral-ink">Needs a hand this week</p> : null}
               </li>
             );
           })}
         </ul>
       )}
-    </aside>
+    </section>
   );
 }

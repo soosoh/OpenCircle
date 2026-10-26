@@ -1,7 +1,7 @@
 import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
 
 const FIELD =
-  "w-full rounded-xl border border-line bg-surface px-3 py-2.5 text-sm text-ink transition-colors placeholder:text-muted/60 hover:border-ink/25 focus:border-ink/40 focus:outline-none focus:ring-2 focus:ring-sun/50";
+  "w-full rounded-xl border border-line bg-surface px-3 py-2.5 text-sm text-ink transition-colors duration-200 ease-out-quart placeholder:text-muted/60 hover:border-ink/25 focus:border-ink/40 focus:outline-none focus:ring-2 focus:ring-sun/50";
 
 export function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
   return (
@@ -34,9 +34,9 @@ export function CheckboxGroup({ name, options }: { name: string; options: { valu
       {options.map((option) => (
         <label
           key={option.value}
-          className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-ink transition-colors hover:border-ink/25 has-checked:border-ink has-checked:bg-sun-soft"
+          className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-ink transition-colors duration-150 ease-out-quart hover:border-ink/25 has-checked:border-ink has-checked:bg-sun-soft"
         >
-          <input type="checkbox" name={name} value={option.value} className="size-3.5 accent-[#29313D]" />
+          <input type="checkbox" name={name} value={option.value} className="size-3.5 accent-ink" />
           {option.label}
         </label>
       ))}

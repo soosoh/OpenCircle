@@ -4,9 +4,9 @@ export type Tone = "brand" | "mint" | "sun" | "coral" | "muted";
 
 const TONES: Record<Tone, string> = {
   brand: "bg-sun text-ink",
-  mint: "bg-sage text-[#2F5D3A]",
-  sun: "bg-[#FFF1B8] text-[#6B5410]",
-  coral: "bg-[#FBE3DC] text-[#8E3520]",
+  mint: "bg-sage text-sage-ink",
+  sun: "bg-sun-soft text-sun-ink",
+  coral: "bg-coral-soft text-coral-ink",
   muted: "bg-mist text-muted",
 };
 

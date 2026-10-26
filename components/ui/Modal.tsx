@@ -49,7 +49,7 @@ export function Modal({
               ref.current?.close();
               onClose?.();
             }}
-            className="rounded-full px-2 py-1 text-muted transition-colors hover:bg-ink/5 hover:text-ink"
+            className="rounded-full px-2 py-1 text-muted transition-colors duration-150 ease-out-quart hover:bg-ink/5 hover:text-ink"
             aria-label="Close"
           >
             ✕

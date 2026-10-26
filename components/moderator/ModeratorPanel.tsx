@@ -1,15 +1,56 @@
+import type { ReactNode } from "react";
+import { Mascot } from "@/components/landing/mascot";
 import { ActionForm } from "@/components/ui/ActionForm";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
 import { GoalStatusBadge, PointStatusBadge } from "@/components/ui/StatusBadge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { formatDateTime, formatTime, WEEKDAY_NAMES } from "@/lib/domain/time";
-import type { ReactNode } from "react";
 import type { Goal, HelpRequest, Point, User } from "@/types";
 import { GoalForm } from "./GoalForm";
 import { ProgressUpdateForm } from "./ProgressUpdateForm";
+
+/** White card with a Fraunces title and one line saying what it is for. */
+function Panel({
+  title,
+  hint,
+  badge,
+  children,
+  className = "",
+}: {
+  title: string;
+  hint?: string;
+  badge?: ReactNode;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <section className={`rounded-2xl border border-line bg-surface p-5 sm:p-6 ${className}`}>
+      <div className="mb-4 flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <h3 className="font-display text-xl font-bold tracking-tight text-ink">{title}</h3>
+          {hint ? <p className="mt-1 text-sm text-muted">{hint}</p> : null}
+        </div>
+        {badge}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+/** A designed "nothing here" row: small mascot, a sentence in ink. */
+function Quiet({ title, hint, mood = "happy" }: { title: string; hint?: string; mood?: "happy" | "peek" }) {
+  return (
+    <div className="flex items-center gap-3 rounded-xl bg-sun-wash px-4 py-3.5">
+      <Mascot mood={mood} color="#2E7D5B" width={40} height={40} />
+      <div className="min-w-0">
+        <p className="text-sm font-semibold text-ink">{title}</p>
+        {hint ? <p className="mt-0.5 text-sm leading-snug text-ink">{hint}</p> : null}
+      </div>
+    </div>
+  );
+}
 
 /**
  * Moderator panels for one point: goal creation, member progress, shared
@@ -42,7 +83,7 @@ export function ModeratorPanel({
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-14">
       {entries.map(({ point, chordName, members, goals, helpRequests, requesters, assistant }) => {
         const openRequests = helpRequests.filter((request) => request.status === "open");
         const resources = goals.flatMap((goal) =>
@@ -54,21 +95,26 @@ export function ModeratorPanel({
         );
 
         return (
-          <section key={point.id} className="space-y-5">
-            <header className="flex flex-wrap items-end justify-between gap-3">
+          <section key={point.id} aria-labelledby={`point-${point.id}`} className="space-y-5">
+            <header className="flex flex-wrap items-end justify-between gap-4">
               <div className="min-w-0">
-                <p className="text-xs text-muted">
-                  {chordName} · {WEEKDAY_NAMES[point.schedule.weekday] ?? "Weekly"} at{" "}
-                  <span className="tnum">{formatTime(point.schedule.time, point.schedule.timezone)}</span>
+                <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink">
+                  <span className="font-semibold">{chordName}</span>
+                  <span className="rounded-full bg-sun-soft px-2.5 py-0.5 text-xs font-semibold">
+                    {WEEKDAY_NAMES[point.schedule.weekday] ?? "Weekly"} at{" "}
+                    <span className="tnum">{formatTime(point.schedule.time, point.schedule.timezone)}</span>
+                  </span>
                 </p>
-                <h2 className="mt-1 font-display text-2xl font-bold tracking-tight text-ink">{point.title}</h2>
+                <h2 id={`point-${point.id}`} className="mt-1.5 font-display text-3xl font-bold tracking-tight text-ink">
+                  {point.title}
+                </h2>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <PointStatusBadge status={point.status} />
                 <Badge tone="muted">
-                  <span className="tnum">{members.length}</span> members
+                  <span className="tnum">{members.length}</span> {members.length === 1 ? "member" : "members"}
                 </Badge>
-                <Button href={`/points/${point.id}`} variant="secondary" size="sm" className="min-h-10">
+                <Button href={`/points/${point.id}`} variant="ink" size="md" className="min-h-11">
                   Open point
                 </Button>
               </div>
@@ -76,18 +122,11 @@ export function ModeratorPanel({
 
             <div className="grid gap-4 lg:grid-cols-12 lg:items-start">
               <div className="space-y-4 lg:col-span-7">
-                <Card className="space-y-4">
-                  <div>
-                    <h3 className="font-display text-lg font-bold tracking-tight text-ink">Member progress</h3>
-                    <p className="mt-1 text-sm text-muted">
-                      Reputation, latest goal, and how far each member has got.
-                    </p>
-                  </div>
-
+                <Panel title="Member progress" hint="Reputation, latest goal, and how far each member has got.">
                   {members.length === 0 ? (
-                    <p className="text-sm text-muted">No members yet.</p>
+                    <Quiet title="No members yet" hint="Members who join this point show up here." mood="happy" />
                   ) : (
-                    <ul className="space-y-2.5">
+                    <ul className="space-y-3">
                       {members.map((member) => {
                         const memberGoals = goals.filter((goal) => goal.assignments.some((a) => a.userId === member.id));
                         const latest = memberGoals[0];
@@ -95,38 +134,31 @@ export function ModeratorPanel({
                         const isModerator = member.id === point.moderatorId;
 
                         return (
-                          <li key={member.id} className="rounded-xl border border-line bg-paper p-3">
+                          <li key={member.id} className="rounded-xl border border-line bg-paper p-4">
                             <div className="flex items-start gap-3">
-                              <Avatar name={member.name} color={member.avatarColor} size={36} />
+                              <Avatar name={member.name} color={member.avatarColor} size={40} />
                               <div className="min-w-0 flex-1">
                                 <div className="flex flex-wrap items-center gap-2">
-                                  <p className="truncate text-sm font-semibold text-ink">{member.name}</p>
-                                  <Badge tone={isModerator ? "sun" : "muted"}>
-                                    {isModerator ? "Moderator" : "Member"}
-                                  </Badge>
+                                  <p className="truncate text-base font-semibold text-ink">{member.name}</p>
+                                  <Badge tone={isModerator ? "sun" : "muted"}>{isModerator ? "Moderator" : "Member"}</Badge>
                                   {assignment ? <GoalStatusBadge status={assignment.status} /> : null}
                                 </div>
-                                <p className="mt-0.5 truncate text-xs text-muted">
-                                  {latest?.title ?? "No goals yet"}
-                                </p>
-                                <div className="mt-2 flex items-center gap-2">
-                                  <span className="w-16 shrink-0 text-xs text-muted">Reputation</span>
-                                  <ProgressBar value={member.reputation} label={`${member.name} reputation`} />
-                                  <span className="tnum w-6 shrink-0 text-right text-xs text-muted">
-                                    {member.reputation}
-                                  </span>
-                                </div>
+                                <p className="mt-0.5 truncate text-sm text-muted">{latest?.title ?? "No goals yet"}</p>
                               </div>
                             </div>
 
+                            <div className="mt-4 space-y-3 border-t border-line pt-4">
+                              <div className="flex items-center gap-3">
+                                <span className="w-20 shrink-0 text-xs text-muted">Reputation</span>
+                                <ProgressBar value={member.reputation} label={`${member.name} reputation`} />
+                                <span className="tnum w-9 shrink-0 text-right text-sm font-bold text-ink">{member.reputation}</span>
+                              </div>
                             {assignment && latest ? (
-                              <div className="mt-3 space-y-2 border-t border-line pt-3">
-                                <div className="flex items-center gap-2">
-                                  <span className="w-16 shrink-0 text-xs text-muted">Goal</span>
+                              <>
+                                <div className="flex items-center gap-3">
+                                  <span className="w-20 shrink-0 text-xs text-muted">Goal</span>
                                   <ProgressBar value={assignment.progress} label={`${member.name} goal progress`} />
-                                  <span className="tnum w-6 shrink-0 text-right text-xs font-semibold text-ink">
-                                    {assignment.progress}%
-                                  </span>
+                                  <span className="tnum w-9 shrink-0 text-right text-sm font-bold text-ink">{assignment.progress}%</span>
                                 </div>
                                 {isModerator ? null : (
                                   <ProgressUpdateForm
@@ -137,59 +169,50 @@ export function ModeratorPanel({
                                     progress={assignment.progress}
                                   />
                                 )}
-                              </div>
+                              </>
                             ) : null}
+                            </div>
                           </li>
                         );
                       })}
                     </ul>
                   )}
-                </Card>
+                </Panel>
 
-                <Card className="space-y-3">
-                  <div>
-                    <h3 className="font-display text-lg font-bold tracking-tight text-ink">Recorded goals</h3>
-                    <p className="mt-1 text-sm text-muted">The targets this point is working through.</p>
-                  </div>
+                <Panel title="Recorded goals" hint="The targets this point is working through.">
                   {goals.length === 0 ? (
-                    <p className="text-sm text-muted">No goals recorded yet.</p>
+                    <Quiet title="No goals recorded yet" hint="Record the first one with the form beside this list." mood="happy" />
                   ) : (
                     <ul className="space-y-2">
                       {goals.map((goal) => (
                         <li
                           key={goal.id}
-                          className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line bg-paper p-3"
+                          className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line bg-paper px-4 py-3"
                         >
                           <div className="min-w-0">
                             <p className="truncate text-sm font-semibold text-ink">{goal.title}</p>
-                            <p className="mt-0.5 text-xs text-muted">
-                              Due {formatDateTime(goal.deadline, timeZone)}
-                            </p>
+                            <p className="mt-0.5 text-xs text-muted">Due {formatDateTime(goal.deadline, timeZone)}</p>
                           </div>
                           <GoalStatusBadge status={goal.status} />
                         </li>
                       ))}
                     </ul>
                   )}
-                </Card>
+                </Panel>
 
-                <Card className="space-y-3">
-                  <div>
-                    <h3 className="font-display text-lg font-bold tracking-tight text-ink">Resources</h3>
-                    <p className="mt-1 text-sm text-muted">Handouts and links attached to this point&rsquo;s goals.</p>
-                  </div>
+                <Panel title="Resources" hint="Handouts and links attached to this point’s goals.">
                   {resources.length === 0 ? (
-                    <p className="text-sm text-muted">Nothing shared yet. Add resources when you record a goal.</p>
+                    <Quiet title="Nothing shared yet" hint="Add resources when you record a goal." mood="happy" />
                   ) : (
                     <ul className="space-y-2">
                       {resources.map((resource) => (
-                        <li key={resource.id} className="rounded-xl border border-line bg-paper p-3">
+                        <li key={resource.id} className="rounded-xl border border-line bg-paper px-4 py-3">
                           {/^https?:\/\//.test(resource.label) ? (
                             <a
                               href={resource.label}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-sm font-semibold text-ink underline decoration-line underline-offset-4 hover:decoration-ink"
+                              className="link break-all text-sm"
                             >
                               {resource.label}
                             </a>
@@ -201,46 +224,29 @@ export function ModeratorPanel({
                       ))}
                     </ul>
                   )}
-                </Card>
+                </Panel>
               </div>
 
               <div className="space-y-4 lg:col-span-5">
-                <Card className="space-y-4">
-                  <div>
-                    <h3 className="font-display text-lg font-bold tracking-tight text-ink">Record a goal</h3>
-                    <p className="mt-1 text-sm text-muted">One clear target, a deadline, and who it is for.</p>
-                  </div>
-                  <GoalForm action={createGoalAction.bind(null, point.id)} members={members} />
-                </Card>
-
-                <Card className="space-y-3">
-                  <div>
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <h3 className="font-display text-lg font-bold tracking-tight text-ink">Support requests</h3>
-                      {openRequests.length > 0 ? <Badge tone="coral">{openRequests.length} open</Badge> : null}
-                    </div>
-                    <p className="mt-1 text-sm text-muted">Members who asked for a hand.</p>
-                  </div>
-
+                <Panel
+                  title="Support requests"
+                  hint="Members who asked for a hand."
+                  badge={openRequests.length > 0 ? <Badge tone="coral">{openRequests.length} open</Badge> : null}
+                >
                   {openRequests.length === 0 ? (
-                    <p className="text-sm text-muted">Nothing open right now.</p>
+                    <Quiet title="All clear" hint="Nobody is waiting on you right now." />
                   ) : (
-                    <ul className="space-y-2">
+                    <ul className="space-y-2.5">
                       {openRequests.map((request) => {
                         const requester = requesters.get(request.userId);
                         return (
-                          <li
-                            key={request.id}
-                            className="flex flex-wrap items-start justify-between gap-3 rounded-xl border border-line bg-paper p-3"
-                          >
-                            <div className="flex min-w-0 flex-1 items-start gap-3">
-                              {requester ? (
-                                <Avatar name={requester.name} color={requester.avatarColor} size={28} />
-                              ) : null}
-                              <div className="min-w-0">
+                          <li key={request.id} className="rounded-xl border border-line bg-sun-wash p-4">
+                            <div className="flex items-start gap-3">
+                              {requester ? <Avatar name={requester.name} color={requester.avatarColor} size={32} /> : null}
+                              <div className="min-w-0 flex-1">
                                 <p className="text-sm font-semibold text-ink">{requester?.name ?? "Member"}</p>
-                                <p className="mt-0.5 text-sm leading-relaxed text-muted">{request.reason}</p>
-                                <p className="mt-1 text-xs text-muted">{formatDateTime(request.createdAt, timeZone)}</p>
+                                <p className="mt-1 text-sm leading-relaxed text-ink">{request.reason}</p>
+                                <p className="mt-1.5 text-xs text-muted">{formatDateTime(request.createdAt, timeZone)}</p>
                               </div>
                             </div>
                             <ActionForm
@@ -248,23 +254,27 @@ export function ModeratorPanel({
                               size="md"
                               variant="secondary"
                               pendingLabel="Resolving…"
-                              className="shrink-0"
+                              className="mt-3 [&_button]:min-h-10"
                             >
-                              Resolve
+                              Mark resolved
                             </ActionForm>
                           </li>
                         );
                       })}
                     </ul>
                   )}
-                </Card>
+                </Panel>
+
+                <Panel title="Record a goal" hint="One clear target, a deadline, and who it is for.">
+                  <GoalForm action={createGoalAction.bind(null, point.id)} members={members} />
+                </Panel>
               </div>
             </div>
 
             {assistant ? (
-              <section className="space-y-3">
+              <section aria-label="Meeting notes and check-ins" className="space-y-3 pt-2">
                 <div>
-                  <h3 className="font-display text-lg font-bold tracking-tight text-ink">Meeting notes and check-ins</h3>
+                  <h3 className="font-display text-xl font-bold tracking-tight text-ink">Meeting notes and check-ins</h3>
                   <p className="mt-1 text-sm text-muted">
                     Turn a session into a summary, or ask which members may need a check-in.
                   </p>

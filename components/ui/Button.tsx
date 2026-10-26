@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LoaderCircle } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 
 /**
@@ -12,20 +13,20 @@ import type { ComponentProps, ReactNode } from "react";
  */
 const VARIANTS = {
   primary: "bg-sun text-ink hover:bg-sun-deep",
-  ink: "bg-ink text-white hover:bg-[#3A4452]",
+  ink: "bg-ink text-white hover:bg-ink-soft",
   secondary: "bg-surface text-ink border border-line hover:border-ink/25 hover:bg-sun-wash",
   ghost: "text-muted hover:bg-mist hover:text-ink",
-  danger: "bg-coral text-white hover:bg-[#A93A21]",
+  danger: "bg-coral text-white hover:bg-coral-deep",
 } as const;
 
 const SIZES = {
-  sm: "px-3 py-1.5 text-sm",
-  md: "px-4 py-2.5 text-sm",
-  lg: "px-5 py-3 text-base",
+  sm: "min-h-9 px-3 py-1.5 text-sm",
+  md: "min-h-10 px-4 py-2.5 text-sm",
+  lg: "min-h-12 px-5 py-3 text-base",
 } as const;
 
 const BASE =
-  "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50";
+  "press inline-flex items-center justify-center gap-2 rounded-full font-semibold";
 
 type Variant = keyof typeof VARIANTS;
 type Size = keyof typeof SIZES;
@@ -73,7 +74,8 @@ export function SubmitButton({
   pendingLabel?: string;
 }) {
   return (
-    <button type="submit" disabled={pending} className={classes(variant, size, className)}>
+    <button type="submit" disabled={pending} aria-busy={pending || undefined} className={classes(variant, size, className)}>
+      {pending ? <LoaderCircle size={15} strokeWidth={2.5} className="animate-spin" aria-hidden="true" /> : null}
       {pending ? pendingLabel : children}
     </button>
   );

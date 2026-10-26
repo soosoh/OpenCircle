@@ -1,30 +1,55 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
+import { CalendarClock, Clock } from "lucide-react";
 import { ChatSidebar } from "@/components/chat/ChatSidebar";
+import { LockedChat } from "@/components/chat/LockedChat";
 import { PointChat } from "@/components/chat/PointChat";
+import { SupportChat } from "@/components/chat/SupportChat";
+import { MascotNote } from "@/components/chord/MascotNote";
+import { BackLink, PageBand } from "@/components/chord/PageBand";
+import { PillForm } from "@/components/chord/PillForm";
+import { PillLink } from "@/components/chord/PillLink";
 import { HelpRequestCard } from "@/components/point/HelpRequestCard";
 import { PointGoalCard } from "@/components/point/PointGoalCard";
 import { ProgressUpdater } from "@/components/point/ProgressUpdater";
 import { SOSButton } from "@/components/point/SOSButton";
 import { SupportNotification } from "@/components/point/SupportNotification";
-import { ActionForm } from "@/components/ui/ActionForm";
 import { Avatar, AvatarStack } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Card, EmptyState } from "@/components/ui/Card";
 import { PointStatusBadge } from "@/components/ui/StatusBadge";
-import { joinPoint, raiseSos, resolveHelpRequest, sendMessage, updateGoalProgress } from "@/lib/api/actions";
+import {
+  joinPoint,
+  raiseSos,
+  resolveHelpRequest,
+  sendMessage,
+  sendPrivateMessage,
+  updateGoalProgress,
+} from "@/lib/api/actions";
 import { getCurrentUser } from "@/lib/api/session";
-import { getChord, getPoint, listGoals, listHelpRequests, listMessages, listUsers } from "@/lib/database/repository";
+import {
+  getChord,
+  getPoint,
+  listGoals,
+  listHelpRequests,
+  listMessages,
+  listPrivateMessages,
+  listUsers,
+} from "@/lib/database/repository";
 import { audienceLabel, canJoinAudience } from "@/lib/domain/audience";
 import { WEEKDAY_NAMES, formatDateTime, formatTime, nextWeeklyOccurrence } from "@/lib/domain/time";
+
+// Reads the session and "now" on every request: block on the server rather than
+// claiming to be instant (same opt-out as app/dashboard/page.tsx).
+export const instant = false;
 
 export async function generateMetadata({ params }: PageProps<"/points/[pointId]">) {
   const { pointId } = await params;
   const point = await getPoint(pointId);
   return { title: `${point?.title ?? "Point"} · StudyCircle` };
 }
+
+const CARD = "rounded-2xl border border-line bg-surface p-5";
+const CARD_TITLE = "font-display text-lg font-bold tracking-tight text-ink";
 
 export default async function PointPage({ params }: PageProps<"/points/[pointId]">) {
   // The next occurrence is computed against "now"; the render is dynamic.
@@ -33,12 +58,10 @@ export default async function PointPage({ params }: PageProps<"/points/[pointId]
   const point = await getPoint(pointId);
   if (!point) notFound();
 
-  const [chord, users, allGoals, messages, helpRequests, viewer] = await Promise.all([
+  const [chord, users, allGoals, viewer] = await Promise.all([
     getChord(point.chordId),
     listUsers(),
     listGoals(),
-    listMessages(),
-    listHelpRequests(),
     getCurrentUser(),
   ]);
 
@@ -46,128 +69,155 @@ export default async function PointPage({ params }: PageProps<"/points/[pointId]
   const timeZone = viewer?.timezone ?? "UTC";
 
   const memberIds = [...new Set([...point.memberIds, point.moderatorId])];
-  const members = memberIds.map((id) => userById.get(id)).filter((user) => user !== undefined);
+  const memberCount = memberIds.length;
   const moderator = userById.get(point.moderatorId);
-
-  const goals = allGoals.filter((goal) => goal.pointId === point.id);
-  const pointMessages = messages
-    .filter((message) => message.pointId === point.id)
-    .sort((a, b) => a.timestamp.localeCompare(b.timestamp));
-  const pointRequests = helpRequests
-    .filter((request) => request.pointId === point.id)
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-  const openRequests = pointRequests.filter((request) => request.status === "open");
 
   const isMember = viewer !== null && memberIds.includes(viewer.id);
   const isModerator = viewer?.id === point.moderatorId;
   const joinCheck = viewer ? canJoinAudience(viewer, point.audience) : null;
+  const goals = allGoals.filter((goal) => goal.pointId === point.id);
+
+  // Member-only data (chat, member list, progress, help requests, private thread) is
+  // fetched and built only for members, so a visitor's response never carries it.
+  const members = isMember ? memberIds.map((id) => userById.get(id)).filter((user) => user !== undefined) : [];
+  const [allMessages, allRequests, allPrivate] = isMember
+    ? await Promise.all([
+        listMessages(),
+        listHelpRequests(),
+        !isModerator ? listPrivateMessages() : Promise.resolve([]),
+      ])
+    : [[], [], []];
+  const pointMessages = allMessages
+    .filter((message) => message.pointId === point.id)
+    .sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+  const pointRequests = allRequests
+    .filter((request) => request.pointId === point.id)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const openRequests = pointRequests.filter((request) => request.status === "open");
+  const privateThread =
+    viewer && moderator && isMember && !isModerator
+      ? allPrivate
+          .filter(
+            (message) =>
+              message.pointId === point.id &&
+              ((message.senderId === viewer.id && message.recipientId === moderator.id) ||
+                (message.senderId === moderator.id && message.recipientId === viewer.id)),
+          )
+          .sort((a, b) => a.timestamp.localeCompare(b.timestamp))
+      : [];
+
   const next = nextWeeklyOccurrence(point.schedule);
   const scheduleZone = point.schedule.timezone.split("/").pop()?.replaceAll("_", " ") ?? point.schedule.timezone;
   const isZoom = point.meeting.provider === "zoom" && Boolean(point.meeting.meetingUrl);
-  const meetingHref =
-    point.meeting.provider === "zoom" && point.meeting.meetingUrl
+  // Only built for members: visitors get no meeting link, not even the in-app room path.
+  const meetingHref = !isMember
+    ? undefined
+    : point.meeting.provider === "zoom" && point.meeting.meetingUrl
       ? point.meeting.meetingUrl
       : `/points/${point.id}/meeting`;
+  const externalProps = isZoom ? { target: "_blank", rel: "noopener noreferrer" } : {};
+  const joinPrompt = !viewer ? (
+    <PillLink href="/login">Sign in to join</PillLink>
+  ) : joinCheck?.ok ? (
+    <PillForm action={joinPoint.bind(null, point.id)} pendingLabel="Joining…">
+      Join this point
+    </PillForm>
+  ) : null;
 
   return (
     <div className="space-y-8">
-      <div className="space-y-5">
-        {chord ? (
-          <Link
-            href={`/chords/${chord.id}`}
-            className="inline-flex min-h-10 items-center gap-1.5 text-sm text-muted transition-colors hover:text-ink"
-          >
-            <span aria-hidden="true">←</span> {chord.name} chord
-          </Link>
-        ) : null}
-
-        <header className="flex flex-wrap items-start justify-between gap-5">
-          <div className="min-w-0 max-w-3xl">
-            <div className="flex flex-wrap items-center gap-2">
-              <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">{point.title}</h1>
-              <PointStatusBadge status={point.status} />
-            </div>
-            <p className="mt-2 text-[15px] leading-7 text-muted">{point.description}</p>
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              <Badge tone={point.audience === "all" ? "muted" : "sun"}>{audienceLabel(point.audience)}</Badge>
-              <span className="tnum text-sm text-muted">
-                {members.length} {members.length === 1 ? "member" : "members"}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex max-w-xs flex-col gap-2 sm:items-end">
-            <p className="text-xs text-muted">
-              {isMember
-                ? "You're a member of this point."
-                : viewer
-                  ? "Join to see the chat and track goals."
-                  : "Members chat and track goals together."}
+      <PageBand
+        crumb={chord ? <BackLink href={`/chords/${chord.id}`}>{chord.name} chord</BackLink> : undefined}
+        title={point.title}
+        description={point.description}
+        meta={
+          <>
+            <PointStatusBadge status={point.status} />
+            <Badge tone={point.audience === "all" ? "muted" : "sun"} className="bg-surface">
+              {audienceLabel(point.audience)}
+            </Badge>
+            <span className="tnum rounded-full bg-surface px-2.5 py-0.5 text-xs font-semibold text-ink">
+              {memberCount} {memberCount === 1 ? "member" : "members"}
+            </span>
+            {isMember ? <Badge tone="mint">You&apos;re a member</Badge> : null}
+          </>
+        }
+        actions={
+          isMember ? (
+            <PillLink href="#chat">Open point chat</PillLink>
+          ) : joinPrompt ? (
+            <>
+              {joinPrompt}
+              <p className="basis-full text-sm text-ink">
+                {viewer ? "Join to see the chat and track goals." : "Members chat and track goals together."}
+              </p>
+            </>
+          ) : (
+            <p className="max-w-xs rounded-xl bg-surface px-4 py-3 text-sm leading-6 text-coral-ink">
+              {joinCheck && !joinCheck.ok ? joinCheck.reason : ""}
             </p>
-            {!viewer ? (
-              <Button href="/login">Sign in to join</Button>
-            ) : isMember ? (
-              <Button href="#chat">Open point chat</Button>
-            ) : joinCheck?.ok ? (
-              <ActionForm action={joinPoint.bind(null, point.id)} pendingLabel="Joining…">
-                Join this point
-              </ActionForm>
-            ) : (
-              <p className="text-left text-sm leading-6 text-coral sm:text-right">
-                {joinCheck && !joinCheck.ok ? joinCheck.reason : ""}
-              </p>
-            )}
-          </div>
-        </header>
-
-        <section
-          aria-label="Schedule and membership"
-          className="overflow-hidden rounded-2xl border border-line bg-surface"
-        >
-          <div className="grid gap-5 p-5 sm:grid-cols-3">
-            <div>
-              <p className="text-xs text-muted">Meets</p>
-              <p className="mt-1 font-display text-xl font-bold tracking-tight text-ink">
-                {WEEKDAY_NAMES[point.schedule.weekday]} · {formatTime(point.schedule.time, point.schedule.timezone)}
-              </p>
-              <p className="mt-0.5 text-xs text-muted">
-                Repeats weekly · {scheduleZone} time
-              </p>
+          )
+        }
+      >
+        <section aria-label="Schedule and membership" className="overflow-hidden rounded-2xl bg-surface">
+          <div className="grid gap-5 p-5 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-line">
+            <div className="flex items-start gap-3 lg:pr-5">
+              <span
+                className="flex size-10 shrink-0 items-center justify-center rounded-full bg-mint text-white"
+                aria-hidden="true"
+              >
+                <Clock size={18} strokeWidth={2.25} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs text-muted">Meets</p>
+                <p className="mt-0.5 font-display text-xl font-bold leading-tight tracking-tight text-ink">
+                  {WEEKDAY_NAMES[point.schedule.weekday]} · {formatTime(point.schedule.time, point.schedule.timezone)}
+                </p>
+                <p className="mt-0.5 text-xs text-muted">Repeats weekly · {scheduleZone} time</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs text-muted">Next session</p>
-              <p className="mt-1 text-sm font-medium text-ink">{formatDateTime(next, timeZone)}</p>
-              <p className="mt-0.5 text-xs text-muted">In your timezone</p>
+            <div className="flex items-start gap-3 lg:px-5">
+              <span
+                className="flex size-10 shrink-0 items-center justify-center rounded-full bg-sage text-mint"
+                aria-hidden="true"
+              >
+                <CalendarClock size={18} strokeWidth={2.25} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs text-muted">Next session</p>
+                <p className="mt-0.5 text-base font-bold leading-snug text-ink">{formatDateTime(next, timeZone)}</p>
+                <p className="mt-0.5 text-xs text-muted">In your timezone</p>
+              </div>
             </div>
             {moderator ? (
-              <div>
-                <p className="text-xs text-muted">Moderator</p>
-                <p className="mt-1 flex items-center gap-2 text-sm font-medium text-ink">
-                  <Avatar name={moderator.name} color={moderator.avatarColor} size={24} />
-                  {moderator.name}
-                </p>
-                <p className="mt-0.5 text-xs text-muted">Runs this point</p>
+              <div className="flex items-start gap-3 lg:pl-5">
+                <Avatar name={moderator.name} color={moderator.avatarColor} size={40} />
+                <div className="min-w-0">
+                  <p className="text-xs text-muted">Moderator</p>
+                  <p className="mt-0.5 text-base font-bold leading-snug text-ink">{moderator.name}</p>
+                  <p className="mt-0.5 text-xs text-muted">Runs this point</p>
+                </div>
               </div>
             ) : null}
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line px-5 py-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-sun-wash px-5 py-3">
             <div className="flex min-w-0 items-center gap-2.5">
-              {members.length > 0 ? <AvatarStack people={members} size={24} /> : null}
-              <span className="text-xs text-muted">The people you meet every week</span>
+              {members.length > 0 ? <AvatarStack people={members} size={28} /> : null}
+              <span className="text-sm text-ink">
+                {isMember
+                  ? "The people you meet every week"
+                  : `${memberCount} ${memberCount === 1 ? "person meets" : "people meet"} here every week`}
+              </span>
             </div>
-            <Button
-              href={meetingHref}
-              variant="secondary"
-              size="sm"
-              className="min-h-10"
-              {...(isZoom ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            >
-              {isZoom ? "Join on Zoom" : "Visit meeting room"}
-            </Button>
+            {meetingHref ? (
+              <PillLink href={meetingHref} {...externalProps}>
+                {isZoom ? "Join on Zoom" : "Visit meeting room"}
+              </PillLink>
+            ) : null}
           </div>
         </section>
-      </div>
+      </PageBand>
 
       {isMember && openRequests.length > 0 ? (
         <div className="space-y-2">
@@ -182,11 +232,11 @@ export default async function PointPage({ params }: PageProps<"/points/[pointId]
         </div>
       ) : null}
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_19rem]">
         <div className="min-w-0 space-y-8">
           <section aria-labelledby="goals-heading" id="goals" className="scroll-mt-24 space-y-4">
             <div>
-              <h2 id="goals-heading" className="font-display text-xl font-bold tracking-tight text-ink">
+              <h2 id="goals-heading" className="font-display text-2xl font-bold tracking-tight text-ink">
                 Goals
               </h2>
               <p className="mt-1 text-sm leading-6 text-muted">
@@ -194,15 +244,28 @@ export default async function PointPage({ params }: PageProps<"/points/[pointId]
               </p>
             </div>
             {goals.length === 0 ? (
-              <EmptyState
-                title="No goals recorded yet"
+              <MascotNote
+                mood="peek"
+                color={chord?.color}
+                title="No goals recorded yet."
                 hint="Goals are set together at the end of each meeting and recorded by the moderator."
                 action={
-                  <Button href="#chat" variant="secondary" size="sm" className="min-h-10">
+                  <PillLink href="#chat" tone="outline">
                     Talk it through in chat
-                  </Button>
+                  </PillLink>
                 }
               />
+            ) : !isMember ? (
+              <ul className="divide-y divide-line rounded-2xl border border-line bg-surface">
+                {goals.map((goal) => (
+                  <li key={goal.id} className="px-5 py-3.5">
+                    <p className="font-display text-base font-bold leading-tight tracking-tight text-ink">
+                      {goal.title}
+                    </p>
+                    <p className="mt-1 text-xs text-muted">Due {formatDateTime(goal.deadline, timeZone)}</p>
+                  </li>
+                ))}
+              </ul>
             ) : (
               <div className="space-y-4">
                 {goals.map((goal) => (
@@ -228,14 +291,43 @@ export default async function PointPage({ params }: PageProps<"/points/[pointId]
           </section>
 
           <div id="chat" className="scroll-mt-24">
-            <PointChat
-              messages={pointMessages}
-              users={members}
-              action={sendMessage.bind(null, point.id)}
-              canPost={isMember}
-              viewerId={viewer?.id}
-            />
+            {isMember ? (
+              <PointChat
+                messages={pointMessages}
+                users={members}
+                action={sendMessage.bind(null, point.id)}
+                canPost
+                viewerId={viewer?.id}
+              />
+            ) : (
+              <LockedChat action={joinPrompt} />
+            )}
           </div>
+
+          {viewer && moderator && isMember && !isModerator ? (
+            <section aria-labelledby="private-thread-heading" className="space-y-3">
+              <div>
+                <h2
+                  id="private-thread-heading"
+                  className="font-display text-xl font-bold tracking-tight text-ink"
+                >
+                  Private thread with {moderator.name}
+                </h2>
+                <p className="mt-0.5 text-sm text-muted">
+                  Only you and your moderator can see this. Your moderator starts the thread; you can reply.
+                </p>
+              </div>
+              <SupportChat
+                thread={privateThread}
+                other={moderator}
+                viewerId={viewer.id}
+                action={sendPrivateMessage.bind(null, point.id)}
+                canStart={false}
+                recipientId={moderator.id}
+                defaultOpen
+              />
+            </section>
+          ) : null}
 
           {isMember ? (
             <SOSButton action={raiseSos.bind(null, point.id)} canRequest openRequests={openRequests.length} />
@@ -243,62 +335,76 @@ export default async function PointPage({ params }: PageProps<"/points/[pointId]
         </div>
 
         <aside className="space-y-4">
-          <Card className="space-y-3">
-            <h2 className="font-display text-base font-bold tracking-tight text-ink">Session details</h2>
+          <section aria-labelledby="session-details-heading" className={`${CARD} space-y-3`}>
+            <h2 id="session-details-heading" className={CARD_TITLE}>
+              Session details
+            </h2>
             <dl className="space-y-2 text-sm">
               <div className="flex items-baseline justify-between gap-2">
                 <dt className="text-muted">Room</dt>
-                <dd className="font-medium text-ink">{isZoom ? "Zoom" : "Demo room"}</dd>
+                <dd className="font-semibold text-ink">{isZoom ? "Zoom" : "Demo room"}</dd>
               </div>
-              <div className="flex items-baseline justify-between gap-2">
-                <dt className="text-muted">Room ID</dt>
-                <dd className="font-mono text-xs text-ink">{point.meeting.meetingId}</dd>
-              </div>
-              {point.meeting.meetingPassword ? (
-                <div className="flex items-baseline justify-between gap-2">
-                  <dt className="text-muted">Passcode</dt>
-                  <dd className="font-mono text-xs text-ink">{point.meeting.meetingPassword}</dd>
-                </div>
+              {isMember ? (
+                <>
+                  <div className="flex items-baseline justify-between gap-2">
+                    <dt className="text-muted">Room ID</dt>
+                    <dd className="rounded-md bg-mist px-1.5 py-0.5 font-mono text-xs text-ink">
+                      {point.meeting.meetingId}
+                    </dd>
+                  </div>
+                  {point.meeting.meetingPassword ? (
+                    <div className="flex items-baseline justify-between gap-2">
+                      <dt className="text-muted">Passcode</dt>
+                      <dd className="rounded-md bg-mist px-1.5 py-0.5 font-mono text-xs text-ink">
+                        {point.meeting.meetingPassword}
+                      </dd>
+                    </div>
+                  ) : null}
+                </>
               ) : null}
               <div className="flex items-baseline justify-between gap-2">
                 <dt className="text-muted">Schedule</dt>
-                <dd className="text-right font-medium text-ink">Weekly</dd>
+                <dd className="text-right font-semibold text-ink">Weekly</dd>
               </div>
             </dl>
-            <Button
-              href={meetingHref}
-              variant="secondary"
-              size="sm"
-              className="w-full min-h-10"
-              {...(isZoom ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            >
-              {isZoom ? "Join on Zoom" : "Open meeting room"}
-            </Button>
-          </Card>
+            {meetingHref ? (
+              <PillLink href={meetingHref} tone="outline" className="w-full justify-start" {...externalProps}>
+                {isZoom ? "Join on Zoom" : "Open meeting room"}
+              </PillLink>
+            ) : (
+              <p className="text-xs leading-5 text-muted">The room details are shared with members.</p>
+            )}
+          </section>
 
-          <ChatSidebar
-            participants={members.map((user) => ({
-              id: user.id,
-              name: user.name,
-              avatarColor: user.avatarColor,
-              educationLevel: user.educationLevel,
-            }))}
-            viewerId={viewer?.id}
-            assignments={
-              new Map(
-                members.map((user) => [
-                  user.id,
-                  goals.flatMap((goal) => goal.assignments.filter((a) => a.userId === user.id)),
-                ]),
-              )
-            }
-          />
+          {isMember ? (
+            <ChatSidebar
+              participants={members.map((user) => ({
+                id: user.id,
+                name: user.name,
+                avatarColor: user.avatarColor,
+                educationLevel: user.educationLevel,
+              }))}
+              viewerId={viewer?.id}
+              assignments={
+                new Map(
+                  members.map((user) => [
+                    user.id,
+                    goals.flatMap((goal) => goal.assignments.filter((a) => a.userId === user.id)),
+                  ]),
+                )
+              }
+            />
+          ) : null}
 
           {isMember && pointRequests.length > 0 ? (
-            <Card>
-              <div className="flex items-baseline justify-between gap-2 border-b border-line pb-3">
-                <h2 className="font-display text-base font-bold tracking-tight text-ink">Support requests</h2>
-                <span className="tnum text-xs text-muted">{pointRequests.length}</span>
+            <section aria-labelledby="support-requests-heading" className={CARD}>
+              <div className="flex items-center justify-between gap-2 border-b border-line pb-3">
+                <h2 id="support-requests-heading" className={CARD_TITLE}>
+                  Support requests
+                </h2>
+                <span className="tnum rounded-full bg-mist px-2.5 py-0.5 text-xs font-bold text-ink">
+                  {pointRequests.length}
+                </span>
               </div>
               <div className="mt-3 space-y-3">
                 {pointRequests.map((request) => (
@@ -311,7 +417,7 @@ export default async function PointPage({ params }: PageProps<"/points/[pointId]
                   />
                 ))}
               </div>
-            </Card>
+            </section>
           ) : null}
         </aside>
       </div>

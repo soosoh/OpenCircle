@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
@@ -65,7 +66,12 @@ function supabaseAdmin() {
   }).auth.admin;
 }
 
-export async function getSessionUserId(): Promise<string | null> {
+/**
+ * Memoised per request: the layout, the page and every guard ask who is signed in,
+ * and on Supabase each ask is a round trip to Auth. Only the id is cached, never the
+ * profile, so a server action that edits the user still re-renders fresh data.
+ */
+export const getSessionUserId = cache(async (): Promise<string | null> => {
   if (isSupabaseAuthEnabled()) {
     // getUser() validates the JWT with Supabase Auth; getSession() only reads the
     // cookie and would trust a token this server has not verified.
@@ -74,7 +80,7 @@ export async function getSessionUserId(): Promise<string | null> {
     return data.user?.id ?? null;
   }
   return (await cookies()).get(SESSION_COOKIE)?.value ?? null;
-}
+});
 
 export async function getCurrentUser(): Promise<User | null> {
   const id = await getSessionUserId();

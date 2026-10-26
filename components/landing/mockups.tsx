@@ -83,11 +83,13 @@ function WindowChrome({ url }: { url: string }) {
 }
 
 /* A speech bubble sat next to a cast character. White paper with a matching
-   tail so it reads as spoken, not printed. */
+   tail so it reads as spoken, not printed. `side` is where the bubble sits
+   relative to its speaker: side="left" means the speaker is on the right, so the
+   tail leaves the bubble's right edge and points at them. */
 export function SpeechBubble({
   title,
   body,
-  side = "right",
+  side = "left",
   className,
 }: {
   title: string;
@@ -97,16 +99,14 @@ export function SpeechBubble({
 }) {
   return (
     <div
-      className={`relative max-w-[13rem] rounded-2xl border border-line bg-surface px-3 py-2.5 ${
-        side === "right" ? "rounded-bl-sm" : "rounded-br-sm"
-      } ${className ?? ""}`}
+      className={`relative max-w-[13rem] rounded-2xl border border-line bg-surface px-3 py-2.5 ${className ?? ""}`}
     >
-      <p className="text-[11px] font-bold leading-tight text-ink">{title}</p>
-      {body ? <p className="mt-0.5 text-[10px] leading-snug text-muted">{body}</p> : null}
+      <p className="text-xs font-bold leading-tight text-ink">{title}</p>
+      {body ? <p className="mt-0.5 text-[11px] leading-snug text-muted">{body}</p> : null}
       <span
         aria-hidden="true"
-        className={`absolute top-2.5 size-2.5 rotate-45 border-line bg-surface ${
-          side === "right" ? "-left-1 border-b border-l" : "-right-1 border-t border-r"
+        className={`absolute top-1/2 size-2.5 -translate-y-1/2 rotate-45 border-line bg-surface ${
+          side === "right" ? "-left-[6px] border-b border-l" : "-right-[6px] border-t border-r"
         }`}
       />
     </div>
@@ -458,7 +458,7 @@ export function PointMockup({ panel }: { panel: PointPanel }) {
             <span className="size-3 shrink-0 rounded-full" style={{ backgroundColor: panel.chord.color }} />
             <span className="truncate text-[13px] font-semibold text-ink">{panel.title}</span>
           </div>
-          <span className="shrink-0 rounded-full bg-sun-soft px-2.5 py-1 text-[10px] font-semibold text-[#6B5410]">
+          <span className="shrink-0 rounded-full bg-sun-soft px-2.5 py-1 text-[10px] font-semibold text-sun-ink">
             Weekly point
           </span>
         </div>

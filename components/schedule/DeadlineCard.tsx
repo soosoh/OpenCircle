@@ -26,7 +26,9 @@ export function DeadlineCard({
   // eslint-disable-next-line react-hooks/purity
   const overdue = new Date(at).getTime() < Date.now();
   const body = (
-    <div className="flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 transition-colors hover:border-ink/20 hover:bg-sun-wash">
+    <div className={`flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 hover:bg-sun-wash ${
+        href ? "lift-card" : "transition-colors duration-150 ease-out-quart hover:border-ink/20"
+      }`}>
       <span
         aria-hidden="true"
         className={`size-2.5 shrink-0 rounded-full ${overdue ? "bg-coral" : "bg-sun"}`}

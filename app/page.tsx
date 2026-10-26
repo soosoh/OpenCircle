@@ -1,4 +1,6 @@
 import { connection } from "next/server";
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/api/session";
 import { LandingTabs } from "@/components/landing/LandingTabs";
 import { CHORD_CATALOG } from "@/config/chords";
 import { WEEKDAY_NAMES, nextWeeklyOccurrence } from "@/lib/domain/time";
@@ -170,6 +172,10 @@ function format12h(time: string): string {
 export default async function HomePage({ searchParams }: PageProps<"/">) {
   // The panel computes next meetings against "now"; the render is dynamic.
   await connection();
+  // Signed-in members never see the marketing page: their home is the dashboard
+  // until they sign out. Only a resolved profile counts (a stale cookie must not
+  // bounce between here and /login).
+  if (await getCurrentUser()) redirect("/dashboard");
   const { tab } = await searchParams;
   const initialTab = typeof tab === "string" && TAB_IDS.has(tab) ? tab : undefined;
   const [chords, points, users, goals, messages] = await Promise.all([

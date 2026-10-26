@@ -10,7 +10,7 @@ export function ScheduleEvent({ item, timeZone }: { item: ScheduleItem; timeZone
   return (
     <Link
       href={item.href}
-      className="group flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 transition-colors hover:border-ink/20 hover:bg-sun-wash"
+      className="group lift-card flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 hover:bg-sun-wash"
     >
       <span
         aria-hidden="true"
@@ -21,7 +21,7 @@ export function ScheduleEvent({ item, timeZone }: { item: ScheduleItem; timeZone
         {isMeeting ? <CalendarClock className="size-4" /> : <Flag className="size-4" />}
       </span>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium text-ink group-hover:underline">{item.title}</p>
+        <p className="truncate text-sm font-medium text-ink underline decoration-transparent decoration-2 underline-offset-4 transition-colors duration-200 ease-out-quart group-hover:decoration-sun-deep">{item.title}</p>
         <p className="mt-0.5 text-xs text-muted">{formatDateTime(item.at, timeZone)}</p>
       </div>
       <Badge tone={isMeeting ? "mint" : "sun"}>{isMeeting ? "Meeting" : "Deadline"}</Badge>

@@ -24,7 +24,7 @@ export function ProgressUpdater({
   return (
     <form action={action} className="grid gap-3 sm:grid-cols-[6rem_minmax(0,1fr)_auto] sm:items-end">
       <label>
-        <span className="mb-1.5 block text-xs text-muted">Set progress</span>
+        <span className="mb-1.5 block text-xs font-semibold text-ink">Set progress</span>
         <input
           type="number"
           name="progress"
@@ -35,7 +35,7 @@ export function ProgressUpdater({
         />
       </label>
       <label>
-        <span className="mb-1.5 block text-xs text-muted">Status</span>
+        <span className="mb-1.5 block text-xs font-semibold text-ink">Status</span>
         <select name="status" defaultValue={assignment.status} className={INPUT}>
           <option>On track</option>
           <option>Needs assistance</option>
@@ -51,6 +51,7 @@ function ProgressSubmit() {
   const { pending } = useFormStatus();
   return (
     <SubmitButton
+      variant="ink"
       pending={pending}
       pendingLabel="Saving…"
       className="min-h-10 w-full justify-self-start sm:w-auto sm:justify-self-end"

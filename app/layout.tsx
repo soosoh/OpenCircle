@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AppNav } from "@/components/circle/AppNav";
 import { Avatar } from "@/components/ui/Avatar";
 import { signOut } from "@/lib/api/actions";
 import { getCurrentUser } from "@/lib/api/session";
@@ -62,11 +63,17 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Instrument+Sans:wght@400..700&display=swap"
         />
-        <header className="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur">
+        <a
+          href="#main"
+          className="sr-only z-50 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-3"
+        >
+          Skip to content
+        </a>
+        <header className="sticky top-0 z-40 border-b border-line bg-paper">
           <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
             <Link
-              href="/"
-              className="flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-ink"
+              href={user ? "/dashboard" : "/"}
+              className="flex min-h-10 items-center gap-2.5 font-display text-lg font-bold tracking-tight text-ink"
             >
               <CircleMark />
               StudyCircle
@@ -75,27 +82,20 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             {user ? (
               <div className="flex items-center gap-2 sm:gap-3">
                 <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
-                  {NAV.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="rounded-full px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-mist hover:text-ink"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+                  <AppNav items={NAV} />
                 </nav>
                 <Link
-                  href="/dashboard"
-                  className="flex items-center gap-2 rounded-full py-1 pl-1 pr-2.5 text-sm font-semibold text-ink transition-colors hover:bg-mist"
+                  href="/profile"
+                  aria-label={`${user.name}, your profile`}
+                  className="flex min-h-10 items-center gap-2 rounded-full py-1 pl-1 pr-2.5 text-sm font-semibold text-ink transition-colors hover:bg-sun-wash"
                 >
                   <Avatar name={user.name} color={user.avatarColor} size={26} />
-                  <span className="hidden sm:inline">{user.name}</span>
+                  <span className="hidden whitespace-nowrap lg:inline">{user.name}</span>
                 </Link>
                 <form action={signOut}>
                   <button
                     type="submit"
-                    className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-semibold text-ink transition-colors hover:border-ink/25 hover:bg-sun-wash"
+                    className="min-h-10 shrink-0 whitespace-nowrap rounded-full border border-line bg-surface px-4 text-sm font-semibold text-ink transition-colors hover:border-ink/25 hover:bg-sun-wash"
                   >
                     Sign out
                   </button>
@@ -104,7 +104,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             ) : (
               <Link
                 href="/login"
-                className="rounded-full bg-sun px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-sun-deep"
+                className="inline-flex min-h-10 items-center rounded-full bg-sun px-4 text-sm font-semibold text-ink transition-colors hover:bg-sun-deep"
               >
                 Sign in
               </Link>
@@ -117,24 +117,21 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               aria-label="Main"
               className="no-scrollbar mx-auto flex w-full max-w-6xl items-center gap-1 overflow-x-auto border-t border-line px-3 py-1.5 md:hidden"
             >
-              {NAV.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="shrink-0 rounded-full px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-mist hover:text-ink"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              <AppNav items={NAV} />
             </nav>
           ) : null}
         </header>
 
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
+        <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">
+          {children}
+        </main>
 
         <footer className="mt-16 bg-sun">
-          <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-3 px-4 py-8 text-sm text-ink/75 sm:flex-row sm:px-6">
-            <Link href="/" className="flex items-center gap-2 font-display text-base font-bold text-ink">
+          <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-3 px-4 py-8 text-sm text-ink sm:flex-row sm:px-6">
+            <Link
+              href={user ? "/dashboard" : "/"}
+              className="flex min-h-10 items-center gap-2 font-display text-base font-bold text-ink"
+            >
               <CircleMark className="size-6" />
               StudyCircle
             </Link>

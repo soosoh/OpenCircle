@@ -1,17 +1,9 @@
 @import "tailwindcss";
-/* Motion system lives in @theme below. Colour + type tokens are the single
-   source of truth for every surface, landing page and app alike. */
+/* Colour, type and motion tokens live in @theme below and are the single source of
+   truth for every surface, landing page and app alike. Use the named tokens
+   (bg-sun, text-coral-ink, ...) rather than raw hex values in components. */
 
 :root {
-  /* StudyCircle palette: a clean school-bus yellow, used as an accent and as
-     one bold field, surrounded by warm white rather than a yellow wash. */
-  --calm-bg: #FFFCF5;         /* page ground — warm white, not beige */
-  --calm-card: #FFFFFF;       /* content surface */
-  --calm-fg: #29313D;         /* ink */
-  --calm-muted: #667085;      /* secondary text */
-  --calm-accent: #F4D35E;     /* the school yellow */
-  --calm-border: #EAE4D8;     /* hairline */
-
   /* The landing hero's campus band. Its height is tied to the artwork's own
      proportions (380/720 of a 2:1 scene), so the horizon always lands just
      inside the band instead of slicing through roofs and trees. */
@@ -21,55 +13,6 @@
   --header-h: 60px;
 }
 
-.shadow-calm-lift {
-  box-shadow: 0 14px 30px rgba(41, 49, 61, 0.10), 0 2px 4px rgba(41, 49, 61, 0.05);
-}
-
-.bg-cream-card {
-  background-color: var(--calm-card);
-}
-
-/* ---- Shared surface + action language for the whole app ---- */
-.app-card {
-  background-color: var(--calm-card);
-  border: 1px solid var(--calm-border);
-  border-radius: 1rem;
-}
-.app-card-hover {
-  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
-}
-.app-card-hover:hover {
-  transform: translateY(-2px);
-  border-color: #DCD3C2;
-  box-shadow: 0 10px 24px rgba(41, 49, 61, 0.08);
-}
-.app-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border-radius: 999px;
-  background-color: var(--calm-accent);
-  color: var(--calm-fg);
-  font-weight: 600;
-  transition: background-color 150ms ease, transform 150ms ease;
-}
-.app-btn-primary:hover { background-color: #E9BE3F; }
-.app-btn-primary:active { transform: translateY(1px); }
-.app-btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border-radius: 999px;
-  background-color: var(--calm-card);
-  color: var(--calm-fg);
-  border: 1px solid var(--calm-border);
-  font-weight: 600;
-  transition: background-color 150ms ease, border-color 150ms ease;
-}
-.app-btn-secondary:hover { background-color: #FFF7DF; border-color: #DCD3C2; }
-
 /* The app nav row only exists on narrow screens, which makes the header taller. */
 @media (max-width: 767px) {
   html.has-appnav {
@@ -78,27 +21,36 @@
 }
 
 @theme {
+  /* Ground and ink: warm white page, one dark ink, hairline borders. */
   --color-paper: #FFFCF5;
-  --color-ink: #29313D;
-  --color-muted: #667085;
+  --color-surface: #FFFFFF;
+  --color-mist: #F7F4ED;
   --color-line: #EAE4D8;
+  --color-ink: #29313D;
+  --color-ink-soft: #3A4452;
+  --color-muted: #667085;
+
+  /* The school yellow: the one bold field, plus its hover, tint and wash. */
   --color-brand: #F4D35E;
-  --color-mint: #2E7D5B;
   --color-sun: #F4D35E;
   --color-sun-deep: #E9BE3F;
   --color-sun-soft: #FFF1B8;
   --color-sun-wash: #FFF7DF;
-  --color-coral: #C4462A;
-  --color-surface: #FFFFFF;
-  --color-cream: #FFFFFF;
-  --color-cream-soft: #FFF8E6;
-  --color-field: #F4D35E;
-  --color-field-deep: #E9BE3F;
+  --color-sun-ink: #6B5410;
+
+  /* Mint for "on track" and success; coral only for urgency and support. */
+  --color-mint: #2E7D5B;
   --color-sage: #D8E8D1;
-  --color-mist: #F7F4ED;
-  --color-duo-green: #2E7D5B;
-  --color-duo-dark: #29313D;
-  --color-duo-light: #FFF7DF;
+  --color-sage-ink: #2F5D3A;
+  --color-coral: #C4462A;
+  --color-coral-deep: #A93A21;
+  --color-coral-soft: #FBE3DC;
+  --color-coral-ink: #8E3520;
+
+  /* Motion: ease-out only. Quart for hovers and entrances, expo for the rare
+     big settle. No bounce or elastic curves anywhere. */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   --font-sans: "Instrument Sans", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, ui-serif, serif;
@@ -111,7 +63,7 @@
   --animate-rise: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-grow: grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-draw: draw 0.9s cubic-bezier(0.45, 0, 0.2, 1) both;
-  --animate-pop: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-pop: pop 0.5s cubic-bezier(0.25, 1, 0.5, 1) both;
   --animate-twinkle: twinkle 7s ease-in-out infinite;
   --animate-marquee: marquee 38s linear infinite;
   --animate-equalize: equalize 1.6s ease-in-out infinite;
@@ -272,16 +224,6 @@ h4 {
   margin-right: calc(50% - 50vw);
 }
 
-/* A light paper speckle, used only on the yellow hero field. */
-.starfield {
-  background-image:
-    radial-gradient(1px 1px at 22% 30%, rgba(41, 49, 61, 0.10) 0, transparent 2px),
-    radial-gradient(1.5px 1.5px at 68% 58%, rgba(41, 49, 61, 0.07) 0, transparent 2px),
-    radial-gradient(1px 1px at 42% 78%, rgba(255, 255, 255, 0.6) 0, transparent 2px),
-    radial-gradient(1.2px 1.2px at 85% 18%, rgba(255, 255, 255, 0.5) 0, transparent 2px);
-  background-size: 220px 220px, 320px 320px, 280px 280px, 360px 360px;
-}
-
 /* The bold yellow field: flat colour, no gradient, with a whisper of grain so
    it reads as printed paper rather than a screen fill. */
 .dream {
@@ -304,13 +246,6 @@ h4 {
   background-color: #FFF7DF;
 }
 
-.subtle-grid {
-  background-image:
-    linear-gradient(to right, rgba(41, 49, 61, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(41, 49, 61, 0.045) 1px, transparent 1px);
-  background-size: 56px 56px;
-}
-
 .no-scrollbar {
   scrollbar-width: none;
 }
@@ -319,15 +254,218 @@ h4 {
 }
 
 ::selection {
-  background-color: #29313D;
-  color: #F4D35E;
+  background-color: var(--color-ink);
+  color: var(--color-sun);
+}
+
+/* Browser surfaces: native checkboxes/radios and the text caret take the ink. */
+:root {
+  accent-color: var(--color-ink);
+  caret-color: var(--color-ink);
 }
 
 /* Consistent focus ring for keyboard users. */
 :where(a, button, input, select, textarea):focus-visible {
-  outline: 2px solid #29313D;
+  outline: 2px solid var(--color-ink);
   outline-offset: 2px;
   border-radius: 6px;
+}
+
+/* Thin themed scrollbar for chat and log panes. */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+.scroll-thin:hover {
+  scrollbar-color: color-mix(in oklab, var(--color-ink) 35%, transparent) transparent;
+}
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background-color: var(--color-line);
+  border-radius: 999px;
+}
+.scroll-thin:hover::-webkit-scrollbar-thumb {
+  background-color: color-mix(in oklab, var(--color-ink) 35%, transparent);
+}
+
+@layer components {
+  /*
+   * LINK LANGUAGE
+   *   .link        inline text link: ink text, 2px sun-deep underline that turns
+   *                ink on hover while a flat sun-soft highlight rises behind the
+   *                text (scaleY on a pseudo-element: transform only, no gradient).
+   *   .link-arrow  "Browse chords ->": same, plus an icon (svg) that nudges 3px right.
+   *   .link-back   "<- All chords": same, the icon nudges 3px left.
+   *   .link-quiet  modifier for link lists (footers): muted text, no resting
+   *                underline; hover reveals the full link treatment.
+   *   .link-on-sun modifier for links on the yellow field: ink underline and a
+   *                white highlight, because sun-on-sun would vanish.
+   * Pills and buttons are not links in this sense: see .press.
+   * Put the icon inside as <svg>/<Icon aria-hidden>; the arrow glyph in .link-back
+   * is a <span aria-hidden>.
+   */
+  .link,
+  .link-arrow,
+  .link-back {
+    position: relative;
+    isolation: isolate;
+    color: var(--color-ink);
+    font-weight: 600;
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--color-sun-deep);
+    text-underline-offset: 4px;
+    transition: text-decoration-color 200ms var(--ease-out-quart), color 200ms var(--ease-out-quart);
+  }
+  .link-arrow,
+  .link-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+  .link::before,
+  .link-arrow::before,
+  .link-back::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: -0.3em;
+    right: -0.3em;
+    top: 50%;
+    height: 1.55em;
+    margin-top: -0.78em;
+    border-radius: 0.4em;
+    background-color: var(--color-sun-soft);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 220ms var(--ease-out-quart);
+  }
+  .link:hover,
+  .link-arrow:hover,
+  .link-back:hover {
+    text-decoration-color: var(--color-ink);
+  }
+  .link:hover::before,
+  .link-arrow:hover::before,
+  .link-back:hover::before {
+    transform: scaleY(1);
+  }
+  .link-arrow > svg,
+  .link-back > svg,
+  .link-back > [aria-hidden="true"] {
+    flex-shrink: 0;
+    transition: transform 200ms var(--ease-out-quart);
+  }
+  .link-arrow:hover > svg {
+    transform: translateX(3px);
+  }
+  .link-back:hover > svg,
+  .link-back:hover > [aria-hidden="true"] {
+    transform: translateX(-3px);
+  }
+  .link:focus-visible,
+  .link-arrow:focus-visible,
+  .link-back:focus-visible {
+    border-radius: 0.3em;
+  }
+
+  .link-quiet {
+    color: var(--color-muted);
+    font-weight: 500;
+    text-decoration-color: transparent;
+  }
+  .link-quiet:hover {
+    color: var(--color-ink);
+  }
+
+  .link-on-sun {
+    text-decoration-color: color-mix(in oklab, var(--color-ink) 45%, transparent);
+  }
+  .link-on-sun::before {
+    background-color: var(--color-surface);
+  }
+
+  /*
+   * CONTROL MOTION
+   *   .press      buttons and pills: rises 1px on hover, settles and shrinks to
+   *               98% on press. Colour change comes from the element's own
+   *               hover:bg-* utilities. Disabled and busy controls stay put.
+   *   .lift-card  cards that are links: 2px lift and a firmer border on hover.
+   */
+  .press {
+    transition:
+      color 200ms var(--ease-out-quart),
+      background-color 200ms var(--ease-out-quart),
+      border-color 200ms var(--ease-out-quart),
+      opacity 200ms var(--ease-out-quart),
+      translate 200ms var(--ease-out-quart),
+      scale 120ms var(--ease-out-quart);
+  }
+  .press:hover:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
+    translate: 0 -1px;
+  }
+  .press:active:not(:disabled, [aria-disabled="true"]) {
+    translate: 0 0;
+    scale: 0.98;
+  }
+  .press:disabled,
+  .press[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .press[aria-busy="true"] {
+    cursor: progress;
+  }
+
+  .lift-card {
+    transition:
+      translate 150ms var(--ease-out-quart),
+      border-color 150ms var(--ease-out-quart),
+      background-color 150ms var(--ease-out-quart);
+  }
+  .lift-card:hover {
+    translate: 0 -2px;
+    border-color: color-mix(in oklab, var(--color-ink) 28%, transparent);
+  }
+
+  /*
+   * ENTRANCE
+   *   .rise-in  one authored moment per page: opacity and a 12px rise, 320ms
+   *             ease-out-quart. Stagger with style={{ "--i": n }} (50ms each,
+   *             capped at 6). Content is visible without JS; `backwards` fill
+   *             means nothing lingers after the animation ends.
+   *   .fade-in  opacity only, 180ms: the page-level fade on <main>.
+   */
+  .rise-in {
+    animation: rise-in 320ms var(--ease-out-quart) backwards;
+    animation-delay: calc(min(var(--i, 0), 6) * 50ms);
+  }
+  .fade-in {
+    animation: fade-in 180ms var(--ease-out-quart) backwards;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -337,5 +475,25 @@ h4 {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  .press:hover,
+  .press:active,
+  .lift-card:hover,
+  .link-arrow:hover > svg,
+  .link-back:hover > svg,
+  .link-back:hover > [aria-hidden="true"] {
+    translate: none !important;
+    scale: none !important;
+    transform: none !important;
+  }
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      translate: 0 0;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
   }
 }

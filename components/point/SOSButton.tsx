@@ -25,7 +25,7 @@ export function SOSButton({
 
   if (!canRequest) {
     return (
-      <p className="rounded-2xl border border-coral/30 bg-[#FBE3DC] px-4 py-3 text-sm text-[#8E3520]">
+      <p className="rounded-2xl border border-coral/30 bg-coral-soft px-4 py-3 text-sm text-coral-ink">
         Join this point to ask for support.
       </p>
     );
@@ -45,19 +45,19 @@ export function SOSButton({
   return (
     <section
       aria-labelledby="support-heading"
-      className="rounded-2xl border border-coral/30 bg-[#FBE3DC] p-5 text-[#8E3520]"
+      className="rounded-2xl border border-coral/30 bg-coral-soft p-5 text-coral-ink"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="max-w-lg">
           <h2 id="support-heading" className="font-display text-lg font-bold tracking-tight">
             Need a hand with this point?
           </h2>
-          <p className="mt-1 text-sm leading-6 text-[#8E3520]/85">
+          <p className="mt-1 text-sm leading-6 text-coral-ink/85">
             Say what you are stuck on. Everyone in this point sees your note, and your moderator can mark it
             resolved.
           </p>
           {openRequests > 0 ? (
-            <p className="tnum mt-1.5 text-xs text-[#8E3520]/70">
+            <p className="tnum mt-1.5 text-xs text-coral-ink/70">
               {openRequests} open {openRequests === 1 ? "request" : "requests"} in this point.
             </p>
           ) : null}

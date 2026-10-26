@@ -1,5 +1,6 @@
 import { buildSeed } from "./seed";
 import { createMemoryStore } from "./memory-store";
+import { loadSaved, withFileSave } from "./persist";
 import { createSupabaseStore } from "./supabase-store";
 import { TABLES, type DataStore, type RowWithId, type TableName } from "./store";
 
@@ -19,7 +20,8 @@ function createStore(): DataStore {
     return seedEmptyTables(createSupabaseStore(url, key));
   }
   if (backend !== "memory") throw new Error(`Unknown DATA_BACKEND "${backend}". Use "memory" or "supabase".`);
-  return createMemoryStore(buildSeed());
+  // Resume from the last save when there is one; otherwise start from the demo seed.
+  return withFileSave(createMemoryStore(loadSaved() ?? buildSeed()));
 }
 
 /**

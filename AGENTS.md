@@ -25,7 +25,7 @@
 ## Architecture rules
 - All mutations go through server actions in `lib/api/actions.ts`. Each re-checks session and permission (membership, moderator, audience). Do not call the repository directly from a page or component.
 - `lib/database/repository.ts` is the **only** module that talks to the data store. Pages and actions import from there.
-- Two backends behind one `DataStore` interface: in-memory (default, seeded, resets on restart) and Supabase (`DATA_BACKEND=supabase`). The in-memory store lives on `globalThis` to survive dev HMR.
+- Two backends behind one `DataStore` interface: in-memory (default, seeded, saved to `.data/studycircle.json` so it survives restarts; `lib/database/persist.ts`, skipped on Vercel) and Supabase (`DATA_BACKEND=supabase`). The in-memory store lives on `globalThis` to survive dev HMR.
 - Age filtering has exactly one implementation, `lib/domain/audience.ts`. Chords, points, member search, and join checks all use it. College groups require 18+.
 - Every point has exactly one moderator, chosen by `lib/domain/moderation.ts` from subject familiarity, experience, group success, and reputation.
 - Points store a `WeeklySchedule` (weekday + time + timezone) rather than a fixed date, so recurring meetings can be added later without a migration.

@@ -1,11 +1,12 @@
+import Link from "next/link";
+import { Mascot } from "@/components/landing/mascot";
+import { BandPill, PageBand, Stage, StatRow, StatTile } from "@/components/surfaces/PageBand";
 import { AssistantPanel } from "@/components/assistant/AssistantPanel";
 import { RiskPanel } from "@/components/assistant/RiskPanel";
 import { ModeratorPanel } from "@/components/moderator/ModeratorPanel";
 import { UserCard } from "@/components/moderator/UserCard";
 import { SupportChat } from "@/components/chat/SupportChat";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { Card, SectionHeading } from "@/components/ui/Card";
 import { FEATURES } from "@/config/features";
 import {
   analyzePointStudents,
@@ -24,9 +25,13 @@ import {
   listPrivateMessages,
   listUsers,
 } from "@/lib/database/repository";
-import { matchesUserAudience, parseAudience } from "@/lib/domain/audience";
+import { AUDIENCE_OPTIONS, matchesUserAudience, parseAudience } from "@/lib/domain/audience";
 
 export const metadata = { title: "Moderate · StudyCircle" };
+
+// The page reads searchParams and the session, so it blocks on the server instead of
+// pretending to be instant (same opt-out as app/dashboard/page.tsx).
+export const instant = false;
 
 export default async function ModeratorPage({ searchParams }: PageProps<"/moderator">) {
   const viewer = await requireUser();
@@ -110,59 +115,53 @@ export default async function ModeratorPage({ searchParams }: PageProps<"/modera
     (request) => request.status === "open" && moderated.some((point) => point.id === request.pointId),
   ).length;
 
-  return (
-    <div className="space-y-8">
-      <section className="space-y-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <h1 className="font-display text-3xl font-bold tracking-tight text-ink">Moderator dashboard</h1>
-          {FEATURES.ENABLE_AI_MODERATOR ? <Badge tone="brand">AI moderator on</Badge> : <Badge tone="muted">Human moderators only</Badge>}
-        </div>
-        <p className="max-w-2xl text-sm leading-relaxed text-muted">
-          Record goals, watch progress, and give one-on-one support. Every action here is checked
-          against the points you actually moderate.
-        </p>
-      </section>
+  const filterHref = (value: string) => (value === "all" ? "/moderator" : `/moderator?audience=${value}`);
 
-      {moderated.length === 0 ? (
-        <Card>
-          <h2 className="font-display text-xl font-bold tracking-tight text-ink">You don&rsquo;t moderate a point yet</h2>
-          <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-            Goal recording, member progress, resources and one-to-one messages appear only on points
-            you moderate. Points created in a chord you moderate show up here; creators moderate by
-            default.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Button href="/chords" variant="secondary" size="sm" className="min-h-10">
-              Browse chords
-            </Button>
-            <Button href="/dashboard" variant="ghost" size="sm" className="min-h-10">
-              Back to dashboard
-            </Button>
-          </div>
-        </Card>
-      ) : (
-        <>
-          <section aria-label="Moderation at a glance" className="grid gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl border border-line bg-mist p-4">
-              <p className="text-xs text-muted">Points you moderate</p>
-              <p className="tnum mt-1 font-display text-2xl font-semibold leading-none text-ink">
-                {moderated.length}
-              </p>
-            </div>
-            <div className="rounded-2xl border border-line bg-mist p-4">
-              <p className="text-xs text-muted">Members across them</p>
-              <p className="tnum mt-1 font-display text-2xl font-semibold leading-none text-ink">
-                {moderatedMemberIds.size}
-              </p>
-            </div>
-            <div className="rounded-2xl border border-line bg-mist p-4">
-              <p className="text-xs text-muted">Open support requests</p>
-              <p className="tnum mt-1 font-display text-2xl font-semibold leading-none text-ink">
-                {openRequestCount}
-              </p>
+  return (
+    <>
+      <PageBand
+        title="Moderator dashboard"
+        description="Record goals, watch progress, and give one-on-one support. Every action here is checked against the points you actually moderate."
+        meta={<BandPill>{FEATURES.ENABLE_AI_MODERATOR ? "AI moderator on" : "Human moderators only"}</BandPill>}
+        aside={<Mascot mood="wink" color="#C4462A" width={132} height={132} className="animate-float" />}
+      >
+        {moderated.length > 0 ? (
+          <StatRow>
+            <StatTile value={moderated.length} label={moderated.length === 1 ? "point you moderate" : "points you moderate"} />
+            <StatTile value={moderatedMemberIds.size} label={moderatedMemberIds.size === 1 ? "member" : "members"} delay={60} />
+            <StatTile
+              value={openRequestCount}
+              label={openRequestCount === 1 ? "open support request" : "open support requests"}
+              delay={120}
+            />
+          </StatRow>
+        ) : null}
+      </PageBand>
+
+      <Stage>
+        {moderated.length === 0 ? (
+          <section
+            aria-labelledby="no-point"
+            className="flex flex-col items-center rounded-2xl border border-line bg-surface px-6 py-10 text-center sm:py-14"
+          >
+            <Mascot mood="happy" color="#2E7D5B" width={80} height={80} />
+            <h2 id="no-point" className="mt-4 font-display text-3xl font-bold tracking-tight text-ink">
+              You don&rsquo;t moderate a point yet
+            </h2>
+            <p className="mt-3 max-w-xl text-base leading-relaxed text-ink">
+              Goal recording, member progress, resources and one-to-one messages appear only on points you
+              moderate. Points created in a chord you moderate show up here; creators moderate by default.
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <Button href="/chords" variant="ink" size="md" className="min-h-11">
+                Browse chords
+              </Button>
+              <Button href="/dashboard" variant="secondary" size="md" className="min-h-11">
+                Back to dashboard
+              </Button>
             </div>
           </section>
-
+        ) : (
           <ModeratorPanel
             entries={entries.map((entry) => ({
               ...entry,
@@ -180,52 +179,85 @@ export default async function ModeratorPage({ searchParams }: PageProps<"/modera
             updateProgressAction={updateGoalProgress}
             resolveAction={resolveHelpRequest}
           />
-        </>
-      )}
-
-      {threads.some((thread) => thread.students.length > 0) ? (
-        <section className="space-y-4">
-          <SectionHeading
-            title="One-on-one support"
-            hint="Private threads with the members of your points. Replies show on their point page."
-          />
-          <div className="grid gap-4 lg:grid-cols-2">
-            {threads.flatMap((thread) =>
-              thread.students.map(({ student, thread: messages }) => (
-                <SupportChat
-                  key={`${thread.point.id}-${student.id}`}
-                  thread={messages}
-                  other={student}
-                  viewerId={viewer.id}
-                  action={sendPrivateMessage.bind(null, thread.point.id)}
-                  canStart
-                  recipientId={student.id}
-                />
-              )),
-            )}
-          </div>
-        </section>
-      ) : null}
-
-      <section className="space-y-3">
-        <SectionHeading
-          title="Find a student"
-          hint="Searchable by education level, using the same age filter as chords and points."
-        />
-        {memberSearch.length === 0 ? (
-          <p className="text-sm text-muted">No students match this filter.</p>
-        ) : (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {memberSearch.map((user) => (
-              <UserCard key={user.id} user={user} detail={`${user.educationLevel} · ${user.gradeLevel}`} />
-            ))}
-          </div>
         )}
-        <p className="text-xs leading-relaxed text-muted">
-          {chords.length} chords in the circle. Moderators are chosen from subject familiarity,
-          experience, group success, and community reputation.
-        </p>
-      </section>
-    </div>
+
+        {threads.some((thread) => thread.students.length > 0) ? (
+          <section aria-labelledby="one-on-one" className="space-y-4">
+            <div>
+              <h2 id="one-on-one" className="font-display text-2xl font-bold tracking-tight text-ink">
+                One-on-one support
+              </h2>
+              <p className="mt-1 text-sm text-muted">
+                Private threads with the members of your points. Replies show on their point page.
+              </p>
+            </div>
+            <div className="grid gap-4 lg:grid-cols-2">
+              {threads.flatMap((thread) =>
+                thread.students.map(({ student, thread: messages }) => (
+                  <SupportChat
+                    key={`${thread.point.id}-${student.id}`}
+                    thread={messages}
+                    other={student}
+                    viewerId={viewer.id}
+                    action={sendPrivateMessage.bind(null, thread.point.id)}
+                    canStart
+                    recipientId={student.id}
+                  />
+                )),
+              )}
+            </div>
+          </section>
+        ) : null}
+
+        {/* The directory lists every member, so it is only for people who moderate a point. */}
+        {moderated.length > 0 ? (
+        <section aria-labelledby="find-student" className="space-y-4">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 id="find-student" className="font-display text-2xl font-bold tracking-tight text-ink">
+                Find a student
+              </h2>
+              <p className="mt-1 text-sm text-muted">
+                Filter by education level, using the same age rule as chords and points.
+              </p>
+            </div>
+            <nav aria-label="Education level" className="flex gap-1 rounded-full border border-line bg-surface p-1">
+              {AUDIENCE_OPTIONS.map((option) => (
+                <Link
+                  key={option.value}
+                  href={filterHref(option.value)}
+                  aria-current={audience === option.value ? "page" : undefined}
+                  className={`inline-flex min-h-10 items-center rounded-full px-3.5 text-sm font-semibold transition-colors sm:px-4 ${
+                    audience === option.value ? "bg-ink text-white" : "text-ink hover:bg-sun-wash"
+                  }`}
+                >
+                  {option.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          {memberSearch.length === 0 ? (
+            <div className="flex items-center gap-3 rounded-2xl border border-dashed border-ink/25 bg-sun-wash px-5 py-6">
+              <Mascot mood="happy" color="#2E7D5B" width={48} height={48} />
+              <div>
+                <p className="font-display text-lg font-bold text-ink">No students match this filter</p>
+                <p className="text-sm text-ink">Try a different education level.</p>
+              </div>
+            </div>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {memberSearch.map((user) => (
+                <UserCard key={user.id} user={user} detail={`${user.educationLevel} · ${user.gradeLevel}`} />
+              ))}
+            </div>
+          )}
+          <p className="text-xs leading-relaxed text-muted">
+            {chords.length} chords in the circle. Moderators are chosen from subject familiarity, experience,
+            group success, and community reputation.
+          </p>
+        </section>
+        ) : null}
+      </Stage>
+    </>
   );
 }

@@ -19,6 +19,7 @@ export function SupportChat({
   action,
   canStart,
   recipientId,
+  defaultOpen,
 }: {
   thread: PrivateMessageRecord[];
   other: User;
@@ -27,8 +28,10 @@ export function SupportChat({
   /** Only moderators may open a new thread. */
   canStart: boolean;
   recipientId: string;
+  /** Start expanded. Defaults to open only for an empty thread the viewer can start. */
+  defaultOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(thread.length === 0 && canStart);
+  const [open, setOpen] = useState(defaultOpen ?? (thread.length === 0 && canStart));
   const last = thread[thread.length - 1];
 
   return (

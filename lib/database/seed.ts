@@ -1,9 +1,17 @@
 import { CHORD_CATALOG } from "@/config/chords";
+import { weekStart } from "@/lib/domain/activity";
 import { canJoinAudience } from "@/lib/domain/audience";
 import type { Goal, HelpRequest, Message, Point, PrivateMessage, User } from "@/types";
 import type { RowWithId, TableName } from "./store";
 
 export type SeedData = Record<TableName, RowWithId[]>;
+
+/**
+ * Bump whenever buildSeed() changes shape or content. The memory store saves its data to
+ * a local file and only reuses that file when the versions match, so an old save never
+ * hides new demo data.
+ */
+export const SEED_VERSION = 2;
 
 const HOUR = 3_600_000;
 const DAY = 24 * HOUR;
@@ -193,7 +201,70 @@ export function buildSeed(now: Date = new Date()): SeedData {
     { id: "pm-1", pointId: "ap-bio-genetics", senderId: "maya", recipientId: "john", content: "Hey John, let's go through Hardy-Weinberg after the session. Does Tuesday work?", timestamp: minutesAgo(40, now) },
   ];
 
+  // ---- Historical activity (feeds the dashboard streak, momentum and showing-up cards) ----
+  // Deterministic and relative to `now`: each entry places a member in a point on
+  // specific weeks back (1 = last week). Times are anchored on that week's Monday in
+  // the member's own timezone, so a record never slides into a neighbouring week.
+  // The live rows above cover the current week (week 0).
+  const timezoneOf = new Map(users.map((u) => [u.id, u.timezone]));
+  const atWeek = (userId: string, weeksBack: number, dayOfWeek: number, hour: number) => {
+    const monday = weekStart(now, timezoneOf.get(userId) ?? "UTC");
+    return new Date(monday.getTime() - weeksBack * 7 * DAY + dayOfWeek * DAY + hour * HOUR).toISOString();
+  };
+  const CHAT_LINES = [
+    "Finished the practice set. Most of the answers matched the key.",
+    "Can someone check my working on question 4?",
+    "Sharing my notes from this week's session.",
+    "That walkthrough finally made it click, thank you.",
+    "I will bring my worksheet to the next meeting.",
+    "Does anyone want to trade problem sets before we meet?",
+  ];
+  const history: { userId: string; pointId: string; weeks: number[] }[] = [
+    // Dev: a six-week run now (with this week), one missed week, then a longer run before it.
+    { userId: "dev", pointId: "python-study", weeks: [1, 2, 3, 4, 5] },
+    { userId: "dev", pointId: "physics-circle", weeks: [7, 8, 9, 10, 11, 12, 13] },
+    // Maya: steady, with two quiet weeks.
+    { userId: "maya", pointId: "ap-bio-genetics", weeks: [1, 2, 4, 5, 6, 7, 9, 10, 11, 12, 13] },
+    // Bob: on and off.
+    { userId: "bob", pointId: "ap-bio-genetics", weeks: [2, 3, 5, 6, 9, 10] },
+    // Sarah: a recent run, a long gap, an earlier burst.
+    { userId: "sarah", pointId: "sat-math", weeks: [1, 2, 3, 9, 10] },
+    // Priya: joined recently.
+    { userId: "priya", pointId: "python-study", weeks: [1] },
+  ];
+  const historyMessages: Message[] = history.flatMap(({ userId, pointId, weeks }) =>
+    weeks.flatMap((week) =>
+      Array.from({ length: 1 + (week % 3) }, (_, i) => {
+        const content = CHAT_LINES[(week + i + userId.length) % CHAT_LINES.length];
+        return {
+          id: `hist-msg-${userId}-${week}-${i}`,
+          pointId,
+          senderId: userId,
+          content,
+          kind: content.endsWith("?") ? "question" : "message",
+          timestamp: atWeek(userId, week, (week * 2 + i * 2) % 5, 15 + i * 2),
+        } satisfies Message;
+      }),
+    ),
+  );
+  const historyHelp: HelpRequest[] = [
+    { id: "hist-help-bob-5", pointId: "ap-bio-genetics", userId: "bob", reason: "Stuck on dihybrid crosses.", status: "resolved", createdAt: atWeek("bob", 5, 2, 18) },
+    { id: "hist-help-sarah-2", pointId: "sat-math", userId: "sarah", reason: "Word problems keep tripping me up.", status: "resolved", createdAt: atWeek("sarah", 2, 3, 16) },
+    { id: "hist-help-priya-1", pointId: "python-study", userId: "priya", reason: "Could not get my environment running.", status: "resolved", createdAt: atWeek("priya", 1, 1, 17) },
+  ];
+  const historyPrivate: PrivateMessage[] = [
+    { id: "hist-pm-maya-5", pointId: "ap-bio-genetics", senderId: "maya", recipientId: "bob", content: "Nice progress on the crosses. Ping me if the next set gets rough.", timestamp: atWeek("maya", 5, 1, 19) },
+    { id: "hist-pm-bob-5", pointId: "ap-bio-genetics", senderId: "bob", recipientId: "maya", content: "Will do, thanks.", timestamp: atWeek("bob", 5, 1, 20) },
+    { id: "hist-pm-dev-3", pointId: "python-study", senderId: "dev", recipientId: "priya", content: "Your loop is fine. Skip the header row before you start summing.", timestamp: atWeek("dev", 3, 2, 18) },
+  ];
+
   return {
-    users, chords, points, goals, messages, help_requests: helpRequests, private_messages: privateMessages,
+    users,
+    chords,
+    points,
+    goals,
+    messages: [...historyMessages, ...messages],
+    help_requests: [...historyHelp, ...helpRequests],
+    private_messages: [...historyPrivate, ...privateMessages],
   };
 }

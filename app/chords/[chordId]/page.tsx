@@ -1,20 +1,26 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
+import { CalendarCheck, MessagesSquare, Target } from "lucide-react";
 import { AudienceFilter } from "@/components/chord/AudienceFilter";
 import { CreatePointForm } from "@/components/chord/CreatePointForm";
+import { MascotNote } from "@/components/chord/MascotNote";
 import { MemberPanel } from "@/components/chord/MemberPanel";
+import { BackLink, PageBand, StatRow, StatTile } from "@/components/surfaces/PageBand";
+import { PillForm } from "@/components/chord/PillForm";
+import { PillLink } from "@/components/chord/PillLink";
 import { PointCard } from "@/components/point/PointCard";
-import { ActionForm } from "@/components/ui/ActionForm";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Card, EmptyState } from "@/components/ui/Card";
 import { joinChord, createPoint } from "@/lib/api/actions";
 import { getCurrentUser } from "@/lib/api/session";
 import { getChord, listGoals, listPoints, listUsers } from "@/lib/database/repository";
 import { audienceLabel, matchesAudience, parseAudience } from "@/lib/domain/audience";
 import { formatDateTime } from "@/lib/domain/time";
+
+// Reads the session, searchParams and "now": block on the server rather than
+// claiming to be instant (same opt-out as app/dashboard/page.tsx).
+export const instant = false;
 
 export async function generateMetadata({ params }: PageProps<"/chords/[chordId]">) {
   const { chordId } = await params;
@@ -22,8 +28,10 @@ export async function generateMetadata({ params }: PageProps<"/chords/[chordId]"
   return { title: `${chord?.name ?? "Chord"} · StudyCircle` };
 }
 
+const CARD = "rounded-2xl border border-line bg-surface p-5";
+const CARD_TITLE = "font-display text-lg font-bold tracking-tight text-ink";
+
 export default async function ChordPage({ params, searchParams }: PageProps<"/chords/[chordId]">) {
-  // Deadlines are rendered in "now"; the render is dynamic.
   await connection();
   const { chordId } = await params;
   const query = await searchParams;
@@ -66,55 +74,58 @@ export default async function ChordPage({ params, searchParams }: PageProps<"/ch
 
   return (
     <div className="space-y-8">
-      <Link
-        href="/chords"
-        className="inline-flex min-h-10 items-center gap-1.5 text-sm text-muted transition-colors hover:text-ink"
-      >
-        <span aria-hidden="true">←</span> All chords
-      </Link>
-
-      <header className="flex flex-wrap items-start justify-between gap-5">
-        <div className="max-w-2xl min-w-0">
-          <div className="flex items-center gap-2.5">
-            <span
-              className="size-3 shrink-0 rounded-full"
-              style={{ backgroundColor: chord.color }}
-              aria-hidden="true"
-            />
-            <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">{chord.name}</h1>
-          </div>
-          <p className="mt-2 text-[15px] leading-7 text-muted">{chord.description}</p>
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            <Badge tone={chord.audience === "all" ? "muted" : "sun"}>{audienceLabel(chord.audience)}</Badge>
-            <p className="tnum text-sm text-muted">
-              {chordMembers.length} {chordMembers.length === 1 ? "member" : "members"} · {activePoints.length}{" "}
-              active {activePoints.length === 1 ? "point" : "points"}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          {isMember ? <Badge tone="mint">You&apos;re a member</Badge> : null}
-          {viewer ? (
+      <PageBand
+        crumb={<BackLink href="/chords">All chords</BackLink>}
+        mark={
+          <span
+            className="flex size-12 shrink-0 items-center justify-center rounded-full border border-ink/15 font-display text-2xl font-bold text-white sm:size-14"
+            style={{ backgroundColor: chord.color }}
+            aria-hidden="true"
+          >
+            {chord.name[0]}
+          </span>
+        }
+        title={chord.name}
+        description={chord.description}
+        meta={
+          <>
+            <Badge tone={chord.audience === "all" ? "muted" : "sun"} className="bg-surface">
+              {audienceLabel(chord.audience)}
+            </Badge>
+            {isMember ? <Badge tone="mint">You&apos;re a member</Badge> : null}
+          </>
+        }
+        actions={
+          viewer ? (
             isMember ? (
-              <Button href="#start-a-point">Start a point</Button>
+              <PillLink href="#start-a-point">Start a point</PillLink>
             ) : (
-              <ActionForm action={joinChord.bind(null, chord.id)} pendingLabel="Joining…">
+              <PillForm action={joinChord.bind(null, chord.id)} pendingLabel="Joining…">
                 Join this chord
-              </ActionForm>
+              </PillForm>
             )
           ) : (
-            <Button href="/login">Sign in to join</Button>
-          )}
-        </div>
-      </header>
+            <PillLink href="/login">Sign in to join</PillLink>
+          )
+        }
+      >
+        {/* Counts only: names stay behind chord membership (see MemberPanel below). */}
+        <StatRow className="max-w-md">
+          <StatTile value={chordMembers.length} label={chordMembers.length === 1 ? "member" : "members"} />
+          <StatTile
+            value={activePoints.length}
+            label={activePoints.length === 1 ? "active point" : "active points"}
+            delay={60}
+          />
+        </StatRow>
+      </PageBand>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
-        <div className="min-w-0 space-y-6">
+        <div className="min-w-0 space-y-8">
           <section aria-labelledby="points-heading" id="points" className="scroll-mt-24 space-y-4">
-            <div className="flex flex-wrap items-end justify-between gap-3">
+            <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
               <div>
-                <h2 id="points-heading" className="font-display text-xl font-bold tracking-tight text-ink">
+                <h2 id="points-heading" className="font-display text-2xl font-bold tracking-tight text-ink">
                   Points
                 </h2>
                 <p className="mt-1 text-sm leading-6 text-muted">
@@ -125,88 +136,104 @@ export default async function ChordPage({ params, searchParams }: PageProps<"/ch
             </div>
 
             {chordPoints.length === 0 ? (
-              <EmptyState
-                title="No points in this chord yet"
+              <MascotNote
+                mood="peek"
+                color={chord.color}
+                title="No points in this chord yet."
                 hint="A point is a weekly group. A member can start the first one for this subject."
                 action={
                   isMember ? (
-                    <Button href="#start-a-point" size="sm" className="min-h-10">
-                      Start a point
-                    </Button>
+                    <PillLink href="#start-a-point">Start a point</PillLink>
                   ) : undefined
                 }
               />
             ) : visiblePoints.length === 0 ? (
-              <EmptyState
-                title="No points match this filter"
+              <MascotNote
+                mood="peek"
+                color={chord.color}
+                title="No points match this filter."
                 hint="Try all students, or start a point for this education level."
                 action={
-                  <Button href={`/chords/${chord.id}`} variant="secondary" size="sm" className="min-h-10">
+                  <PillLink href={`/chords/${chord.id}`} tone="outline">
                     Show all points
-                  </Button>
+                  </PillLink>
                 }
               />
             ) : (
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                {visiblePoints.map((point) => (
-                  <PointCard
-                    key={point.id}
-                    point={point}
-                    chord={chord}
-                    moderator={userById.get(point.moderatorId)}
-                    members={point.memberIds
-                      .map((id) => userById.get(id))
-                      .filter((user) => user !== undefined)}
-                    currentGoal={currentGoalOf(point.id)}
-                    timeZone={timeZone}
-                  />
+              <div
+                className={`grid gap-4 ${
+                  visiblePoints.length > 1 ? "md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2" : ""
+                }`}
+              >
+                {visiblePoints.map((point, index) => (
+                  <div key={point.id} className="animate-fade-up" style={{ animationDelay: `${index * 60}ms` }}>
+                    <PointCard
+                      point={point}
+                      chord={chord}
+                      moderator={userById.get(point.moderatorId)}
+                      memberCount={point.memberIds.length}
+                      members={
+                        isMember
+                          ? point.memberIds.map((id) => userById.get(id)).filter((user) => user !== undefined)
+                          : []
+                      }
+                      currentGoal={currentGoalOf(point.id)}
+                      timeZone={timeZone}
+                    />
+                  </div>
                 ))}
               </div>
             )}
           </section>
 
-          <section aria-labelledby="how-points-work" className="rounded-2xl border border-line bg-sun-wash p-5">
-            <h2 id="how-points-work" className="font-display text-base font-bold tracking-tight text-ink">
+          <section aria-labelledby="how-points-work" className="rounded-2xl bg-sun-wash p-5 sm:p-6">
+            <h2 id="how-points-work" className="font-display text-xl font-bold tracking-tight text-ink">
               How a point works
             </h2>
-            <p className="mt-1 max-w-2xl text-sm leading-6 text-ink/70">
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-ink">
               A point is one weekly hour with the same small group. Everyone sets goals, reports their own
               progress, and asks for help in the point chat.
             </p>
-            <dl className="mt-4 grid gap-4 sm:grid-cols-3">
-              <div>
-                <dt className="text-[13px] font-semibold text-ink">Meet</dt>
-                <dd className="mt-0.5 text-xs leading-5 text-muted">Show up at the same time each week.</dd>
-              </div>
-              <div>
-                <dt className="text-[13px] font-semibold text-ink">Track</dt>
-                <dd className="mt-0.5 text-xs leading-5 text-muted">Update your progress on the point&apos;s goals.</dd>
-              </div>
-              <div>
-                <dt className="text-[13px] font-semibold text-ink">Ask</dt>
-                <dd className="mt-0.5 text-xs leading-5 text-muted">Use the point chat or ask for support.</dd>
-              </div>
+            <dl className="mt-5 grid gap-3 sm:grid-cols-3">
+              {[
+                { icon: CalendarCheck, term: "Meet", text: "Show up at the same time each week." },
+                { icon: Target, term: "Track", text: "Update your progress on the point's goals." },
+                { icon: MessagesSquare, term: "Ask", text: "Use the point chat or ask for support." },
+              ].map(({ icon: Icon, term, text }) => (
+                <div key={term} className="rounded-xl bg-surface p-4">
+                  <span
+                    className="flex size-9 items-center justify-center rounded-full bg-mint text-white"
+                    aria-hidden="true"
+                  >
+                    <Icon size={16} strokeWidth={2.25} />
+                  </span>
+                  <dt className="mt-3 font-display text-base font-bold text-ink">{term}</dt>
+                  <dd className="mt-0.5 text-sm leading-6 text-ink">{text}</dd>
+                </div>
+              ))}
             </dl>
           </section>
         </div>
 
         <aside className="space-y-4">
-          <MemberPanel users={chordMembers} goals={chordGoals} />
+          <MemberPanel count={chordMembers.length} users={isMember ? chordMembers : undefined} />
 
-          <Card>
-            <h2 className="font-display text-base font-bold tracking-tight text-ink">Point moderators</h2>
+          <section aria-labelledby="moderators-heading" className={CARD}>
+            <h2 id="moderators-heading" className={CARD_TITLE}>
+              Point moderators
+            </h2>
             <p className="mt-1 text-xs leading-5 text-muted">
               Each point has one moderator, chosen for subject fit, experience, and reliability.
             </p>
             {moderators.length === 0 ? (
-              <p className="mt-3 text-sm text-muted">No point has a moderator yet.</p>
+              <p className="mt-3 text-sm text-ink">No point has a moderator yet.</p>
             ) : (
               <ul className="mt-3 space-y-3">
                 {moderators.map(({ user, titles }) => (
                   <li key={user.id} className="flex gap-3">
-                    <Avatar name={user.name} color={user.avatarColor} size={32} />
+                    <Avatar name={user.name} color={user.avatarColor} size={36} />
                     <div className="min-w-0">
-                      <p className="text-[13px] font-semibold text-ink">{user.name}</p>
+                      <p className="text-sm font-semibold text-ink">{user.name}</p>
                       <p className="mt-0.5 text-xs leading-5 text-muted">
                         Runs {titles.slice(0, 2).join(" and ")}
                         {titles.length > 2 ? ` and ${titles.length - 2} more` : ""}
@@ -216,57 +243,66 @@ export default async function ChordPage({ params, searchParams }: PageProps<"/ch
                 ))}
               </ul>
             )}
-          </Card>
+          </section>
 
           {openDeadlines.length > 0 ? (
-            <Card>
-              <h2 className="font-display text-base font-bold tracking-tight text-ink">Deadlines</h2>
+            <section aria-labelledby="deadlines-heading" className={CARD}>
+              <h2 id="deadlines-heading" className={CARD_TITLE}>
+                Deadlines
+              </h2>
               <ul className="mt-3 divide-y divide-line">
                 {openDeadlines.slice(0, 6).map((goal) => (
-                  <li key={goal.id} className="py-2.5 first:pt-0 last:pb-0">
-                    <Link href={`/points/${goal.pointId}`} className="group block min-h-10">
-                      <p className="truncate text-[13px] font-medium text-ink group-hover:underline">
-                        {goal.title}
-                      </p>
+                  <li key={goal.id} className="py-1 first:pt-0 last:pb-0">
+                    <Link
+                      href={`/points/${goal.pointId}`}
+                      className="group block min-h-11 rounded-lg py-1.5 transition-colors hover:bg-sun-wash"
+                    >
+                      <p className="truncate text-sm font-semibold text-ink">{goal.title}</p>
                       <p className="mt-0.5 text-xs text-muted">{formatDateTime(goal.deadline, timeZone)}</p>
                     </Link>
                   </li>
                 ))}
               </ul>
-            </Card>
+            </section>
           ) : null}
 
           {viewer ? (
             isMember ? (
-              <div id="start-a-point" className="scroll-mt-24">
-                <Card>
-                  <h2 className="font-display text-base font-bold tracking-tight text-ink">Start a point</h2>
-                  <p className="mt-1 text-xs leading-5 text-muted">
-                    Pick a weekly time. A moderator is chosen from the chord&apos;s members.
-                  </p>
-                  <div className="mt-4">
-                    <CreatePointForm chordId={chord.id} chordAudience={chord.audience} action={createPoint} />
-                  </div>
-                </Card>
-              </div>
+              <section
+                id="start-a-point"
+                aria-labelledby="start-point-heading"
+                className="scroll-mt-24 rounded-2xl border border-line bg-surface p-5"
+              >
+                <h2 id="start-point-heading" className={CARD_TITLE}>
+                  Start a point
+                </h2>
+                <p className="mt-1 text-xs leading-5 text-muted">
+                  Pick a weekly time. A moderator is chosen from the chord&apos;s members.
+                </p>
+                <div className="mt-4">
+                  <CreatePointForm chordId={chord.id} chordAudience={chord.audience} action={createPoint} />
+                </div>
+              </section>
             ) : (
-              <Card>
-                <h2 className="font-display text-base font-bold tracking-tight text-ink">Start a point</h2>
-                <p className="mt-1 text-sm leading-6 text-muted">
+              <section aria-labelledby="start-point-heading" className={CARD}>
+                <h2 id="start-point-heading" className={CARD_TITLE}>
+                  Start a point
+                </h2>
+                <p className="mt-1 text-sm leading-6 text-ink">
                   Join this chord first, then you can start a weekly point of your own.
                 </p>
-              </Card>
+              </section>
             )
           ) : (
-            <Card>
-              <h2 className="font-display text-base font-bold tracking-tight text-ink">Start a point</h2>
-              <p className="mt-1 text-sm leading-6 text-muted">
-                Sign in to start a weekly point in this chord.
-              </p>
-              <Button href="/login" variant="secondary" size="sm" className="mt-3 min-h-10">
+            <section aria-labelledby="start-point-heading" className={CARD}>
+              <h2 id="start-point-heading" className={CARD_TITLE}>
+                Start a point
+              </h2>
+              <p className="mt-1 text-sm leading-6 text-ink">Sign in to start a weekly point in this chord.</p>
+              <PillLink href="/login" tone="outline" className="mt-3">
                 Sign in
-              </Button>
-            </Card>
+              </PillLink>
+            </section>
           )}
         </aside>
       </div>

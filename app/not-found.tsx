@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 
 export const metadata = { title: "Page not found · StudyCircle" };
 
@@ -14,24 +14,15 @@ export default function NotFound() {
       </p>
 
       <div className="mt-7 flex flex-wrap gap-2.5">
-        <Link
-          href="/"
-          className="rounded-full bg-sun px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-sun-deep"
-        >
+        <Button href="/">
           Back to the circle
-        </Link>
-        <Link
-          href="/chords"
-          className="rounded-full border border-line bg-surface px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/25 hover:bg-sun-wash"
-        >
+        </Button>
+        <Button href="/chords" variant="secondary">
           Browse chords
-        </Link>
-        <Link
-          href="/dashboard"
-          className="rounded-full px-4 py-2.5 text-sm font-semibold text-muted transition-colors hover:bg-mist hover:text-ink"
-        >
+        </Button>
+        <Button href="/dashboard" variant="ghost">
           Your dashboard
-        </Link>
+        </Button>
       </div>
     </div>
   );

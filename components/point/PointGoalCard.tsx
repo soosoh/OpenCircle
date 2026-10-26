@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
+import { DotDigits } from "@/components/landing/mockups";
 import { AvatarStack } from "@/components/ui/Avatar";
-import { Card } from "@/components/ui/Card";
 import { GoalStatusBadge } from "@/components/ui/StatusBadge";
 import { ProgressTrack } from "@/components/point/ProgressTrack";
 import { goalProgress } from "@/lib/domain/progress";
@@ -9,7 +9,7 @@ import type { Goal, User } from "@/types";
 
 /**
  * Goal row for the point page. Shows the viewer's own progress when they are
- * assigned, otherwise the group average, with one track and one number.
+ * assigned, otherwise the group average, with one dot-matrix number and one track.
  */
 export function PointGoalCard({
   goal,
@@ -38,50 +38,57 @@ export function PointGoalCard({
   const finished = goal.assignments.filter((entry) => entry.status === "Completed").length;
 
   return (
-    <Card className="space-y-4">
-      <div className="flex flex-wrap items-start justify-between gap-2">
+    <article className="space-y-4 rounded-2xl border border-line bg-surface p-5">
+      <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <h3 className="font-display text-base font-bold tracking-tight text-ink">{goal.title}</h3>
-          <p className="mt-1 text-xs text-muted">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="font-display text-lg font-bold leading-tight tracking-tight text-ink">{goal.title}</h3>
+            <GoalStatusBadge status={goal.status} />
+          </div>
+          <p className="mt-1.5 text-xs text-muted">
             Due {formatDateTime(goal.deadline, timeZone)}
-            {overdue ? <span className="text-coral"> · overdue</span> : null}
+            {overdue ? <span className="font-semibold text-coral"> · overdue</span> : null}
           </p>
         </div>
-        <GoalStatusBadge status={goal.status} />
-      </div>
-
-      {goal.description ? <p className="text-sm leading-6 text-muted">{goal.description}</p> : null}
-
-      <div>
-        <div className="flex items-baseline justify-between gap-3">
-          <p className="text-[13px] text-muted">{assignment ? "Your progress" : "Group progress"}</p>
-          <p className="tnum text-sm font-semibold text-ink">{progress}%</p>
-        </div>
-        <div className="mt-2">
-          <ProgressTrack
-            value={progress}
-            tone={completed ? "mint" : "ink"}
-            label={`${goal.title} ${assignment ? "your" : "group"} progress`}
-          />
+        <div className="shrink-0 text-right">
+          <div className="flex items-end justify-end gap-0.5">
+            <DotDigits value={String(progress)} className="h-8 w-auto text-ink" />
+            <span className="pb-px text-sm font-bold text-ink" aria-hidden="true">
+              %
+            </span>
+          </div>
+          <p className="mt-1 text-[11px] text-muted">
+            <span className="sr-only">{progress}% </span>
+            {assignment ? "your progress" : "group progress"}
+          </p>
         </div>
       </div>
+
+      {goal.description ? <p className="text-sm leading-6 text-ink">{goal.description}</p> : null}
+
+      <ProgressTrack
+        value={progress}
+        size="md"
+        tone={completed ? "mint" : "ink"}
+        label={`${goal.title} ${assignment ? "your" : "group"} progress`}
+      />
 
       {goal.resources.length > 0 ? (
         <p className="text-xs leading-5 text-muted">
-          <span className="font-medium text-ink/70">Resources</span> · {goal.resources.join(" · ")}
+          <span className="font-semibold text-ink">Resources</span> · {goal.resources.join(" · ")}
         </p>
       ) : null}
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3">
         <div className="flex items-center gap-2">
-          {assignedPeople.length > 0 ? <AvatarStack people={assignedPeople} size={22} /> : null}
+          {assignedPeople.length > 0 ? <AvatarStack people={assignedPeople} size={24} /> : null}
           <span className="tnum text-xs text-muted">
             {goal.assignments.length} assigned · {finished} completed
           </span>
         </div>
       </div>
 
-      {footer ? <div>{footer}</div> : null}
-    </Card>
+      {footer ? <div className="rounded-xl bg-sun-wash p-3.5">{footer}</div> : null}
+    </article>
   );
 }

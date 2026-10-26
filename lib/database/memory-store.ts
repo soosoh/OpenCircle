@@ -1,6 +1,6 @@
 import type { DataStore, RowWithId, TableName } from "./store";
 
-/** Default store. Lives in process memory, so data resets when the server restarts. */
+/** Default store. Lives in process memory; lib/database/persist.ts saves it to disk so a restart keeps it. */
 export function createMemoryStore(seed: Record<TableName, RowWithId[]>): DataStore {
   const tables = new Map<TableName, Map<string, RowWithId>>();
   for (const [table, rows] of Object.entries(seed) as [TableName, RowWithId[]][]) {

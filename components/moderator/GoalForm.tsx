@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
 import { SubmitButton } from "@/components/ui/Button";
-import { Field, TextInput, Textarea } from "@/components/ui/Field";
+import { TextInput, Textarea } from "@/components/ui/Field";
+import { FormField } from "@/components/surfaces/FormField";
 
 type Errors = { title?: string; deadline?: string };
+
+const INVALID = "aria-invalid:border-coral aria-invalid:ring-2 aria-invalid:ring-coral/20";
 
 /**
  * Goal recorder. Field-level validation is repeated here so the moderator sees
@@ -19,76 +22,64 @@ export function GoalForm({
   members: { id: string; name: string }[];
 }) {
   const [errors, setErrors] = useState<Errors>({});
+  const [submitted, setSubmitted] = useState(false);
+
+  function check(data: FormData): Errors {
+    const next: Errors = {};
+    if (!String(data.get("title") ?? "").trim()) next.title = "Give the goal a name.";
+    if (!String(data.get("deadline") ?? "").trim()) next.deadline = "Choose a deadline.";
+    return next;
+  }
 
   return (
     <form
       action={action}
       noValidate
       onSubmit={(event) => {
-        const data = new FormData(event.currentTarget);
-        const next: Errors = {};
-        if (!String(data.get("title") ?? "").trim()) next.title = "Give the goal a name.";
-        if (!String(data.get("deadline") ?? "").trim()) next.deadline = "Choose a deadline.";
+        const next = check(new FormData(event.currentTarget));
+        setSubmitted(true);
         setErrors(next);
         if (next.title || next.deadline) event.preventDefault();
       }}
-      className="space-y-4"
+      onChange={(event) => {
+        if (submitted) setErrors(check(new FormData(event.currentTarget)));
+      }}
+      className="space-y-5"
     >
-      <Field label="Goal title">
-        <TextInput
-          name="title"
-          required
-          maxLength={120}
-          placeholder="Finish Biology Chapter 5"
-          aria-invalid={errors.title ? true : undefined}
-          aria-describedby={errors.title ? "goal-title-error" : undefined}
-        />
-        {errors.title ? (
-          <span id="goal-title-error" role="alert" className="mt-1.5 block text-xs font-medium text-coral">
-            {errors.title}
-          </span>
-        ) : null}
-      </Field>
+      <FormField label="Goal title" required error={errors.title}>
+        {(p) => <TextInput {...p} name="title" maxLength={120} placeholder="Finish Biology Chapter 5" className={INVALID} />}
+      </FormField>
 
-      <Field label="What the group should accomplish" hint="Optional, but it helps members know what done looks like.">
-        <Textarea name="description" maxLength={500} placeholder="Read Chapter 5 and answer the end-of-chapter questions." className="min-h-20" />
-      </Field>
-
-      <div className="grid gap-3 sm:grid-cols-2">
-        <Field label="Deadline">
-          <TextInput
-            type="date"
-            name="deadline"
-            required
-            aria-invalid={errors.deadline ? true : undefined}
-            aria-describedby={errors.deadline ? "goal-deadline-error" : undefined}
+      <FormField label="What the group should accomplish" optional hint="Helps members know what done looks like.">
+        {(p) => (
+          <Textarea
+            {...p}
+            name="description"
+            maxLength={500}
+            placeholder="Read Chapter 5 and answer the end-of-chapter questions."
+            className="min-h-20"
           />
-          {errors.deadline ? (
-            <span id="goal-deadline-error" role="alert" className="mt-1.5 block text-xs font-medium text-coral">
-              {errors.deadline}
-            </span>
-          ) : null}
-        </Field>
-        <Field label="Resources" hint="One per line: a handout, link or worksheet.">
-          <Textarea name="resources" placeholder={"Chapter 5 PDF\nPractice set 3"} className="min-h-20" />
-        </Field>
+        )}
+      </FormField>
+
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+        <FormField label="Deadline" required error={errors.deadline}>
+          {(p) => <TextInput {...p} type="date" name="deadline" className={`min-h-11 ${INVALID}`} />}
+        </FormField>
+        <FormField label="Resources" optional hint="One per line: a handout, link or worksheet.">
+          {(p) => <Textarea {...p} name="resources" placeholder={"Chapter 5 PDF\nPractice set 3"} className="min-h-20" />}
+        </FormField>
       </div>
 
       <fieldset>
-        <legend className="mb-1.5 block text-sm font-semibold text-ink">Assign to</legend>
+        <legend className="mb-1.5 text-sm font-semibold text-ink">Assign to</legend>
         <div className="flex flex-wrap gap-2">
           {members.map((member) => (
             <label
               key={member.id}
-              className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-lg border border-line bg-surface px-2.5 text-xs font-medium text-ink transition-colors hover:border-ink/25 hover:bg-sun-wash has-checked:border-ink has-checked:bg-sun-soft"
+              className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-full border border-line bg-surface px-3.5 text-sm font-medium text-ink transition-colors hover:border-ink/30 has-checked:border-ink has-checked:bg-sun-soft"
             >
-              <input
-                type="checkbox"
-                name="assignees"
-                value={member.id}
-                defaultChecked
-                className="size-3.5 accent-[#29313D]"
-              />
+              <input type="checkbox" name="assignees" value={member.id} defaultChecked className="size-4 accent-ink" />
               {member.name}
             </label>
           ))}
@@ -104,7 +95,7 @@ export function GoalForm({
 function GoalSubmit() {
   const { pending } = useFormStatus();
   return (
-    <SubmitButton pending={pending} pendingLabel="Recording…">
+    <SubmitButton variant="ink" size="lg" pending={pending} pendingLabel="Recording…" className="min-h-11 w-full sm:w-auto">
       Record goal
     </SubmitButton>
   );

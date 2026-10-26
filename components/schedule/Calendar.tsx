@@ -68,7 +68,7 @@ function DayColumn({
                 <Link
                   href={item.href}
                   title={`${item.title} · ${stamp}`}
-                  className="flex items-start gap-1.5 rounded-md px-1.5 py-1 text-[11px] leading-4 text-ink transition-colors hover:brightness-95"
+                  className="flex items-start gap-1.5 rounded-md px-1.5 py-1 text-xs leading-4 text-ink transition-[filter] duration-150 ease-out-quart hover:brightness-95"
                   style={{ backgroundColor: `${color}1F` }}
                 >
                   <span
@@ -129,18 +129,71 @@ export function Calendar({ items, timeZone, days = 14 }: { items: ScheduleItem[]
 
   return (
     <div className="overflow-hidden rounded-2xl border border-line bg-surface">
-      <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-2.5">
-        <p className="text-xs font-semibold text-ink">Week planner</p>
+      <div className="flex items-center justify-between gap-3 border-b border-line bg-sun-wash px-4 py-3">
+        <p className="font-display text-base font-bold text-ink">Week planner</p>
         <p className="tnum text-xs text-muted">{range}</p>
       </div>
 
-      <div className="overflow-x-auto">
-        <div className="min-w-[720px]">
+      {/* Phones get an agenda: only the days that have something on them. */}
+      <ul className="divide-y divide-line md:hidden">
+        {columns.filter((column) => column.items.length > 0).length === 0 ? (
+          <li className="px-4 py-6 text-sm text-ink">Nothing scheduled in the next {days} days.</li>
+        ) : (
+          columns
+            .filter((column) => column.items.length > 0)
+            .map((column) => (
+              <li
+                key={column.key}
+                aria-current={column.isToday ? "date" : undefined}
+                className={column.isToday ? "bg-sun-soft" : undefined}
+              >
+                <p className="flex items-center gap-2 px-4 pt-3 text-xs font-semibold text-ink">
+                  <span className="tnum">
+                    {new Intl.DateTimeFormat("en-US", { timeZone, weekday: "short" }).format(column.day)},{" "}
+                    {monthDay(column.day, timeZone)}
+                  </span>
+                  {column.isToday ? (
+                    <span className="rounded-full bg-sun px-1.5 py-0.5 text-[11px] font-semibold leading-none text-ink">
+                      Today
+                    </span>
+                  ) : null}
+                </p>
+                <ul className="px-2 pb-2 pt-1">
+                  {column.items.map((item) => {
+                    const color = (item.chordId ? chordColorById.get(item.chordId) : undefined) ?? "#F4D35E";
+                    const isMeeting = item.kind === "meeting";
+                    return (
+                      <li key={item.id}>
+                        <Link
+                          href={item.href}
+                          className="flex min-h-11 items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm text-ink transition-colors duration-150 ease-out-quart hover:bg-sun-wash"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className={`size-2.5 shrink-0 rounded-full ${isMeeting ? "" : "bg-coral"}`}
+                            style={isMeeting ? { backgroundColor: color } : undefined}
+                          />
+                          <span className="min-w-0 flex-1 truncate font-medium">{item.title}</span>
+                          <span className="tnum shrink-0 text-xs text-muted">
+                            {isMeeting ? clockTime(new Date(item.at), timeZone) : "Due"}
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </li>
+            ))
+        )}
+      </ul>
+
+      <div className="hidden overflow-x-auto md:block">
+        <div className="min-w-[640px]">
           <div className="grid grid-cols-7 border-b border-line bg-surface">
             {columns.slice(0, 7).map((column) => (
               <p
                 key={column.key}
-                className="border-r border-line px-3 py-1.5 text-[11px] text-muted last:border-r-0"
+                className="border-r border-line px-3 py-1.5 text-xs font-medium text-ink last:border-r-0"
               >
                 {new Intl.DateTimeFormat("en-US", { timeZone, weekday: "short" }).format(column.day)}
               </p>

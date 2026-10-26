@@ -40,3 +40,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# playwright-cli session logs
+.playwright-cli/
+
+# local data saved by the memory backend (lib/database/persist.ts)
+.data/

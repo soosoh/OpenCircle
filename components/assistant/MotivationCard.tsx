@@ -16,7 +16,7 @@ type MotivationAction = (prev: MotivationState, formData: FormData) => Promise<M
 
 function NudgeButton({ pending }: { pending: boolean }) {
   return (
-    <SubmitButton pending={pending} size="sm" variant="secondary" pendingLabel="Thinking…">
+    <SubmitButton pending={pending} size="md" variant="ink" pendingLabel="Thinking…">
       Get encouragement
     </SubmitButton>
   );
@@ -43,7 +43,7 @@ export function MotivationCard({ action }: { action: MotivationAction }) {
             <h3 className="font-display text-lg font-bold tracking-tight text-ink">
               A word of encouragement
             </h3>
-            <p className="text-sm text-muted">A nudge built from your own points and goals.</p>
+            <p className="text-sm text-ink">A nudge built from your own points and goals.</p>
           </div>
         </div>
         <div className="flex items-center gap-2">

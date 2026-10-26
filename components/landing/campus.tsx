@@ -401,9 +401,11 @@ function SecondRange({ dorm = true }: { dorm?: boolean }) {
       {dorm && (
         <g>
           <rect x="1030" y="490" width="132" height="74" fill={HILL_FAR} />
+          {/* the chimney is drawn first and runs well below the slope, so the roof
+              overlaps its foot and it grows out of the tiles instead of floating */}
+          <rect x="1056" y="438" width="11" height="40" fill="#8E3319" />
+          <rect x="1052" y="434" width="19" height="5" rx="1.5" fill={PLINTH} />
           <path d="M1018 492 L1096 446 L1178 494 L1202 494 L1202 566 L1018 566 Z" fill={ROOF} />
-          <rect x="1080" y="420" width="10" height="30" fill={ROOF} />
-          <rect x="1076" y="416" width="18" height="5" rx="1.5" fill={PLINTH} />
           <path d="M1020 492 L1096 447 L1176 493" stroke={SUN} strokeWidth="1.8" strokeLinecap="round" opacity="0.45" fill="none" />
           <Window x={1052} y={512} w={12} h={15} />
           <Window x={1080} y={512} w={12} h={15} />
@@ -411,7 +413,7 @@ function SecondRange({ dorm = true }: { dorm?: boolean }) {
           <Window x={1168} y={512} w={12} h={15} mint delay="-1.8s" />
           <Window x={1052} y={540} w={12} h={15} />
           <Window x={1140} y={540} w={12} h={15} />
-          <Smoke x={1085} y={414} />
+          <Smoke x={1061.5} y={432} />
         </g>
       )}
     </g>
@@ -489,6 +491,48 @@ function StringLights({ a, b, sag, lights }: { a: [number, number]; b: [number, 
           style={{ animationDelay: l.delay ?? `-${(i % 5) * 1.3}s` }}
         />
       ))}
+    </g>
+  );
+}
+
+/**
+ * Pennant bunting hung between two points in open sky. Each flag sits at a
+ * parameter `t` along the same quadratic the string follows, so it always
+ * hangs from the line. Keep it clear of the school: it must never cross a roof.
+ */
+function Bunting({
+  a,
+  b,
+  sag,
+  flags,
+}: {
+  a: [number, number];
+  b: [number, number];
+  sag: number;
+  flags: ReadonlyArray<readonly [number, string]>;
+}) {
+  const cx = (a[0] + b[0]) / 2;
+  const cy = (a[1] + b[1]) / 2 + 2 * sag;
+  const at = (t: number) => ({
+    x: (1 - t) ** 2 * a[0] + 2 * t * (1 - t) * cx + t ** 2 * b[0],
+    y: (1 - t) ** 2 * a[1] + 2 * t * (1 - t) * cy + t ** 2 * b[1],
+  });
+  return (
+    <g>
+      <path d={`M${a[0]} ${a[1]} Q${cx} ${cy} ${b[0]} ${b[1]}`} stroke={INK} strokeWidth="1.2" opacity="0.4" fill="none" />
+      {flags.map(([t, color], i) => {
+        const { x, y } = at(t);
+        return (
+          <path
+            key={t}
+            d={`M${x - 6} ${y} L${x + 6} ${y} L${x} ${y + 14} Z`}
+            fill={color}
+            opacity="0.9"
+            className="animate-twinkle"
+            style={{ animationDelay: `-${(i % 5) * 1.4}s` }}
+          />
+        );
+      })}
     </g>
   );
 }
@@ -722,37 +766,24 @@ function ProgressScene() {
       <SecondRange dorm />
       <MainRidge />
       <SchoolCluster />
-      <g>
-        <line x1="392" y1="560" x2="1060" y2="536" stroke={INK} strokeWidth="1" opacity="0.3" />
-        {(
-          [
-            [470, 552, MINT],
-            [560, 548, CORAL],
-            [652, 545, SUN],
-            [750, 542, CORAL],
-            [848, 540, MINT],
-            [944, 538, SUN],
-          ] as ReadonlyArray<readonly [number, number, string]>
-        ).map(([px, py, c], i) => (
-          <g key={i}>
-            <circle cx={px} cy={py} r="1.3" fill={CREAM} opacity="0.9" />
-            <path
-              d={`M${px} ${py} L${px} ${py + 15} L${px + 12} ${py + 7} Z`}
-              fill={c}
-              opacity="0.9"
-              className="animate-twinkle"
-              style={{ animationDelay: `-${(i % 5) * 1.4}s` }}
-            />
-          </g>
-        ))}
-      </g>
+      <Bunting
+        a={[191, 449]}
+        b={[901, 373]}
+        sag={7}
+        flags={[
+          [0.1, MINT],
+          [0.22, CORAL],
+          [0.34, SUN],
+          [0.46, MINT],
+          [0.58, CORAL],
+          [0.7, SUN],
+          [0.86, MINT],
+        ]}
+      />
       <RidgePines />
       <TreelineBand />
       <Ground />
-      {/* the summit has been reached: the pennant is planted, three friends
-          are on the near ground celebrating the week */}
-      <path d="M752 444 L752 430 L768 434 L752 439 Z" fill={MINT} />
-      <line x1="751" y1="444" x2="751" y2="426" stroke={PLINTH} strokeWidth="2" />
+      {/* the summits are strung together; friends on the near ground celebrate the week */}
       <SceneMascot x={664} ground={698} size={10} mood="wink" color={MINT} bob="-1.2s" />
       <SceneMascot x={806} ground={690} size={10} mood="happy" color={CORAL} />
       <SceneMascot x={884} ground={700} size={11} mood="cheer" color={SUN} bob="-2s" />

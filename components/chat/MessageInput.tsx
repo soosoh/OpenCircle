@@ -66,7 +66,8 @@ function SendButton() {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex min-h-10 items-center rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#3A4452] disabled:cursor-not-allowed disabled:opacity-50"
+      aria-busy={pending || undefined}
+      className="press inline-flex min-h-10 items-center rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-ink-soft"
     >
       {pending ? "Sending…" : "Send"}
     </button>

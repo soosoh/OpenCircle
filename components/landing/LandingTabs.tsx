@@ -76,7 +76,7 @@ function TabButton({
       aria-selected={active}
       aria-controls="landing-panel"
       onClick={onClick}
-      className={`shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold transition-colors duration-200 sm:px-5 sm:py-2.5 ${
+      className={`shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold transition-[color,background-color,scale] duration-200 sm:px-5 sm:py-2.5 ease-out-quart active:scale-[0.97] ${
         active ? "bg-ink text-white" : "text-muted hover:bg-sun-wash hover:text-ink"
       }`}
     >
@@ -235,7 +235,7 @@ function CircleTab({ panel, chords, onTab }: TabProps) {
           </div>
           <div className="hidden items-end gap-2 sm:flex">
             <SpeechBubble
-              side="right"
+              side="left"
               title="Your chords, your points, goals set together."
               className="mb-1"
             />
@@ -266,7 +266,7 @@ function CircleTab({ panel, chords, onTab }: TabProps) {
             </h2>
             <Link
               href="/chords"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink hover:underline"
+              className="link-arrow text-sm"
             >
               Browse chords
               <ArrowRight size={14} strokeWidth={2.5} aria-hidden="true" />
@@ -294,7 +294,7 @@ function CircleTab({ panel, chords, onTab }: TabProps) {
             <button
               type="button"
               onClick={() => onTab("chords")}
-              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-ink hover:underline"
+              className="link-arrow mt-5 min-h-10 text-sm"
             >
               <GraduationCap size={16} strokeWidth={2} aria-hidden="true" />
               See how we do it
@@ -327,26 +327,26 @@ function CircleTab({ panel, chords, onTab }: TabProps) {
           <div>
             <p className="text-sm font-semibold text-ink">About</p>
             <ul className="mt-3 space-y-2 text-sm text-muted">
-              <li><button type="button" className="hover:text-ink" onClick={() => onTab("circle")}>Mission</button></li>
-              <li><button type="button" className="hover:text-ink" onClick={() => onTab("chords")}>Chords</button></li>
-              <li><button type="button" className="hover:text-ink" onClick={() => onTab("points")}>Points</button></li>
-              <li><button type="button" className="hover:text-ink" onClick={() => onTab("points")}>Moderators</button></li>
+              <li><button type="button" className="link link-quiet" onClick={() => onTab("circle")}>Mission</button></li>
+              <li><button type="button" className="link link-quiet" onClick={() => onTab("chords")}>Chords</button></li>
+              <li><button type="button" className="link link-quiet" onClick={() => onTab("points")}>Points</button></li>
+              <li><button type="button" className="link link-quiet" onClick={() => onTab("points")}>Moderators</button></li>
             </ul>
           </div>
           <div>
             <p className="text-sm font-semibold text-ink">Product</p>
             <ul className="mt-3 space-y-2 text-sm text-muted">
-              <li><button type="button" className="hover:text-ink" onClick={() => onTab("progress")}>Dashboard preview</button></li>
-              <li><button type="button" className="hover:text-ink" onClick={() => onTab("chords")}>Browse chords</button></li>
-              <li><Link href="/login" className="hover:text-ink">Log in</Link></li>
+              <li><button type="button" className="link link-quiet" onClick={() => onTab("progress")}>Dashboard preview</button></li>
+              <li><button type="button" className="link link-quiet" onClick={() => onTab("chords")}>Browse chords</button></li>
+              <li><Link href="/login" className="link link-quiet">Log in</Link></li>
             </ul>
           </div>
           <div>
             <p className="text-sm font-semibold text-ink">How it works</p>
             <ul className="mt-3 space-y-2 text-sm text-muted">
-              <li><button type="button" className="hover:text-ink" onClick={() => onTab("points")}>A week in a point</button></li>
-              <li><button type="button" className="hover:text-ink" onClick={() => onTab("progress")}>Check-ins</button></li>
-              <li><button type="button" className="hover:text-ink" onClick={() => onTab("circle")}>FAQ</button></li>
+              <li><button type="button" className="link link-quiet" onClick={() => onTab("points")}>A week in a point</button></li>
+              <li><button type="button" className="link link-quiet" onClick={() => onTab("progress")}>Check-ins</button></li>
+              <li><button type="button" className="link link-quiet" onClick={() => onTab("circle")}>FAQ</button></li>
             </ul>
           </div>
           <div>
@@ -624,18 +624,18 @@ function SignOff({ onTab }: { onTab: (tab: TabId) => void }) {
     <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 pt-12 text-xs text-muted sm:px-6">
       <p>© 2026 StudyCircle · your point is expecting you.</p>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-        <button type="button" className="hover:text-ink" onClick={() => onTab("circle")}>
+        <button type="button" className="link link-quiet" onClick={() => onTab("circle")}>
           Mission
         </button>
-        <button type="button" className="hover:text-ink" onClick={() => onTab("points")}>
+        <button type="button" className="link link-quiet" onClick={() => onTab("points")}>
           A week in a point
         </button>
-        <button type="button" className="hover:text-ink" onClick={() => onTab("progress")}>
+        <button type="button" className="link link-quiet" onClick={() => onTab("progress")}>
           Dashboard preview
         </button>
         <Link
           href="/login"
-          className="inline-flex items-center gap-1 font-semibold text-ink hover:underline"
+          className="link-arrow"
         >
           Start inside a circle
           <ArrowUpRight size={12} strokeWidth={2.5} aria-hidden="true" />

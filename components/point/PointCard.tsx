@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { ArrowRight, Clock } from "lucide-react";
 import { Avatar, AvatarStack } from "@/components/ui/Avatar";
-import { Card } from "@/components/ui/Card";
 import { PointStatusBadge } from "@/components/ui/StatusBadge";
 import { WEEKDAY_NAMES, formatDateTime, formatTime, nextWeeklyOccurrence } from "@/lib/domain/time";
 import type { Chord, Point, User } from "@/types";
@@ -10,6 +10,8 @@ export interface PointCardProps {
   chord: Chord;
   moderator?: User;
   members: User[];
+  /** Shown instead of members.length when the avatars are withheld from the viewer. */
+  memberCount?: number;
   /** Current objective for the point, if any. */
   currentGoal?: string;
   /** Timezone used to render the next meeting. Defaults to the point's own timezone. */
@@ -19,20 +21,26 @@ export interface PointCardProps {
 }
 
 /** Reusable point card. Never create subject-specific variants of this. */
-export function PointCard({ point, chord, moderator, members, currentGoal, timeZone, href }: PointCardProps) {
+export function PointCard({
+  point,
+  chord,
+  moderator,
+  members,
+  memberCount = members.length,
+  currentGoal,
+  timeZone,
+  href,
+}: PointCardProps) {
   const next = nextWeeklyOccurrence(point.schedule);
   const zone = timeZone ?? point.schedule.timezone;
   const scheduleZone = point.schedule.timezone.split("/").pop()?.replaceAll("_", " ") ?? point.schedule.timezone;
 
   return (
-    <Card
-      interactive
-      className="group relative flex h-full flex-col focus-within:ring-2 focus-within:ring-ink focus-within:ring-offset-2 focus-within:ring-offset-paper"
-    >
+    <article className="group relative flex h-full flex-col rounded-2xl border border-line bg-surface p-5 lift-card has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-ink has-[a:focus-visible]:ring-offset-2 has-[a:focus-visible]:ring-offset-paper">
       <div className="flex items-start justify-between gap-3">
-        <p className="flex min-w-0 items-center gap-2 text-[13px] text-muted">
+        <p className="flex min-w-0 items-center gap-2 text-[13px] font-medium text-ink">
           <span
-            className="size-1.5 shrink-0 rounded-full"
+            className="size-2.5 shrink-0 rounded-full"
             style={{ backgroundColor: chord.color }}
             aria-hidden="true"
           />
@@ -41,52 +49,66 @@ export function PointCard({ point, chord, moderator, members, currentGoal, timeZ
         <PointStatusBadge status={point.status} />
       </div>
 
-      <h3 className="mt-1.5 font-display text-lg font-bold tracking-tight text-ink">{point.title}</h3>
+      <h3 className="mt-2 font-display text-xl font-bold leading-tight tracking-tight text-ink">{point.title}</h3>
 
-      {point.description ? <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted">{point.description}</p> : null}
+      {point.description ? <p className="mt-2 line-clamp-2 text-sm leading-6 text-ink">{point.description}</p> : null}
 
-      <dl className="mt-4 space-y-2 border-t border-line pt-3 text-sm">
-        <div className="flex items-baseline justify-between gap-3">
-          <dt className="shrink-0 text-muted">Meets</dt>
-          <dd className="text-right font-medium text-ink">
+      <div className="mt-4 flex items-center gap-3 rounded-xl bg-sun-wash px-3.5 py-3">
+        <span
+          className="flex size-9 shrink-0 items-center justify-center rounded-full bg-mint text-white"
+          aria-hidden="true"
+        >
+          <Clock size={16} strokeWidth={2.25} />
+        </span>
+        <div className="min-w-0">
+          <p className="text-sm font-bold text-ink">
+            <span className="sr-only">Meets </span>
             {WEEKDAY_NAMES[point.schedule.weekday]} · {formatTime(point.schedule.time, point.schedule.timezone)}
-            <span className="mt-0.5 block text-[11px] font-normal text-muted">{scheduleZone} time</span>
-          </dd>
+            <span className="ml-1.5 text-xs font-medium text-muted">{scheduleZone} time</span>
+          </p>
+          <p className="truncate text-xs text-muted">Next · {formatDateTime(next, zone)}</p>
         </div>
-        <div className="flex items-baseline justify-between gap-3">
-          <dt className="shrink-0 text-muted">Next</dt>
-          <dd className="text-right font-medium text-ink">{formatDateTime(next, zone)}</dd>
-        </div>
-        {moderator ? (
-          <div className="flex items-center justify-between gap-3">
-            <dt className="shrink-0 text-muted">Moderator</dt>
-            <dd className="flex min-w-0 items-center gap-1.5 font-medium text-ink">
-              <Avatar name={moderator.name} color={moderator.avatarColor} size={20} className="ring-2 ring-surface" />
-              <span className="truncate">{moderator.name}</span>
-            </dd>
-          </div>
-        ) : null}
-      </dl>
+      </div>
 
-      <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-line pt-3">
-        <div className="flex items-center gap-2">
-          {members.length > 0 ? <AvatarStack people={members} size={22} /> : null}
-          <span className="tnum text-xs text-muted">
-            {members.length} {members.length === 1 ? "member" : "members"}
+      {moderator ? (
+        <p className="mt-3 flex min-w-0 items-center gap-2 text-sm text-ink">
+          <Avatar name={moderator.name} color={moderator.avatarColor} size={22} />
+          <span className="truncate">
+            <span className="text-muted">Moderator </span>
+            <span className="font-semibold">{moderator.name}</span>
+          </span>
+        </p>
+      ) : null}
+
+      <div className="mt-auto pt-4">
+        <div className="flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-2 border-t border-line pt-4">
+          <div className="flex items-center gap-2">
+            {members.length > 0 ? <AvatarStack people={members} size={24} /> : null}
+            <span className="tnum text-xs text-muted">
+              <span className="font-bold text-ink">{memberCount}</span> {memberCount === 1 ? "member" : "members"}
+            </span>
+          </div>
+          <span className="flex min-w-0 items-center gap-2">
+            {currentGoal ? (
+              <span className="max-w-44 truncate text-xs text-ink" title={currentGoal}>
+                Working on {currentGoal}
+              </span>
+            ) : (
+              <span className="text-xs text-muted">No goal yet</span>
+            )}
+            <span
+              className="flex size-8 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors duration-200 ease-out-quart group-hover:border-ink group-hover:bg-ink group-hover:text-white"
+              aria-hidden="true"
+            >
+              <ArrowRight size={14} strokeWidth={2.25} />
+            </span>
           </span>
         </div>
-        {currentGoal ? (
-          <span className="max-w-[55%] truncate text-xs text-muted" title={currentGoal}>
-            Working on {currentGoal}
-          </span>
-        ) : (
-          <span className="text-xs text-muted">No goal yet</span>
-        )}
       </div>
 
       <Link href={href ?? `/points/${point.id}`} className="absolute inset-0 rounded-2xl focus-visible:outline-none">
         <span className="sr-only">Open the {point.title} point</span>
       </Link>
-    </Card>
+    </article>
   );
 }
