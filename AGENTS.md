@@ -33,7 +33,7 @@
 - Auth is backend-aware (`lib/api/session.ts` is the seam, exports unchanged): `DATA_BACKEND=supabase` uses Supabase Auth (email + password, signed JWT cookies via `@supabase/ssr`); `DATA_BACKEND=memory` uses the demo session (`sc_user` cookie + shared `DEMO_PASSWORD`). Keep every auth rule server-only — no auth logic in components.
 
 ## Features are off by default
-- `config/features.ts` has `ENABLE_AI_MODERATOR: false` and `ENABLE_ZOOM_API: false`. The app must fully work with both false and make no external calls. Leave them off unless explicitly asked.
+- `config/features.ts`: `ENABLE_AI_MODERATOR` is true only when `AI_API_KEY` (or `OPENAI_API_KEY`) is set and `ENABLE_AI_MODERATOR` env is not "false"; `ENABLE_ZOOM_API` is false. The app must fully work with both off and make no external calls. Leave Zoom off unless explicitly asked.
 
 ## Adding things
 - New chord: append to `CHORD_CATALOG` in `config/chords.ts` and restart so the seed re-runs.

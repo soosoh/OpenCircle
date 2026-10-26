@@ -40,7 +40,7 @@ export function MemberPanel({ count, users }: { count: number; users?: User[] })
           <p className="text-sm leading-6 text-ink">No members yet. Join this chord to be the first.</p>
           <a
             href="#points"
-            className="mt-2 inline-flex min-h-10 items-center text-sm font-semibold text-ink underline decoration-sun-deep decoration-2 underline-offset-4 hover:decoration-ink"
+            className="link mt-2 inline-flex min-h-10 items-center text-sm"
           >
             Browse the points
           </a>

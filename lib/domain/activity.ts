@@ -4,8 +4,9 @@ import { dayKey, zonedWallTimeToDate } from "./time";
  * Member activity, derived only from records that already carry a timestamp.
  *
  * The data model has no attendance table, so "active" is defined as "did
- * something in a point": sent a point message, raised a help request, or sent
- * a private message. Nothing here is estimated or invented; a week with none of
+ * something in a point": sent a point message, raised a help request, sent
+ * a private message, or earned reputation (finishing a goal, setting one,
+ * resolving a request). Nothing here is estimated or invented; a week with none of
  * those records is a missed week.
  *
  * Every function is pure. `now` and the member's `timeZone` are always passed
@@ -19,6 +20,8 @@ export type ActivitySources = {
   messages: ReadonlyArray<Timestamped & { senderId: string }>;
   helpRequests: ReadonlyArray<{ userId: string; createdAt: string }>;
   privateMessages: ReadonlyArray<Timestamped & { senderId: string }>;
+  /** The member's own reputation log (User.reputationLog); every entry is theirs. */
+  reputationLog?: ReadonlyArray<{ at: string }>;
 };
 
 export type WeekActivity = {
@@ -63,6 +66,7 @@ export function memberActivityTimes(userId: string, sources: ActivitySources, no
     ...sources.messages.filter((m) => m.senderId === userId).map((m) => m.timestamp),
     ...sources.helpRequests.filter((r) => r.userId === userId).map((r) => r.createdAt),
     ...sources.privateMessages.filter((m) => m.senderId === userId).map((m) => m.timestamp),
+    ...(sources.reputationLog ?? []).map((entry) => entry.at),
   ];
   return stamps
     .map((stamp) => new Date(stamp))

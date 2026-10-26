@@ -127,11 +127,11 @@ export default async function ModeratorPage({ searchParams }: PageProps<"/modera
       >
         {moderated.length > 0 ? (
           <StatRow>
-            <StatTile value={moderated.length} label={moderated.length === 1 ? "point you moderate" : "points you moderate"} />
+            <StatTile value={moderated.length} label={moderated.length === 1 ? "your point" : "your points"} />
             <StatTile value={moderatedMemberIds.size} label={moderatedMemberIds.size === 1 ? "member" : "members"} delay={60} />
             <StatTile
               value={openRequestCount}
-              label={openRequestCount === 1 ? "open support request" : "open support requests"}
+              label={openRequestCount === 1 ? "open request" : "open requests"}
               delay={120}
             />
           </StatRow>

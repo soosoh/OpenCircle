@@ -243,7 +243,7 @@ function TabButton({ active, onClick, children }: { active: boolean; onClick: ()
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`min-h-11 flex-1 rounded-full px-4 text-sm font-semibold transition-colors duration-200 ease-out-quart active:scale-[0.98] ${
+      className={`min-h-11 flex-1 rounded-full px-4 text-sm font-semibold transition-[color,background-color,scale] duration-200 ease-out-quart active:scale-[0.98] ${
         active ? "bg-ink text-white" : "text-ink hover:bg-surface"
       }`}
     >

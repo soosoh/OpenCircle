@@ -20,6 +20,7 @@ import { deriveGoalStatus } from "@/lib/domain/progress";
 import { isValidTimeZone } from "@/lib/domain/time";
 import { createZoomMeeting, endMeeting, getMeetingTranscript } from "@/lib/zoom/zoom";
 import { parseProfileForm } from "./profile";
+import { awardReputation, refreshGroupSuccess } from "./reputation";
 import {
   clearSession,
   DEMO_PASSWORD,
@@ -239,6 +240,7 @@ export async function leavePoint(pointId: string) {
   }
 
   await repo.updatePoint(pointId, { memberIds: point.memberIds.filter((id) => id !== user.id) });
+  await refreshGroupSuccess(point.moderatorId);
   revalidatePoint(point);
 }
 
@@ -319,15 +321,22 @@ export async function sendMessage(pointId: string, formData: FormData) {
   const content = text(formData, "content", 1000);
   if (!content) return;
   const kind = String(formData.get("kind") ?? "message");
+  const messageId = newId("msg");
+  const messageKind = kind === "question" || kind === "resource" ? kind : "message";
   await repo.insertMessage({
-    id: newId("msg"),
+    id: messageId,
     pointId,
     senderId: user.id,
     content,
-    kind: kind === "question" || kind === "resource" ? kind : "message",
+    kind: messageKind,
     timestamp: new Date().toISOString(),
   });
+  if (messageKind === "resource") {
+    await awardReputation(user.id, { key: `resource-shared:${messageId}`, kind: "resource-shared", pointId });
+  }
   revalidatePath(`/points/${pointId}`);
+  revalidatePath("/dashboard");
+  revalidatePath("/profile");
 }
 
 export async function raiseSos(pointId: string, formData: FormData) {
@@ -351,7 +360,9 @@ export async function resolveHelpRequest(requestId: string) {
   if (!request) throw new Error("Help request not found.");
   const point = await requirePoint(request.pointId);
   if (!isModerator(point, user.id)) throw new Error("Only the point moderator can resolve requests.");
+  if (request.status === "resolved") return;
   await repo.updateHelpRequest(requestId, { status: "resolved" });
+  await awardReputation(user.id, { key: `request-resolved:${requestId}`, kind: "request-resolved", pointId: point.id });
   revalidatePoint(point);
 }
 
@@ -418,6 +429,8 @@ export async function createGoal(pointId: string, formData: FormData) {
     createdAt: new Date().toISOString(),
   };
   await repo.insertGoal(goal);
+  await awardReputation(user.id, { key: `goal-set:${goal.id}`, kind: "goal-set", pointId });
+  await refreshGroupSuccess(point.moderatorId);
   revalidatePoint(point);
 }
 
@@ -440,8 +453,13 @@ export async function updateGoalProgress(goalId: string, formData: FormData) {
   const requested = String(formData.get("status") ?? "On track");
   const status: GoalStatus = progress === 100 ? "Completed" : requested === "Needs assistance" ? "Needs assistance" : "On track";
 
+  const wasCompleted = goal.assignments.find((a) => a.userId === targetId)?.status === "Completed";
   const assignments = goal.assignments.map((a) => (a.userId === targetId ? { ...a, progress, status } : a));
   await repo.updateGoal(goalId, { assignments, status: deriveGoalStatus(assignments) });
+  if (status === "Completed" && !wasCompleted) {
+    await awardReputation(targetId, { key: `goal-completed:${goalId}`, kind: "goal-completed", pointId: point.id });
+  }
+  await refreshGroupSuccess(point.moderatorId);
   revalidatePoint(point);
 }
 

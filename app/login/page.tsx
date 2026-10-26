@@ -20,7 +20,7 @@ export default async function LoginPage() {
     // The negative bottom margin cancels main's padding and the footer's top margin.
     <div className="full-bleed -mb-24 -mt-8 bg-sun">
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:min-h-[calc(100svh-var(--header-h)-5rem)] lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] lg:gap-14 lg:py-16">
-        <section className="lg:sticky lg:top-24 lg:self-start">
+        <section className="rise-in lg:sticky lg:top-24 lg:self-start">
           <h1 className="max-w-xl font-display text-5xl font-bold leading-[1.02] tracking-tight text-ink sm:text-6xl">
             Step into the circle.
           </h1>
@@ -61,7 +61,7 @@ export default async function LoginPage() {
                 password={DEMO_PASSWORD}
               />
               <p className="mt-4 text-xs leading-relaxed text-muted">
-                No email is sent, and everything resets when the server restarts.
+                No email is sent. Changes are saved on this machine and survive restarts; delete the .data folder to start fresh.
               </p>
             </section>
           )}
@@ -69,7 +69,7 @@ export default async function LoginPage() {
           <MascotCrowd className="mt-10 hidden px-14 lg:flex" />
         </section>
 
-        <div className="min-w-0 lg:pb-4">
+        <div className="rise-in min-w-0 [--i:1] lg:pb-4">
           <AuthForm passwordAuth={passwordAuth} />
         </div>
       </div>

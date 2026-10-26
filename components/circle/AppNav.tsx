@@ -21,7 +21,7 @@ export function AppNav({ items }: { items: AppNavItem[] }) {
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={`inline-flex min-h-10 shrink-0 items-center rounded-full px-4 text-sm font-semibold transition-colors ${
+            className={`press inline-flex min-h-10 shrink-0 items-center rounded-full px-4 text-sm font-semibold transition-colors ${
               active ? "bg-sun text-ink" : "text-ink hover:bg-sun-wash"
             }`}
           >

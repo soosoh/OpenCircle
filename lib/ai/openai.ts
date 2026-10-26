@@ -26,8 +26,9 @@ export type {
  * OpenRouter, OpenAI, or a local server. Set AI_BASE_URL / AI_API_KEY / AI_MODEL.
  * The older OPENAI_API_KEY / OPENAI_MODEL names are still accepted.
  *
- * When ENABLE_AI_MODERATOR is false every function returns mock data, reads no env vars
- * and makes no network call, so the app runs with zero configuration.
+ * ENABLE_AI_MODERATOR (config/features.ts) switches on by itself once a key is set. While it is
+ * false every function returns mock data and makes no network call, so the app runs with zero
+ * configuration.
  */
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
@@ -36,12 +37,14 @@ const FREE_MODEL = "openrouter/free";
 const REQUEST_TIMEOUT_MS = 45_000;
 
 function liveEndpoint(): { url: string; apiKey: string; model: string } | null {
-  const baseUrl = process.env.AI_BASE_URL ?? process.env.OPENAI_BASE_URL ?? "";
-  const apiKey = process.env.AI_API_KEY ?? process.env.OPENAI_API_KEY ?? "";
+  const apiKey = process.env.AI_API_KEY || process.env.OPENAI_API_KEY || "";
   if (!apiKey) return null;
 
+  // An OpenRouter key (sk-or-...) needs no base URL; everything else defaults to OpenAI.
+  const baseUrl =
+    process.env.AI_BASE_URL || process.env.OPENAI_BASE_URL || (apiKey.startsWith("sk-or-") ? "https://openrouter.ai/api/v1" : "");
   const isOpenRouter = baseUrl.includes("openrouter.ai");
-  const model = process.env.AI_MODEL ?? process.env.OPENAI_MODEL ?? (isOpenRouter ? FREE_MODEL : DEFAULT_MODEL);
+  const model = process.env.AI_MODEL || process.env.OPENAI_MODEL || (isOpenRouter ? FREE_MODEL : DEFAULT_MODEL);
   const url = baseUrl ? `${baseUrl.replace(/\/$/, "")}/chat/completions` : OPENAI_URL;
   return { url, apiKey, model };
 }
@@ -207,7 +210,7 @@ export async function analyzePointStudents(students: StudentInput[]): Promise<St
 export async function generateMotivationMessage(name: string, context: string): Promise<string> {
   if (!FEATURES.ENABLE_AI_MODERATOR) return mockMotivation(name);
   const result = await chatJson<{ message?: unknown }>(
-    'You encourage high school and college students in a study group. Reply with JSON only: {"message": string} with one or two warm, specific sentences. Never mention grades or failure.',
+    'You encourage high school and college students in a study group. The message should be motivating like "The steps you take today set up your success tomorrow". Reply with JSON only: {"message": string} with one or two warm, specific sentences. Never mention grades or failure.',
     `Student: ${name}. Context: ${context}`,
   );
   const message = asString(result.message);

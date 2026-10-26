@@ -17,6 +17,22 @@ export interface AvailabilitySlot {
   end: string;
 }
 
+/** Why a reputation award happened. The rules live in lib/domain/reputation.ts. */
+export type ReputationKind = "goal-completed" | "goal-set" | "request-resolved" | "resource-shared";
+
+/** One line of a member's reputation history, stored on the user document. */
+export interface ReputationEvent {
+  /** Dedupe key, e.g. "goal-completed:goal-ab12": the same key is never awarded twice. */
+  key: string;
+  kind: ReputationKind;
+  /** Points added to reputation (0 when the member was already at 100). */
+  delta: number;
+  /** ISO timestamp */
+  at: string;
+  /** The point the action happened in, for linking. */
+  pointId?: string;
+}
+
 export interface User {
   id: string;
   name: string;
@@ -30,10 +46,15 @@ export interface User {
   experienceLevel: ExperienceLevel;
   timezone: string;
   availability: AvailabilitySlot[];
-  /** 0-100. Used by moderator selection. */
+  /** 0-100. Starts at 50, grows through reputation events, used by moderator selection. */
   reputation: number;
-  /** 0-1. Used by moderator selection. */
+  /** 0-1. Share of assigned goals completed in the points this member moderates. */
   groupSuccessRate: number;
+  /**
+   * Newest-last history of what earned reputation (capped, see lib/domain/reputation.ts).
+   * Stored inside the user document, so no table or migration is needed on any backend.
+   */
+  reputationLog?: ReputationEvent[];
   /** Website creators are the initial moderators. */
   isCreator: boolean;
 }

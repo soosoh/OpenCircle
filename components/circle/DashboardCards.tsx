@@ -18,7 +18,7 @@ import type { GoalStatus } from "@/types";
 
 const CARD_TITLE = "font-display text-lg font-bold leading-tight tracking-tight text-ink";
 const LINK_UNDERLINE =
-  "text-sm font-semibold text-ink underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink";
+  "link text-sm";
 
 export function DashCard({
   children,
@@ -70,19 +70,22 @@ function CardEmpty({
 
 /* ------------------------------ Stage header ------------------------------ */
 
+/** A small read-only figure under the greeting. Flat and tinted so it never reads as a button. */
+export type StageStat = { value: number; label: string; labelFirst?: boolean };
+
 export type StageChip = { label: string; href?: string; tone: "coral" | "white" | "ink" };
 
 const CHIP_TONES: Record<StageChip["tone"], string> = {
-  coral: "bg-coral-soft text-coral-ink",
-  white: "bg-surface text-ink",
-  ink: "bg-ink text-white",
+  coral: "bg-coral-soft text-coral-ink hover:bg-coral hover:text-white",
+  white: "bg-surface text-ink hover:bg-sun-wash",
+  ink: "bg-ink text-white hover:bg-ink-soft",
 };
 
 export function StageHeader({
   greeting,
   name,
   weekRange,
-  context,
+  stats,
   chips,
   mood,
   bubbleTitle,
@@ -91,7 +94,7 @@ export function StageHeader({
   greeting: string;
   name: string;
   weekRange: string;
-  context: string;
+  stats: StageStat[];
   chips: StageChip[];
   mood: "happy" | "cheer" | "peek";
   bubbleTitle: string;
@@ -103,9 +106,17 @@ export function StageHeader({
         <h1 className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
           {greeting}, {name}.
         </h1>
-        <p className="tnum mt-2 text-base text-ink">
-          Week of {weekRange} · {context}
-        </p>
+        <ul className="tnum mt-3 flex flex-wrap items-center gap-2 text-sm font-semibold text-ink">
+          <li className="inline-flex h-8 items-center rounded-full bg-sun-deep/40 px-3">
+            <span className="sr-only">This week: </span>
+            {weekRange}
+          </li>
+          {stats.map((stat) => (
+            <li key={stat.label} className="inline-flex h-8 items-center rounded-full bg-sun-deep/40 px-3">
+              {stat.labelFirst ? `${stat.label} ${stat.value}` : `${stat.value} ${stat.label}`}
+            </li>
+          ))}
+        </ul>
         {chips.length > 0 ? (
           <ul className="mt-4 flex flex-wrap items-center gap-2">
             {chips.map((chip) => {
@@ -113,7 +124,7 @@ export function StageHeader({
               return (
                 <li key={chip.label}>
                   {chip.href ? (
-                    <Link href={chip.href} className={`${className} transition-colors hover:bg-sun-wash`}>
+                    <Link href={chip.href} className={`${className} transition-colors`}>
                       {chip.label}
                     </Link>
                   ) : (
@@ -207,7 +218,7 @@ export function GoalsCard({
                   className="group -mx-2 block rounded-xl px-2 py-2 transition-colors hover:bg-sun-wash"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink group-hover:underline">
+                    <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink group-hover:text-ink/70">
                       {goal.title}
                     </span>
                     <span
@@ -336,7 +347,7 @@ export function WeekCard({
                 className="group flex min-h-11 items-center justify-between gap-3 py-2 text-sm"
               >
                 <span
-                  className={`min-w-0 truncate font-semibold text-ink group-hover:underline ${
+                  className={`min-w-0 truncate font-semibold text-ink group-hover:text-ink/70 ${
                     entry.done ? "opacity-60" : ""
                   }`}
                 >
@@ -409,7 +420,7 @@ export function PointBarsCard({ bars, className = "" }: { bars: PointBar[]; clas
                     style={{ height: `${Math.min(100, Math.max(0, bar.average))}%` }}
                   />
                 </span>
-                <span className="line-clamp-2 text-center text-xs font-medium leading-snug text-ink group-hover:underline">
+                <span className="line-clamp-2 text-center text-xs font-medium leading-snug text-ink group-hover:text-ink/70">
                   {bar.label}
                 </span>
                 <span className="-mt-1.5 text-[11px] text-muted">
@@ -445,7 +456,7 @@ export function ComingUpCard({ entries, className = "" }: { entries: ComingUpEnt
         </div>
         <Link
           href="/dashboard#schedule"
-          className="inline-flex min-h-10 shrink-0 items-center text-sm font-semibold text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink"
+          className="inline-flex min-h-10 shrink-0 items-center link text-sm"
         >
           Schedule
         </Link>
@@ -473,7 +484,7 @@ export function ComingUpCard({ entries, className = "" }: { entries: ComingUpEnt
                   <span className="mt-0.5 text-[11px] leading-none">{entry.month}</span>
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-semibold text-ink group-hover:underline">
+                  <span className="block truncate text-sm font-semibold text-ink group-hover:text-ink/70">
                     {entry.title}
                   </span>
                   <span className="mt-0.5 block text-xs text-muted">{entry.meta}</span>
@@ -597,28 +608,31 @@ export function StreakCard({
       : `Personal best: ${plural(best, "week")}.`;
   return (
     <DashCard className={className}>
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5">
         <h2 className={CARD_TITLE}>Current streak</h2>
-        <span className={`shrink-0 ${MINT_PILL}`}>{activeThisWeek ? "Counted this week" : "Not yet this week"}</span>
+        <span className={`shrink-0 whitespace-nowrap ${MINT_PILL}`}>{activeThisWeek ? "Counted this week" : "Not yet this week"}</span>
       </div>
       <p className="mt-0.5 text-sm text-muted">Weeks in a row you took part in a point</p>
 
       <div className="mt-4 flex items-end justify-between gap-3">
         <span data-dots role="img" aria-label={plural(current, "week")}>
-          <DotDigits value={String(Math.min(current, 99))} className="h-10 w-auto text-ink" />
+          <DotDigits value={String(Math.min(current, 99))} className="h-20 w-auto text-ink" />
         </span>
-        <div className="flex h-8 items-end gap-1.5" aria-hidden="true">
+        <div className="flex h-16 items-end gap-1.5" aria-hidden="true">
           {recentWeeks.map((count, index) => (
             <span
               key={index}
               data-bar
               className={`w-1.5 rounded-full ${index === recentWeeks.length - 1 ? "bg-mint" : "bg-sage"}`}
-              style={{ height: `${count === 0 ? 4 : 10 + Math.round((count / peak) * 22)}px` }}
+              style={{ height: `${count === 0 ? 4 : 12 + Math.round((count / peak) * 52)}px` }}
             />
           ))}
         </div>
       </div>
 
+      <p className={`mb-3 mt-1.5 text-right ${MICRO}`} aria-hidden="true">
+        last 6 weeks
+      </p>
       <p className={`mt-auto border-t border-line pt-3 ${MICRO}`}>{bestLine}</p>
     </DashCard>
   );
@@ -680,16 +694,20 @@ export function ShowingUpCard({ weeks, className = "" }: { weeks: ShowingUpWeek[
       <h2 className={CARD_TITLE}>Showing up</h2>
       <p className="mt-0.5 text-sm text-muted">Weeks you took part in a point</p>
 
-      <ul
-        aria-label={`${activeCount} of the last ${weeks.length} weeks`}
-        className="mt-4 flex items-center gap-1"
-      >
+      <div className="mt-4 flex items-end gap-3">
+        <span data-dots role="img" aria-label={String(activeCount)}>
+          <DotDigits value={String(activeCount)} className="h-16 w-auto text-ink" />
+        </span>
+        <p className="tnum pb-0.5 text-sm font-semibold text-ink">of the last {weeks.length} weeks</p>
+      </div>
+
+      <ul aria-label={`${activeCount} of the last ${weeks.length} weeks`} className="mt-5 flex items-center gap-1">
         {weeks.map((week) => (
           <li
             key={week.key}
             data-tile
             title={`${week.label}: ${week.active ? "took part" : "no activity"}`}
-            className={`h-5 flex-1 rounded-[4px] ${week.active ? "bg-mint" : "bg-line"}`}
+            className={`h-7 flex-1 rounded-[4px] ${week.active ? "bg-mint" : "bg-line"}`}
           >
             <span className="sr-only">
               {week.label}: {week.active ? "took part" : "no activity"}
@@ -698,14 +716,16 @@ export function ShowingUpCard({ weeks, className = "" }: { weeks: ShowingUpWeek[
         ))}
       </ul>
 
-      <p className="tnum mt-3 text-sm font-semibold text-ink">
-        {activeCount} of the last {weeks.length} weeks
-      </p>
-      <p aria-hidden="true" className={`mt-auto flex flex-wrap items-center gap-1.5 pt-3 ${MICRO}`}>
-        <span className="size-2 rounded-[2px] bg-line" />
-        <span>no activity</span>
-        <span className="ml-1 size-2 rounded-[2px] bg-mint" />
-        <span>took part · newest on the right, this week included</span>
+      <p aria-hidden="true" className={`mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 pt-3 ${MICRO}`}>
+        <span className="flex items-center gap-1.5 whitespace-nowrap">
+          <span className="size-2 rounded-[2px] bg-line" />
+          no activity
+        </span>
+        <span className="flex items-center gap-1.5 whitespace-nowrap">
+          <span className="size-2 rounded-[2px] bg-mint" />
+          took part
+        </span>
+        <span className="whitespace-nowrap">newest on the right</span>
       </p>
     </DashCard>
   );

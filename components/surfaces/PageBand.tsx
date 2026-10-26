@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { DotDigits } from "@/components/landing/mockups";
@@ -94,7 +95,8 @@ export function BackLink({ href, children }: { href: string; children: ReactNode
       href={href}
       className="link-back link-on-sun min-h-10 text-sm"
     >
-      <span aria-hidden="true">←</span> {children}
+      <ArrowLeft size={15} strokeWidth={2.5} aria-hidden="true" />
+      {children}
     </Link>
   );
 }

@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { Lock } from "lucide-react";
 import { getCurrentUser } from "@/lib/api/session";
-import { listChords, listPoints } from "@/lib/database/repository";
+import { listChords, listGoals, listPoints } from "@/lib/database/repository";
 import { Mascot } from "@/components/landing/mascot";
 import { BandPill, PageBand, Stage, StatTile } from "@/components/surfaces/PageBand";
 import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
+import { ProgressBar } from "@/components/ui/ProgressBar";
 import { PointStatusBadge } from "@/components/ui/StatusBadge";
+import { REPUTATION_RULES } from "@/lib/domain/reputation";
 import { formatTime, WEEKDAY_NAMES } from "@/lib/domain/time";
 import { EditProfileDialog } from "./EditProfileDialog";
 
@@ -61,7 +63,7 @@ export default async function ProfilePage() {
     );
   }
 
-  const [points, chords] = await Promise.all([listPoints(), listChords()]);
+  const [points, chords, goals] = await Promise.all([listPoints(), listChords(), listGoals()]);
   const userPoints = points.filter((p) => p.memberIds.includes(user.id) || p.moderatorId === user.id);
   const userChords = chords.filter((c) => (c.memberIds ?? []).includes(user.id));
   const chordById = new Map(chords.map((chord) => [chord.id, chord]));
@@ -73,7 +75,13 @@ export default async function ProfilePage() {
     slotsByWeekday.set(slot.weekday, list);
   }
 
-  const successRate = Math.round(user.groupSuccessRate * 100);
+  const goalsFinished = goals.filter((goal) =>
+    goal.assignments.some((assignment) => assignment.userId === user.id && assignment.status === "Completed"),
+  ).length;
+  const moderatesAny = points.some((point) => point.moderatorId === user.id);
+  const recentEvents = [...(user.reputationLog ?? [])].reverse().slice(0, 6);
+  const eventDate = (iso: string) =>
+    new Intl.DateTimeFormat("en-US", { timeZone: user.timezone, month: "short", day: "numeric" }).format(new Date(iso));
   const editorInitial = {
     name: user.name,
     age: user.age,
@@ -114,7 +122,7 @@ export default async function ProfilePage() {
           <StatTile value={user.reputation} label="reputation, out of 100" />
           <StatTile value={userPoints.length} label={userPoints.length === 1 ? "point" : "points"} delay={60} />
           <StatTile value={userChords.length} label={userChords.length === 1 ? "chord" : "chords"} delay={120} />
-          <StatTile value={successRate} label="% of meetings held" delay={180} />
+          <StatTile value={goalsFinished} label={goalsFinished === 1 ? "goal finished" : "goals finished"} delay={180} />
         </div>
       </PageBand>
 
@@ -192,6 +200,58 @@ export default async function ProfilePage() {
           </div>
 
           <div className="space-y-8">
+            <section id="reputation" aria-labelledby="reputation-title" className={`${PANEL} scroll-mt-24`}>
+              <PanelTitle
+                id="reputation-title"
+                title="Reputation"
+                hint="Everyone starts at 50. It grows when you do the work, and it helps decide who moderates a point."
+              />
+              <div className="flex items-center gap-3">
+                <ProgressBar value={user.reputation} label="Reputation" />
+                <span className="tnum shrink-0 font-display text-2xl font-bold text-ink">{user.reputation}</span>
+              </div>
+              {moderatesAny ? (
+                <p className="tnum mt-3 text-sm text-ink">
+                  Group success <span className="font-semibold">{Math.round(user.groupSuccessRate * 100)}%</span>
+                  <span className="text-muted"> of goals finished in the points you moderate.</span>
+                </p>
+              ) : null}
+              <h3 className="mt-5 text-sm font-semibold text-ink">Recently earned</h3>
+              {recentEvents.length === 0 ? (
+                <p className="mt-2 text-sm leading-relaxed text-muted">
+                  Nothing yet. Finish a goal in one of your points and it shows up here.
+                </p>
+              ) : (
+                <ul className="mt-2 divide-y divide-line">
+                  {recentEvents.map((event) => (
+                    <li key={event.key} className="flex items-baseline justify-between gap-3 py-2 text-sm">
+                      <span className="min-w-0 text-ink">
+                        {event.pointId ? (
+                          <Link href={`/points/${event.pointId}`} className="link">
+                            {REPUTATION_RULES[event.kind].label}
+                          </Link>
+                        ) : (
+                          REPUTATION_RULES[event.kind].label
+                        )}
+                      </span>
+                      <span className="tnum shrink-0 text-xs text-muted">
+                        <span className="font-semibold text-ink">+{event.delta}</span> · {eventDate(event.at)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <h3 className="mt-5 text-sm font-semibold text-ink">How to earn it</h3>
+              <ul className="mt-2 space-y-1.5 text-sm text-ink">
+                {Object.values(REPUTATION_RULES).map((rule) => (
+                  <li key={rule.label} className="flex items-baseline justify-between gap-3">
+                    <span className="min-w-0">{rule.rule}</span>
+                    <span className="tnum shrink-0 font-semibold">+{rule.delta}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
             <section aria-labelledby="availability" className={PANEL}>
               <PanelTitle id="availability" title="Availability" hint={`Your usual study windows, in ${user.timezone}.`} />
               <ul className="divide-y divide-line">

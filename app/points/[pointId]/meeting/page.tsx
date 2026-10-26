@@ -110,7 +110,7 @@ export default async function MeetingPage({ params }: PageProps<"/points/[pointI
         </section>
       </PageBand>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_19rem]">
+      <div className="rise-in grid gap-6 [--i:1] lg:grid-cols-[minmax(0,1fr)_19rem]">
         <div className="min-w-0 space-y-6">
           <section aria-labelledby="room-heading" className={`${CARD} space-y-4`}>
             <div>

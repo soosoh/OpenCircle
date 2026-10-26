@@ -1,7 +1,7 @@
 import { CHORD_CATALOG } from "@/config/chords";
 import { weekStart } from "@/lib/domain/activity";
 import { canJoinAudience } from "@/lib/domain/audience";
-import type { Goal, HelpRequest, Message, Point, PrivateMessage, User } from "@/types";
+import type { Chord, Goal, HelpRequest, Message, Point, PrivateMessage, User } from "@/types";
 import type { RowWithId, TableName } from "./store";
 
 export type SeedData = Record<TableName, RowWithId[]>;
@@ -24,6 +24,32 @@ const minutesAgo = (minutes: number, now: Date) => new Date(now.getTime() - minu
  * accounts. Editing this file is the simplest way to add demo people, points, or goals.
  */
 export function buildSeed(now: Date = new Date()): SeedData {
+  return reconcileMemberships(buildRawSeed(now));
+}
+
+/**
+ * The membership links the app maintains at runtime, restored for data that predates them:
+ * everyone in a point belongs to its chord, and every chord member lists that chord as a subject.
+ * Only ever adds links, so it is idempotent and safe to run on loaded saves too.
+ */
+export function reconcileMemberships(data: SeedData): SeedData {
+  const chords = data.chords as unknown as Chord[];
+  const users = data.users as unknown as User[];
+  const chordById = new Map(chords.map((chord) => [chord.id, chord]));
+  for (const point of data.points as unknown as Point[]) {
+    const chord = chordById.get(point.chordId);
+    if (!chord) continue;
+    for (const id of point.memberIds) if (!chord.memberIds.includes(id)) chord.memberIds.push(id);
+  }
+  for (const chord of chords) {
+    for (const user of users) {
+      if (chord.memberIds.includes(user.id) && !user.subjects.includes(chord.id)) user.subjects.push(chord.id);
+    }
+  }
+  return data;
+}
+
+function buildRawSeed(now: Date): SeedData {
   const users: User[] = [
     {
       id: "maya", name: "Maya Chen", age: 24, educationLevel: "College", gradeLevel: "Graduate student",

@@ -19,7 +19,10 @@ export const instant = false;
 /** The mark: a circle with a chord drawn across it — the product's whole idea. */
 export function CircleMark({ className = "size-8" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-center justify-center ${className}`} aria-hidden="true">
+    <span
+      className={`inline-flex items-center justify-center transition-transform duration-300 ease-out-quart group-hover:-rotate-12 ${className}`}
+      aria-hidden="true"
+    >
       <svg viewBox="0 0 28 28" className="size-full">
         <circle cx="14" cy="14" r="13" fill="#29313D" />
         <line x1="4.5" y1="17" x2="23.5" y2="10" stroke="#F4D35E" strokeWidth="2.4" strokeLinecap="round" />
@@ -73,7 +76,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
             <Link
               href={user ? "/dashboard" : "/"}
-              className="flex min-h-10 items-center gap-2.5 font-display text-lg font-bold tracking-tight text-ink"
+              className="group flex min-h-10 items-center gap-2.5 font-display text-lg font-bold tracking-tight text-ink"
             >
               <CircleMark />
               StudyCircle
@@ -87,7 +90,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 <Link
                   href="/profile"
                   aria-label={`${user.name}, your profile`}
-                  className="flex min-h-10 items-center gap-2 rounded-full py-1 pl-1 pr-2.5 text-sm font-semibold text-ink transition-colors hover:bg-sun-wash"
+                  className="press flex min-h-10 items-center gap-2 rounded-full py-1 pl-1 pr-2.5 text-sm font-semibold text-ink hover:bg-sun-wash"
                 >
                   <Avatar name={user.name} color={user.avatarColor} size={26} />
                   <span className="hidden whitespace-nowrap lg:inline">{user.name}</span>
@@ -95,7 +98,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 <form action={signOut}>
                   <button
                     type="submit"
-                    className="min-h-10 shrink-0 whitespace-nowrap rounded-full border border-line bg-surface px-4 text-sm font-semibold text-ink transition-colors hover:border-ink/25 hover:bg-sun-wash"
+                    className="press min-h-10 shrink-0 whitespace-nowrap rounded-full border border-line bg-surface px-4 text-sm font-semibold text-ink hover:border-ink/25 hover:bg-sun-wash"
                   >
                     Sign out
                   </button>
@@ -104,7 +107,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             ) : (
               <Link
                 href="/login"
-                className="inline-flex min-h-10 items-center rounded-full bg-sun px-4 text-sm font-semibold text-ink transition-colors hover:bg-sun-deep"
+                className="press inline-flex min-h-10 items-center rounded-full bg-sun px-4 text-sm font-semibold text-ink hover:bg-sun-deep"
               >
                 Sign in
               </Link>
@@ -122,7 +125,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           ) : null}
         </header>
 
-        <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">
+        <main id="main" className="fade-in mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">
           {children}
         </main>
 
@@ -130,12 +133,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-3 px-4 py-8 text-sm text-ink sm:flex-row sm:px-6">
             <Link
               href={user ? "/dashboard" : "/"}
-              className="flex min-h-10 items-center gap-2 font-display text-base font-bold text-ink"
+              className="group flex min-h-10 items-center gap-2 font-display text-base font-bold text-ink"
             >
               <CircleMark className="size-6" />
               StudyCircle
             </Link>
-            <p>Built the way our points run: slowly, together, every week.</p>
+            <p>A circle of students who keep each other focused, motivated, and accountable.</p>
           </div>
         </footer>
       </body>

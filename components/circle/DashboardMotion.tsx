@@ -30,6 +30,9 @@ export function DashboardMotion({ children, className }: { children: ReactNode; 
       const scope = root.current;
       if (!scope) return;
       const mm = gsap.matchMedia();
+      // A dashboard with no goals has no bars, a new member has no chart: GSAP warns
+      // "target not found" for every selector that matches nothing, so only tween what exists.
+      const present = (selector: string) => scope.querySelector(selector) !== null;
 
       mm.add(
         {
@@ -40,68 +43,80 @@ export function DashboardMotion({ children, className }: { children: ReactNode; 
           // Reduced motion: leave the server-rendered final state untouched.
           if (context.conditions?.reduce) return;
 
-          gsap.from("[data-rise]", {
-            y: 16,
-            autoAlpha: 0,
-            duration: 0.6,
-            ease: "power3.out",
-            stagger: 0.07,
-            clearProps: "transform,opacity,visibility",
-          });
+          if (present("[data-rise]")) {
+            gsap.from("[data-rise]", {
+              y: 16,
+              autoAlpha: 0,
+              duration: 0.6,
+              ease: "power3.out",
+              stagger: 0.07,
+              clearProps: "transform,opacity,visibility",
+            });
+          }
 
-          gsap.from("[data-grow-x]", {
-            scaleX: 0,
-            transformOrigin: "left center",
-            duration: 0.9,
-            ease: "power3.out",
-            delay: 0.35,
-            stagger: 0.08,
-            clearProps: "transform",
-          });
+          if (present("[data-grow-x]")) {
+            gsap.from("[data-grow-x]", {
+              scaleX: 0,
+              transformOrigin: "left center",
+              duration: 0.9,
+              ease: "power3.out",
+              delay: 0.35,
+              stagger: 0.08,
+              clearProps: "transform",
+            });
+          }
 
-          gsap.from("[data-grow-y]", {
-            scaleY: 0,
-            transformOrigin: "center bottom",
-            duration: 0.9,
-            ease: "power3.out",
-            delay: 0.4,
-            stagger: 0.09,
-            clearProps: "transform",
-          });
+          if (present("[data-grow-y]")) {
+            gsap.from("[data-grow-y]", {
+              scaleY: 0,
+              transformOrigin: "center bottom",
+              duration: 0.9,
+              ease: "power3.out",
+              delay: 0.4,
+              stagger: 0.09,
+              clearProps: "transform",
+            });
+          }
 
           // Chart bars and week squares are numerous, so they share one short stagger
           // (`amount`) instead of a per-element delay that would drag on for seconds.
-          gsap.from("[data-bar]", {
-            scaleY: 0,
-            transformOrigin: "center bottom",
-            duration: 0.7,
-            ease: "power3.out",
-            delay: 0.45,
-            stagger: { amount: 0.6 },
-            clearProps: "transform",
-          });
+          if (present("[data-bar]")) {
+            gsap.from("[data-bar]", {
+              scaleY: 0,
+              transformOrigin: "center bottom",
+              duration: 0.7,
+              ease: "power3.out",
+              delay: 0.45,
+              stagger: { amount: 0.6 },
+              clearProps: "transform",
+            });
+          }
 
-          gsap.from("[data-tile]", {
-            scale: 0.4,
-            autoAlpha: 0,
-            transformOrigin: "50% 50%",
-            duration: 0.4,
-            ease: "back.out(2)",
-            delay: 0.5,
-            stagger: { amount: 0.5 },
-            clearProps: "transform,opacity,visibility",
-          });
+          if (present("[data-tile]")) {
+            gsap.from("[data-tile]", {
+              scale: 0.4,
+              autoAlpha: 0,
+              transformOrigin: "50% 50%",
+              duration: 0.4,
+              ease: "back.out(2)",
+              delay: 0.5,
+              stagger: { amount: 0.5 },
+              clearProps: "transform,opacity,visibility",
+            });
+          }
 
-          gsap.from("[data-dots] circle", {
-            scale: 0,
-            autoAlpha: 0,
-            transformOrigin: "50% 50%",
-            duration: 0.35,
-            ease: "back.out(2)",
-            delay: 0.3,
-            stagger: { amount: 0.5, from: "random" },
-            clearProps: "transform,opacity,visibility",
-          });
+          if (present("[data-dots] circle")) {
+            gsap.from("[data-dots] circle", {
+              scale: 0,
+              autoAlpha: 0,
+              transformOrigin: "50% 50%",
+              duration: 0.35,
+              ease: "back.out(2)",
+              delay: 0.3,
+              stagger: { amount: 0.5, from: "random" },
+              clearProps: "transform,opacity,visibility",
+            });
+          }
 
           const counters = gsap.utils.toArray<HTMLElement>("[data-count]");
           const restore: Array<() => void> = [];

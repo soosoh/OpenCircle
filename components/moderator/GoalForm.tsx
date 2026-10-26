@@ -77,7 +77,7 @@ export function GoalForm({
           {members.map((member) => (
             <label
               key={member.id}
-              className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-full border border-line bg-surface px-3.5 text-sm font-medium text-ink transition-colors hover:border-ink/30 has-checked:border-ink has-checked:bg-sun-soft"
+              className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-full border border-line bg-surface px-3.5 text-sm font-medium text-ink transition-colors duration-150 ease-out-quart hover:border-ink/30 has-checked:border-ink has-checked:bg-sun-soft"
             >
               <input type="checkbox" name="assignees" value={member.id} defaultChecked className="size-4 accent-ink" />
               {member.name}

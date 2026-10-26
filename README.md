@@ -107,26 +107,41 @@ Creators moderate by default.
 **Points are one-off weekly meetings for now**, stored as a `WeeklySchedule`
 (weekday + time + timezone) so recurring groups can be added later without a migration.
 
+## Reputation and stored progress
+
+Everything a member does is saved on their user record, so the dashboard and profile change
+as they act (no restart, no reseed):
+
+- `reputation` (0-100, starts at 50) grows through four actions defined in
+  `lib/domain/reputation.ts`: finishing an assigned goal (+3), recording a goal as moderator (+1),
+  resolving a support request as moderator (+2), and sharing a resource in chat (+1, 3 a day).
+  Each award has a dedupe key, so undoing and redoing an action cannot farm points.
+- `reputationLog` on the same user document is the history shown on the profile. It is capped at
+  100 entries and needs no new table, so existing Supabase projects need no migration.
+- `groupSuccessRate` for a moderator is recomputed from the real goals of the points they run
+  whenever progress, goals or membership change.
+- Both feed `lib/domain/moderation.ts` when a new point picks its moderator.
+
 ## Feature toggles
 
 `config/features.ts`:
 
 ```ts
 export const FEATURES = {
-  ENABLE_AI_MODERATOR: false,
+  ENABLE_AI_MODERATOR: aiKeyPresent && process.env.ENABLE_AI_MODERATOR !== "false",
   ENABLE_ZOOM_API: false,
 };
 ```
 
-**The app is fully functional with both flags off.** When they are off, no OpenAI key or
-Zoom credentials are read and no external request is made; mock responses keep the flows
-testable. To exercise the AI and Zoom code paths without spending money, call the
+**The app is fully functional with both flags off.** The AI flag turns on by itself when
+`AI_API_KEY` is set, so a deploy without the key stays on mock responses. When a flag is
+off, no external request is made; mock responses keep the flows testable. To exercise the AI and Zoom code paths without spending money, call the
 functions in `lib/ai/mock.ts` and the mock branches of `lib/zoom/zoom.ts`.
 
 ## Enabling AI moderation
 
-1. Set `ENABLE_AI_MODERATOR: true` in `config/features.ts`.
-2. Add your key to `.env.local`:
+1. Add your key to `.env.local` (on Vercel: Project Settings > Environment Variables).
+   No code edit is needed; set `ENABLE_AI_MODERATOR=false` to force it off:
 
    ```
    AI_API_KEY=your-key

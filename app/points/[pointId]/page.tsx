@@ -232,7 +232,7 @@ export default async function PointPage({ params }: PageProps<"/points/[pointId]
         </div>
       ) : null}
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_19rem]">
+      <div className="rise-in grid gap-6 [--i:1] lg:grid-cols-[minmax(0,1fr)_19rem]">
         <div className="min-w-0 space-y-8">
           <section aria-labelledby="goals-heading" id="goals" className="scroll-mt-24 space-y-4">
             <div>

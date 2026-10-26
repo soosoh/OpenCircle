@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { SEED_VERSION, type SeedData } from "./seed";
+import { reconcileMemberships, SEED_VERSION, type SeedData } from "./seed";
 import { TABLES, type DataStore, type RowWithId, type TableName } from "./store";
 
 /**
@@ -23,7 +23,7 @@ export const persistenceEnabled = process.env.DATA_PERSIST !== "off" && !process
 export function loadSaved(): SeedData | null {
   if (!persistenceEnabled) return null;
   try {
-    const parsed = JSON.parse(fs.readFileSync(FILE, "utf8")) as { version?: number; tables?: Record<string, unknown> };
+    const parsed = JSON.parse(fs.readFileSync(/*turbopackIgnore: true*/ FILE, "utf8")) as { version?: number; tables?: Record<string, unknown> };
     if (parsed.version !== SEED_VERSION || !parsed.tables) return null;
     const tables = {} as SeedData;
     for (const table of TABLES) {
@@ -31,7 +31,7 @@ export function loadSaved(): SeedData | null {
       if (!Array.isArray(rows)) return null;
       tables[table] = rows as RowWithId[];
     }
-    return tables;
+    return reconcileMemberships(tables);
   } catch {
     return null;
   }

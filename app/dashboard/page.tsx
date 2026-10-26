@@ -306,7 +306,7 @@ export default async function DashboardPage() {
     .sort((a, b) => (a.next?.getTime() ?? Infinity) - (b.next?.getTime() ?? Infinity));
 
   // ---- Activity: streak, momentum, showing up (messages, support requests, private messages) ----
-  const activityTimes = memberActivityTimes(viewer.id, { messages, helpRequests, privateMessages }, now);
+  const activityTimes = memberActivityTimes(viewer.id, { messages, helpRequests, privateMessages, reputationLog: viewer.reputationLog }, now);
   const streak = streakWeeks(activityTimes, now, viewer.timezone);
   const twelveWeeks = weeklyActivity(activityTimes, now, viewer.timezone, 12);
   const dayLabel = (key: string) =>
@@ -330,8 +330,9 @@ export default async function DashboardPage() {
 
   const supportHref =
     moderatedPoints.length > 0 ? "/moderator" : `/points/${myHelpRequests[0]?.pointId ?? ""}`;
+  const finishedGoals = myGoals.length - myOpenGoals.length;
   const chips: StageChip[] = [
-    ...(myHelpRequests.length > 0
+      ...(myHelpRequests.length > 0
       ? [
           {
             label: `${plural(myHelpRequests.length, "open support request")}`,
@@ -375,7 +376,12 @@ export default async function DashboardPage() {
             greeting={greeting}
             name={firstName}
             weekRange={weekRange}
-            context={`${viewer.educationLevel} · ${viewer.gradeLevel} · ${plural(myChords.length, "chord")}, ${plural(myPoints.length, "point")}`}
+            stats={[
+              { value: myChords.length, label: myChords.length === 1 ? "chord" : "chords" },
+              { value: myPoints.length, label: myPoints.length === 1 ? "point" : "points" },
+              { value: finishedGoals, label: finishedGoals === 1 ? "goal finished" : "goals finished" },
+              { value: viewer.reputation, label: "Reputation", labelFirst: true },
+            ]}
             chips={chips}
             mood={myHelpRequests.length > 0 ? "peek" : "happy"}
             bubbleTitle={bubble.title}
@@ -410,14 +416,14 @@ export default async function DashboardPage() {
             {hasActivity ? (
               <>
                 <StreakCard
-                  className="md:col-span-6 lg:col-span-3"
+                  className="md:col-span-6 lg:col-span-4"
                   current={streak.current}
                   best={streak.best}
                   activeThisWeek={streak.activeThisWeek}
                   recentWeeks={twelveWeeks.slice(-6).map((week) => week.count)}
                 />
                 <ShowingUpCard className="md:col-span-6 lg:col-span-4" weeks={showingUpWeeks} />
-                <MomentumCard className="md:col-span-12 lg:col-span-5" days={momentumDays} />
+                <MomentumCard className="md:col-span-12 lg:col-span-4" days={momentumDays} />
               </>
             ) : (
               <ActivityEmptyCard
@@ -486,7 +492,7 @@ export default async function DashboardPage() {
             action={
               <Link
                 href="/chords"
-                className="inline-flex min-h-10 items-center text-sm font-semibold text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink"
+                className="inline-flex min-h-10 items-center link text-sm"
               >
                 Find more
               </Link>
@@ -549,7 +555,7 @@ export default async function DashboardPage() {
                   <p className="font-semibold text-ink">Nothing due this week.</p>
                   <Link
                     href="/chords"
-                    className="mt-1 inline-flex min-h-10 items-center text-sm font-semibold text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink"
+                    className="mt-1 inline-flex min-h-10 items-center link text-sm"
                   >
                     Browse chords
                   </Link>
